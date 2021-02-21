@@ -1,0 +1,36 @@
+.container {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 150px;
+}
+
+h1 {
+  position: relative;
+  top: -50px;
+  font-size: 60px;
+}
+
+input {
+  display: flex;
+  padding: 5px 0 5px 0;
+  width: 20vw;
+  height: 3vh;
+  justify-content: space-between;
+  margin-top: 50px;
+  font-size: 20px;
+}
+
+text {
+  display: flex;
+  color: red;
+}
+
+button {
+  margin-top: 50px;
+  font-size: 30px;
+  align-self: center;
+}
