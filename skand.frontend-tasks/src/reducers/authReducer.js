@@ -1,6 +1,6 @@
 import { loginActions as actions }  from '../actions/loginActions';
 
-export function authentication(state = initialState, action) {
+export function authentication(state = {}, action) {
     switch (action.type) {
         case actions.LOGIN_FAILURE:
             return {}
@@ -8,5 +8,7 @@ export function authentication(state = initialState, action) {
             return {
                 
             }
+        default:
+            return {state }
     }
 }
