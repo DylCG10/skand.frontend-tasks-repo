@@ -1,20 +1,40 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
 import {connect} from 'react-redux';
+
+import {BrowserRouter as Router, Route } from 'react-router-dom';
 
 import './App.css';
 
-import Login from './pages/login.jsx';
+import LoginForm from './login/login.jsx';
+import UsersIndexTable from './usersIndex';
 
+const token = localStorage.getItem("token");
 
+const App = props => (
+  <div className = "App">
+    <div className = "App-header">
+      <h2>Welcome</h2>
 
-function App() {
-  return (
-    <div>
-      <Login onSubmit = {(email, password) => {
-
-      }}/>
     </div>
-  );
+    <section className = "App-body">
+      {props.children}
+    </section>
+  </div>
+)
+
+App.propTypes = {
+  children: PropTypes.node,
 }
+// function App() {
+//   return (
+//     <Router>
+      
+//       {token === null ? <Route path = "/" exact component = {Login}/> : <Route path = "/users" component = {UsersIndexTable} />}
+//       {/* <Login onSubmit = {(email, password) => { */}
+
+//     </Router>
+//   );
+// }
 
 export default App;

@@ -1,19 +1,49 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { Router, Route } from 'react-router';
+import { useHistory } from 'react-router-dom';
+//import { browserHistory } from 'react-router';
+
+import { applyMiddleware, createStore, compose } from 'redux';
+import createSagaMiddleware from 'redux-saga'
+import { Provider }  from 'react-redux';
+
 import './mockServer';
+import App from './App';
+import LoginForm from './login/login.jsx';
+import UsersIndexTable from './usersIndex';
+
+import IndexReducer from './indexReducer';
+import IndexSagas from './index-sagas';
+
 import * as serviceWorker from './serviceWorker';
-import {createStore} from 'redux';
-import rootReducer from './reducers/index';
 
-import {Provider} from 'react-redux';
+import './index.css';
 
-const store = createStore(rootReducer);
+
+const sagaMiddleware = createSagaMiddleware();
+
+const store = createStore(
+  IndexReducer, 
+  compose(applyMiddleware(sagaMiddleware)),
+  );
+
+sagaMiddleware.run(IndexSagas);
+
+
+
+
+
+// const store = createStore(rootReducer);
 
 ReactDOM.render(
   <Provider store = {store}>
-    <App />
+    <Router /*history = {useHistory() }*/>
+      <Route path = "/" component = {App}>
+        <Route path = "/login" component = {LoginForm} />
+        <Route path = "/users" component = {UsersIndexTable} />
+      </Route>
+    </Router>
   </Provider>,
   document.getElementById('root')
 );

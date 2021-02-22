@@ -17,8 +17,6 @@ async function loginUser(credentials) {
         headers: {
             // Authorization: '123abc456def789ghi'
         },
-        
-    
         body: JSON.stringify(credentials)
     });
     
@@ -27,7 +25,7 @@ async function loginUser(credentials) {
     localStorage.setItem('token', token);
 }
 
-function Login() {
+function LoginForm() {
     const initialValues = {
         email: '',
         password: ''
@@ -84,7 +82,7 @@ function Login() {
 
 }
 
-export default Login;
+export default LoginForm;
 // Login.propTypes = {
 //     setToken: PropTypes.func.isRequired
 // }
