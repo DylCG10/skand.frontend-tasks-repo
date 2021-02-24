@@ -1,47 +1,111 @@
-import React from "react";
+import React, {Component} from "react";
 import { useEffect, useState } from "react";
 //import styled from "styled-components";
 import { useTable } from "react-table";
 import { useParams } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
+import { connect } from 'react-redux';
+import { reduxForm } from 'redux-form';
+
 
 import getUsers from '../mockServer/users/index';
+import { widgetRequest, widgetCreate } from './actions';
 
+import Messages from '../notifications/Messages';
+import Errors from '../notifications/Errors';
 
+class Widgets extends Component {
 
+    static propTypes = {
+        handleSubmit: PropTypes.func.isRequired,
+        invalid: PropTypes.bool.isRequired,
+        client: PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            token: PropTypes.object.isRequired,
+        }),
+        widgets: PropTypes.shape({
+            list: PropTypes.array,
+            requesting: PropTypes.bool,
+            successful: PropTypes.bool,
+            messages: PropTypes.array,
+            errors: PropTypes.array,
+        }).isRequired,
+        widgetCreate: PropTypes.func.isRequired,
+        widgetRequest: PropTypes.func.isRequired,
+        reset: PropTypes.func.isRequired,
 
-export default function () {
-    // let { userId } = useParams();
-
-    useEffect(() => {
-        fetchItems();
-    }, []);
-
-    const fetchItems = async () => {
-        const data = await fetch('/api/v2/users');
-
-        const items = await data.json();
-
-        console.log(data);
     }
 
+    constructor(props) {
+        super(props);
+        console.log("WIDGETS");
 
+        this.fetchUsers();
+    }
 
-    // useEffect(() => {
-    //     let url = `/api/v2/users`;
+    fetchUsers = () => {
+        const { client, widgetRequest } = this.props;
+        console.log("client: ", client);
+        if (client && client.token) return widgetRequest(client);
+        return false;
+    }
 
-    //     fetch(url).then((res) => res.json())
-    //         .then((json) => {
-    //             console.log("here: ", json);
-    //         })
-    //         .catch("ERROR");
-    // })
+    render() {
+        const {
+            handleSubmit,
+            invalid,
+            widgets: {
+                list,
+                requesting,
+                successful,
+                messages,
+                errors,
+            },
+        } = this.props;
 
-    return (
-        <div>
-            <h1>HI</h1>
-        </div>
-    )
+        return (
+            <div>
+                <h1>Widgets</h1>
+            </div>
+        )
+    }
 }
+
+
+const mapStateToProps = state => ({
+    client: state.client,
+    widgets: state.widgets,
+});
+    
+const connected = connect(mapStateToProps, { widgetCreate, widgetRequest })(Widgets);
+const formed = reduxForm({
+    form: 'widgets'
+})(connected);
+
+export default formed;
+
+
+// export default function () {
+//     // let { userId } = useParams();
+
+//     useEffect(() => {
+//         fetchItems();
+//     }, []);
+
+//     const fetchItems = async () => {
+//         const data = await fetch('/api/v2/users');
+
+//         const items = await data.json();
+
+//         console.log(data);
+//     }
+
+//     return (
+//         <div>
+//             <h1>HI</h1>
+//         </div>
+//     )
+// }
 
 // function Table({ columns, data }) {
 //     // Use the state and functions returned from useTable to build your UI

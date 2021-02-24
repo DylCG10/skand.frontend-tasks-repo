@@ -6,10 +6,10 @@ import {BrowserRouter as Router, Route } from 'react-router-dom';
 
 import './App.css';
 
-import LoginForm from './login/login.jsx';
-import UsersIndexTable from './usersIndex';
+import LoginForm from './login/loginForm.jsx';
+import UsersIndexTable from './widgets';
 
-const token = localStorage.getItem("token");
+// const token = localStorage.getItem("token");
 
 const App = props => (
   <div className = "App">
