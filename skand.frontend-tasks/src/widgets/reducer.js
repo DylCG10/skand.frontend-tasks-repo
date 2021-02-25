@@ -49,10 +49,7 @@ const reducer = function widgetReducer(state = initialState, action) {
                 requesting: true,
                 successful: false,
                 messages: [],
-                errors: state.errors.concat([{
-                    body: action.error.toString(),
-                    time: new Date(),
-                }]),
+                errors: [],
             }
         case WIDGET_REQUEST_SUCCESS:
             return {

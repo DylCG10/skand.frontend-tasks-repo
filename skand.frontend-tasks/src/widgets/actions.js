@@ -22,10 +22,12 @@ export const widgetCreateError = function widgetCreateError(error) {
     }
 }
 
-export const widgetRequest = function widgetRequest(client) {
+export const widgetRequest = function widgetRequest(client, singleUser) {
+    console.log('request');
     return {
         type: WIDGET_REQUESTING,
-        client
+        client,
+        singleUser
     }
 }
 

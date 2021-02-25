@@ -37,6 +37,7 @@ export function checkIndexAuthorization({ dispatch }) {
 }
 
 export function checkWidgetAuthorization({ dispatch, getState }) {
+    console.log("auth");
     return (nextState, replace, next) => {
         const client = getState().client;
         console.log("CLIENT: ", client);

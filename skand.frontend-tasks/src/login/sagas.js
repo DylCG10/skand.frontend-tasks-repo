@@ -81,6 +81,7 @@ function* loginFlow(action) {
 // }
 
 function* loginWatcher() {
+    console.log('watching');
     while (true) {
         const { email, password } = yield take(LOGIN_REQUESTING);
 

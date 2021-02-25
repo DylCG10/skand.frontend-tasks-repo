@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom';
 import { Router, Route, Switch } from 'react-router';
 import { useHistory, IndexRoute } from 'react-router-dom';
 //import { browserHistory } from 'react-router';
+import { persistStore, persistReducer } from 'redux-persist';
+import { PersistGate } from 'redux-persist/lib/integration/react';
+
+import storage from 'redux-persist/lib/storage';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 import { applyMiddleware, createStore, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga'
@@ -15,7 +20,8 @@ import App from './App';
 import LoginForm from './login/loginForm.jsx';
 import Login from './login';
 
-import Widgets from './widgets';
+import Widgets from './widgets/index';
+import UserDetails from './widgets/userDetails';
 
 import IndexReducer from './index-reducer';
 import IndexSagas from './index-sagas';
@@ -36,13 +42,25 @@ const composeSetup = process.env.NODE_ENV !== 'production' && typeof window === 
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose
 
-const store = createStore(
-  IndexReducer, 
-  composeSetup(applyMiddleware(sagaMiddleware)),
-  );
+
+const persistConfig = {
+  key: 'root',
+  storage: storage,
+  stateReconciler: autoMergeLevel2
+  
+};
+
+const pReducer = persistReducer(persistConfig, IndexReducer);
+
+// const store = createStore(
+//   IndexReducer, 
+//   composeSetup(applyMiddleware(sagaMiddleware)),
+//   );
+
+export const store = createStore(pReducer, composeSetup(applyMiddleware(sagaMiddleware)));
+export const persistor = persistStore(store);
 
 sagaMiddleware.run(IndexSagas);
-
 
 
 
@@ -52,11 +70,12 @@ sagaMiddleware.run(IndexSagas);
 ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory} >
-    
-      <Route path="/" exact component={App} onEnter = {checkIndexAuthorization(store)} />
-      <Route path = "/login" exact component = {Login} />
-      <Route path = "/widgets" exact component = {Widgets} onEnter = {checkWidgetAuthorization(store)} />
-
+      <PersistGate /*loading={<Widgets />}*/ persistor={persistor} >
+        <Route path="/" exact component={App} onEnter = {checkIndexAuthorization(store)} />
+        <Route path = "/login" exact component = {Login} />
+        <Route path="/widgets" exact component={Widgets} onEnter={checkWidgetAuthorization(store)} />
+        {/* <Route path="/user:id" exact component={UserDetails} /> add authentication */}
+      </PersistGate>
       
     </Router>
   </Provider>,

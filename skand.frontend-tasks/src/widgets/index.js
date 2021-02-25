@@ -7,21 +7,200 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 
+import { createBrowserHistory } from 'history';
+
 
 import getUsers from '../mockServer/users/index';
-import { widgetRequest, widgetCreate } from './actions';
+import { widgetRequest, widgetCreate, widgetRequestSuccess } from './actions';
+
+import UserDetails from './userDetails';
 
 import Messages from '../notifications/Messages';
 import Errors from '../notifications/Errors';
 
-class Widgets extends Component {
+import '../css/widgets.css';
 
+const browserHistory = createBrowserHistory();
+
+
+
+
+function Table({ columns, data }){
+    
+    const viewData = (id) => {
+
+        console.log("view user: ", id);
+        // console.log(Widgets.props.client);
+
+        // const userData = await fetch(`/api/v2/users/${id}`, {
+        //     method: "GET",
+        //     headers: {
+        //         Authorization: "123abc456def789" //implement this to act automatically through client.token
+        //     }
+        // }).then(response => response.json());
+
+        // console.log(props.widgets.list);
+        // widgetRequest()
+        Widgets.singleUser(id);
+        // console.log("here: ", userData);
+        browserHistory.push(`/user:${id}`);
+
+        // UserDetails(userData.users);
+
+    }
+
+    const editData = (id) => {
+
+        console.log("edit");
+    }
+    const removeData = (id) => {
+
+        console.log("delete");
+    }
+
+    const renderHeader = () => {
+        let headerElement = ['id', 'email', 'Jobs Count', 'Active', 'operation']
+
+        return headerElement.map((key, index) => {
+            return <th key={index}>{key.toUpperCase()}</th>
+        })
+    }
+
+
+    const renderBody = () => {
+        return data && data.map(({ id, email, jobs_count, active }) => {
+            return (
+                <tr key={id}>
+                    <td>{id}</td>
+                    <td>{email}</td>
+                    <td>{jobs_count}</td>
+                    <td>{active}</td>
+                    <td className='opration'>
+                        <button className='button' onClick={() => viewData(id)}>View</button>
+                        <button className='button' onClick={() => editData(id)}>Edit</button>
+                        <button className='button' onClick={() => removeData(id)}>Delete</button>
+                    </td>
+                </tr>
+            )
+        }) 
+    }
+    
+    return (
+        <>
+            <h1 id='title'>React Table</h1>
+            <table id='Data'>
+                <thead>
+                    <tr>{renderHeader()}</tr>
+                </thead>
+                <tbody>
+                    {renderBody()}
+                </tbody>
+            </table>
+        </>
+    )
+}
+
+// function UsersIndexTable(data) {
+//     const columns = React.useMemo(
+//         () => [
+//             {
+//                 Header: "ID",
+//                 accessor: "id",
+//                 render:<button>View</button>
+//             },
+//             {
+//                 Header: "Email",
+//                 accessor: "email",
+//                 render: ({ row } ) => (<button>View</button>)
+
+//             },
+//             {
+//                 Header: "Jobs Count",
+//                 accessor: "jobs_count",
+//                 render: ({ row } ) => (<button>View</button>)
+
+//             },
+//             {
+//                 Header: "Active",
+//                 accessor: "active",
+//                 render: ({ row } ) => (<button>View</button>)
+
+//             }
+//         ], []
+//     );
+
+//     return (
+//         data.data !== undefined ? <Table columns={columns} data={data.data} /> : null
+//     )
+// }
+
+//----------------------------------------------------------------------------
+// function Columns() {
+    
+//     const columns = React.useMemo(
+//         () => [
+//             {
+//                 Header: "ID",
+//                 accessor: "id",
+//                 render:<button>View</button>
+//             },
+//             {
+//                 Header: "Email",
+//                 accessor: "email",
+//                 render: ({ row } ) => (<button>View</button>)
+    
+//             },
+//             {
+//                 Header: "Jobs Count",
+//                 accessor: "jobs_count",
+//                 render: ({ row } ) => (<button>View</button>)
+    
+//             },
+//             {
+//                 Header: "Active",
+//                 accessor: "active",
+//                 render: ({ row } ) => (<button>View</button>)
+    
+//             }
+//         ], []
+//     );
+// }
+
+const renderHeader = () => {
+    let headerElement = ['id', 'email', 'Jobs Count', 'Active', 'operation']
+
+    return headerElement.map((key, index) => {
+        return <th key={index}>{key.toUpperCase()}</th>
+    })
+}
+
+
+// const renderBody = (data) => {
+//     return data && data.map(({ id, email, jobs_count, active }) => {
+//         return (
+//             <tr key={id}>
+//                 <td>{id}</td>
+//                 <td>{email}</td>
+//                 <td>{jobs_count}</td>
+//                 <td>{active}</td>
+//                 <td className='opration'>
+//                     <button className='button' onClick={() => viewData(id)}>View</button>
+//                     <button className='button' onClick={() => editData(id)}>Edit</button>
+//                     <button className='button' onClick={() => removeData(id)}>Delete</button>
+//                 </td>
+//             </tr>
+//         )
+//     }) 
+// }
+
+class Widgets extends Component {
+// function Widgets () {
     static propTypes = {
         handleSubmit: PropTypes.func.isRequired,
         invalid: PropTypes.bool.isRequired,
         client: PropTypes.shape({
             id: PropTypes.number.isRequired,
-            token: PropTypes.object.isRequired,
+            token: PropTypes.string.isRequired
         }),
         widgets: PropTypes.shape({
             list: PropTypes.array,
@@ -41,13 +220,83 @@ class Widgets extends Component {
         console.log("WIDGETS");
 
         this.fetchUsers();
+        // console.log(getUsers.data);
+        // const { client, widgetRequest } = this.props;
+
+    }
+
+    componentDidMount() {
+        console.log("hi");
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        console.log("data: ", this.props.widgets.list);
+
     }
 
     fetchUsers = () => {
         const { client, widgetRequest } = this.props;
-        console.log("client: ", client);
-        if (client && client.token) return widgetRequest(client);
+        console.log("clientasdf: ", this.props.client);
+        if (this.props.client && this.props.client.token) return widgetRequest(this.props.client, null);
         return false;
+    }
+
+    // singleUser = (id) => {
+    //     const { client, widgetRequest } = this.props;
+    //     console.log(this.props.client);
+    //     if (this.props.client && this.props.client.token) return widgetRequest(this.props.client, true);
+
+    // }
+
+    viewData = (id) => {
+
+        console.log("view user: ", id);
+        // console.log(Widgets.props.client);
+
+        // const userData = await fetch(`/api/v2/users/${id}`, {
+        //     method: "GET",
+        //     headers: {
+        //         Authorization: "123abc456def789" //implement this to act automatically through client.token
+        //     }
+        // }).then(response => response.json());
+
+        // console.log(props.widgets.list);
+        // widgetRequest()
+        // console.log("here: ", userData);
+        this.props.widgetRequest(this.props.client, id);
+        browserHistory.push(`/user:${id}`);
+
+        // UserDetails(userData.users);
+
+    }
+
+    editData = (id) => {
+
+        console.log("edit");
+    }
+    removeData = (id) => {
+
+        console.log("delete");
+    }
+
+    renderBody = () => {
+        console.log("DATA: ", this.props.widgets.list);
+        const data = this.props.widgets.list;
+        return data && data.map(({ id, email, jobs_count, active }) => {
+            return (
+                <tr key={id}>
+                    <td>{id}</td>
+                    <td>{email}</td>
+                    <td>{jobs_count}</td>
+                    <td>{active}</td>
+                    <td className='opration'>
+                        <button className='button' onClick={() => this.viewData(id)}>View</button>
+                        <button className='button' onClick={() => this.editData(id)}>Edit</button>
+                        <button className='button' onClick={() => this.removeData(id)}>Delete</button>
+                    </td>
+                </tr>
+            )
+        }) 
     }
 
     render() {
@@ -63,9 +312,43 @@ class Widgets extends Component {
             },
         } = this.props;
 
+        // renderBody = (data) => {
+        //     console.log("DATA: ", data);
+        //     return data && data.map(({ id, email, jobs_count, active }) => {
+        //         return (
+        //             <tr key={id}>
+        //                 <td>{id}</td>
+        //                 <td>{email}</td>
+        //                 <td>{jobs_count}</td>
+        //                 <td>{active}</td>
+        //                 <td className='opration'>
+        //                     <button className='button' onClick={() => this.viewData(id)}>View</button>
+        //                     <button className='button' onClick={() => this.editData(id)}>Edit</button>
+        //                     <button className='button' onClick={() => this.removeData(id)}>Delete</button>
+        //                 </td>
+        //             </tr>
+        //         )
+        //     }) 
+        // }
+
         return (
             <div>
-                <h1>Widgets</h1>
+                {/* <h1>Widgets</h1> */}
+                <>
+                    <h1 id='title'>Widgets</h1>
+                    <table id='Data'>
+                        <thead>
+                            <tr>{renderHeader()}</tr>
+                        </thead>
+                        <tbody>
+                            {console.log("actual data: ", this.props.widgets.list)}
+                            {this.renderBody(this.props.widgets.lists)}
+                        </tbody>
+                    </table>
+                </>
+                {/* {console.log("props: ", this.props.widgets.list)}
+                {/* <Table columns={columns} data = {getUsers.data} /> */}
+                {/* <UsersIndexTable data={this.props.widgets.list}/> */} */}
             </div>
         )
     }
