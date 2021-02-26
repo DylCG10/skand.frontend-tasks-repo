@@ -62,7 +62,7 @@ function* loginFlow(action) {
 
         localStorage.setItem('token', JSON.stringify(token));
 
-        browserHistory.push('/widgets');
+        browserHistory.push('/users');
     } catch (error) {
         console.log("error",);
         yield put({ type: LOGIN_ERROR, error });

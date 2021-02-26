@@ -1,6 +1,7 @@
-import { WIDGET_CREATING, WIDGET_CREATE_SUCCESS, WIDGET_CREATE_ERROR, WIDGET_REQUESTING, WIDGET_REQUEST_SUCCESS, WIDGET_REQUEST_ERROR } from './constants';
+import { WIDGET_CREATING, WIDGET_CREATE_SUCCESS, WIDGET_CREATE_ERROR, WIDGET_REQUESTING, WIDGET_REQUEST_SUCCESS, WIDGET_REQUEST_ERROR, WIDGET_UPDATING, WIDGET_UPDATE_SUCCESS, WIDGET_UPDATE_ERROR  } from './constants';
 
 export const widgetCreate = function widgetCreate(client, widget) {
+    console.log('creating...')
     return {
         type: WIDGET_CREATING,
         client,
@@ -40,6 +41,29 @@ export const widgetRequestSuccess = function widgetRequestSuccess(widgets) {
 export const widgetRequestError = function widgetRequestError(error) {
     return {
         type: WIDGET_REQUEST_ERROR,
+        error
+    }
+}
+
+export const widgetUpdate = function widgetUpdate(client, widget) {
+    console.log("widgetUpdate action");
+    return {
+        type: WIDGET_UPDATING,
+        client,
+        widget
+    }
+}
+
+export const widgetUpdateSuccess = function widgetUpdateSuccess(widget) {
+    return {
+        type: WIDGET_UPDATE_SUCCESS,
+        widget
+    }
+}
+
+export const widgetUpdateError = function widgetUpdateError(error) {
+    return {
+        type: WIDGET_UPDATING,
         error
     }
 }

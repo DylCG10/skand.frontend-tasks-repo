@@ -2,13 +2,14 @@ import React, {Component} from "react";
 import { useEffect, useState } from "react";
 //import styled from "styled-components";
 import { useTable } from "react-table";
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 
 import { createBrowserHistory } from 'history';
-
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 import getUsers from '../mockServer/users/index';
 import { widgetRequest, widgetCreate, widgetRequestSuccess } from './actions';
@@ -25,145 +26,71 @@ const browserHistory = createBrowserHistory();
 
 
 
-function Table({ columns, data }){
+// function Table({ columns, data }){
     
-    const viewData = (id) => {
+//     const viewData = (id) => {
 
-        console.log("view user: ", id);
-        // console.log(Widgets.props.client);
+//         console.log("view user: ", id);
+        
+//         Widgets.singleUser(id);
+//         // console.log("here: ", userData);
+//         browserHistory.push(`/users/${id}`);
 
-        // const userData = await fetch(`/api/v2/users/${id}`, {
-        //     method: "GET",
-        //     headers: {
-        //         Authorization: "123abc456def789" //implement this to act automatically through client.token
-        //     }
-        // }).then(response => response.json());
+//         // UserDetails(userData.users);
 
-        // console.log(props.widgets.list);
-        // widgetRequest()
-        Widgets.singleUser(id);
-        // console.log("here: ", userData);
-        browserHistory.push(`/user:${id}`);
+//     }
 
-        // UserDetails(userData.users);
+//     const editData = (id) => {
 
-    }
+//         console.log("edit");
+//         browserHistory.push(`/edit/${id}`);
+        
+//     }
+//     const removeData = (id) => {
 
-    const editData = (id) => {
+//         console.log("delete");
+//     }
 
-        console.log("edit");
-    }
-    const removeData = (id) => {
+//     const renderHeader = () => {
+//         let headerElement = ['id', 'email', 'Jobs Count', 'Active', 'operation']
 
-        console.log("delete");
-    }
-
-    const renderHeader = () => {
-        let headerElement = ['id', 'email', 'Jobs Count', 'Active', 'operation']
-
-        return headerElement.map((key, index) => {
-            return <th key={index}>{key.toUpperCase()}</th>
-        })
-    }
+//         return headerElement.map((key, index) => {
+//             return <th key={index}>{key.toUpperCase()}</th>
+//         })
+//     }
 
 
-    const renderBody = () => {
-        return data && data.map(({ id, email, jobs_count, active }) => {
-            return (
-                <tr key={id}>
-                    <td>{id}</td>
-                    <td>{email}</td>
-                    <td>{jobs_count}</td>
-                    <td>{active}</td>
-                    <td className='opration'>
-                        <button className='button' onClick={() => viewData(id)}>View</button>
-                        <button className='button' onClick={() => editData(id)}>Edit</button>
-                        <button className='button' onClick={() => removeData(id)}>Delete</button>
-                    </td>
-                </tr>
-            )
-        }) 
-    }
+//     const renderBody = () => {
+//         return data && data.map(({ id, email, jobs_count, active }) => {
+//             return (
+//                 <tr key={id}>
+//                     <td>{id}</td>
+//                     <td>{email}</td>
+//                     <td>{jobs_count}</td>
+//                     <td>{active}</td>
+//                     <td className='opration'>
+//                         <button className='button' onClick={() => viewData(id)}>View</button>
+//                         <button className='button' onClick={() => editData(id)}>Edit</button>
+//                         <button className='button' onClick={() => removeData(id)}>Delete</button>
+//                     </td>
+//                 </tr>
+//             )
+//         }) 
+//     }
     
-    return (
-        <>
-            <h1 id='title'>React Table</h1>
-            <table id='Data'>
-                <thead>
-                    <tr>{renderHeader()}</tr>
-                </thead>
-                <tbody>
-                    {renderBody()}
-                </tbody>
-            </table>
-        </>
-    )
-}
-
-// function UsersIndexTable(data) {
-//     const columns = React.useMemo(
-//         () => [
-//             {
-//                 Header: "ID",
-//                 accessor: "id",
-//                 render:<button>View</button>
-//             },
-//             {
-//                 Header: "Email",
-//                 accessor: "email",
-//                 render: ({ row } ) => (<button>View</button>)
-
-//             },
-//             {
-//                 Header: "Jobs Count",
-//                 accessor: "jobs_count",
-//                 render: ({ row } ) => (<button>View</button>)
-
-//             },
-//             {
-//                 Header: "Active",
-//                 accessor: "active",
-//                 render: ({ row } ) => (<button>View</button>)
-
-//             }
-//         ], []
-//     );
-
 //     return (
-//         data.data !== undefined ? <Table columns={columns} data={data.data} /> : null
+//         <>
+//             <h1 id='title'>React Table</h1>
+//             <table id='Data'>
+//                 <thead>
+//                     <tr>{renderHeader()}</tr>
+//                 </thead>
+//                 <tbody>
+//                     {renderBody()}
+//                 </tbody>
+//             </table>
+//         </>
 //     )
-// }
-
-//----------------------------------------------------------------------------
-// function Columns() {
-    
-//     const columns = React.useMemo(
-//         () => [
-//             {
-//                 Header: "ID",
-//                 accessor: "id",
-//                 render:<button>View</button>
-//             },
-//             {
-//                 Header: "Email",
-//                 accessor: "email",
-//                 render: ({ row } ) => (<button>View</button>)
-    
-//             },
-//             {
-//                 Header: "Jobs Count",
-//                 accessor: "jobs_count",
-//                 render: ({ row } ) => (<button>View</button>)
-    
-//             },
-//             {
-//                 Header: "Active",
-//                 accessor: "active",
-//                 render: ({ row } ) => (<button>View</button>)
-    
-//             }
-//         ], []
-//     );
 // }
 
 const renderHeader = () => {
@@ -174,24 +101,19 @@ const renderHeader = () => {
     })
 }
 
+const validationSchema = Yup.object().shape({
+    id: Yup.string()
+        .required('ID is required'),
+    email: Yup.string()
+        .email('Email is invalid')
+        .required('Email is required'),
+    jobs_count: Yup.string()
+        .required('Jobs Count is required'),
+    active: Yup.string().required("Active status is required")
+});
 
-// const renderBody = (data) => {
-//     return data && data.map(({ id, email, jobs_count, active }) => {
-//         return (
-//             <tr key={id}>
-//                 <td>{id}</td>
-//                 <td>{email}</td>
-//                 <td>{jobs_count}</td>
-//                 <td>{active}</td>
-//                 <td className='opration'>
-//                     <button className='button' onClick={() => viewData(id)}>View</button>
-//                     <button className='button' onClick={() => editData(id)}>Edit</button>
-//                     <button className='button' onClick={() => removeData(id)}>Delete</button>
-//                 </td>
-//             </tr>
-//         )
-//     }) 
-// }
+const isAddMode = false;
+const isEditMode = false;
 
 class Widgets extends Component {
 // function Widgets () {
@@ -220,6 +142,11 @@ class Widgets extends Component {
         console.log("WIDGETS");
 
         this.fetchUsers();
+
+        this.setState = {
+            isAddMode: false,
+
+        }
         // console.log(getUsers.data);
         // const { client, widgetRequest } = this.props;
 
@@ -248,31 +175,43 @@ class Widgets extends Component {
 
     // }
 
-    viewData = (id) => {
+    onSubmit = () => {
+        console.log("Form submitted");
+    }
+
+    viewData = async (id) => {
 
         console.log("view user: ", id);
-        // console.log(Widgets.props.client);
+        await this.props.widgetRequest(this.props.client, id);
+        const user = this.props.widgets.list;
 
-        // const userData = await fetch(`/api/v2/users/${id}`, {
-        //     method: "GET",
-        //     headers: {
-        //         Authorization: "123abc456def789" //implement this to act automatically through client.token
-        //     }
-        // }).then(response => response.json());
+        browserHistory.push(`/users/${id}`);
+        // UserDetails(user);
 
-        // console.log(props.widgets.list);
-        // widgetRequest()
-        // console.log("here: ", userData);
-        this.props.widgetRequest(this.props.client, id);
-        browserHistory.push(`/user:${id}`);
 
         // UserDetails(userData.users);
 
     }
 
     editData = (id) => {
+        //isEditMode = true;
 
         console.log("edit");
+        browserHistory.push(`/edit/${id}`);
+        const user = this.props.widgets.list;
+        console.log(user);
+
+        // return <UserDetails user={this.props.widgets.list} />
+        //UserDetails(user);
+
+        const initialValues = {
+            id: user.id,
+            email: user.email,
+            jobs_count: user.jobs_count,
+            active: user.active,
+        }
+
+        
     }
     removeData = (id) => {
 
@@ -280,23 +219,47 @@ class Widgets extends Component {
     }
 
     renderBody = () => {
-        console.log("DATA: ", this.props.widgets.list);
+        // console.log("DATA: ", this.props.widgets.list);
+        // console.log(window.location.pathname);
         const data = this.props.widgets.list;
-        return data && data.map(({ id, email, jobs_count, active }) => {
-            return (
-                <tr key={id}>
-                    <td>{id}</td>
-                    <td>{email}</td>
-                    <td>{jobs_count}</td>
-                    <td>{active}</td>
-                    <td className='opration'>
-                        <button className='button' onClick={() => this.viewData(id)}>View</button>
-                        <button className='button' onClick={() => this.editData(id)}>Edit</button>
-                        <button className='button' onClick={() => this.removeData(id)}>Delete</button>
-                    </td>
-                </tr>
-            )
-        }) 
+        console.log("data1: ", data);
+        if (window.location.pathname === "/users") {
+            
+            return data && data.map(({ id, email, jobs_count, active }) => {
+                return (
+                    <>
+                    <tr key={id}>
+                        <td>{id}</td>
+                        <td>{email}</td>
+                        <td>{jobs_count}</td>
+                        <td>{active}</td>
+                        <td className='opration'>
+                            {/* <button className='button' onClick={() => this.viewData(id)}>View</button>
+                            <button className='button' onClick={() => this.editData(id)}>Edit</button>
+                            <button className='button' onClick={() => this.removeData(id)}>Delete</button> */}
+                            <Link to = {`/users/${id}`}>View</Link>
+                        </td>
+                    </tr>
+                        
+                        </>
+                )
+            })
+        }
+        // else {
+        //     return (
+        //         <tr key={data.id}>
+        //             <td>{data.id}</td>
+        //             <td>{data.email}</td>
+        //             <td>{data.jobs_count}</td>
+        //             <td>{data.active}</td>
+        //             <td className='opration'>
+        //                 {/* <button className='button' onClick={() => this.viewData(data.id)}>View</button> */}
+        //                 <button className='button' onClick={() => this.editData(data.id)}>Edit</button>
+        //                 <button className='button' onClick={() => this.removeData(data.id)}>Delete</button>
+        //             </td>
+        //         </tr>
+        //     )
+        // }
     }
 
     render() {
@@ -331,24 +294,122 @@ class Widgets extends Component {
         //     }) 
         // }
 
+
+
         return (
             <div>
                 {/* <h1>Widgets</h1> */}
                 <>
                     <h1 id='title'>Widgets</h1>
-                    <table id='Data'>
-                        <thead>
-                            <tr>{renderHeader()}</tr>
-                        </thead>
-                        <tbody>
-                            {console.log("actual data: ", this.props.widgets.list)}
-                            {this.renderBody(this.props.widgets.lists)}
-                        </tbody>
-                    </table>
+                    {/* {!isEditMode ? */}
+                        (<table id='Data'>
+                            <thead>
+                                <tr>{renderHeader()}</tr>
+                            </thead>
+                            <tbody>
+                                {console.log("actual data: ", this.props.widgets.list)}
+                                {this.renderBody(this.props.widgets.lists)}
+                            </tbody>
+                        </table>) 
+                        <Link to={"/users/add"}>Create User</Link>
+                    {/* 
+                        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={this.onSubmit}>
+                            {({ errors, touched, isSubmitting, setFieldValue }) => {
+                                const [user, setUser] = useState({});
+                                const [showPassword, setShowPassword] = useState(false);
+
+                                useEffect(() => {
+                                    if (!isAddMode) {
+                                        // get user and set form fields
+                                        console.log("update user");
+                                        // userService.getById(id).then(user => {
+                                        //     const fields = ['title', 'firstName', 'lastName', 'email', 'role'];
+                                        //     fields.forEach(field => setFieldValue(field, user[field], false));
+                                        //     setUser(user);
+                                        // });
+                                    }
+                                }, []);
+
+                                return (
+                                    <Form>
+                                        <h1>{isAddMode ? 'Add User' : 'Edit User'}</h1>
+                                        <div className="form-row">
+                                            <div className="form-group col">
+                                                <label>Title</label>
+                                                <Field name="title" as="select" className={'form-control' + (errors.title && touched.title ? ' is-invalid' : '')}>
+                                                    <option value=""></option>
+                                                    <option value="Mr">Mr</option>
+                                                    <option value="Mrs">Mrs</option>
+                                                    <option value="Miss">Miss</option>
+                                                    <option value="Ms">Ms</option>
+                                                </Field>
+                                                <ErrorMessage name="title" component="div" className="invalid-feedback" />
+                                            </div>
+                                            <div className="form-group col-5">
+                                                <label>First Name</label>
+                                                <Field name="firstName" type="text" className={'form-control' + (errors.firstName && touched.firstName ? ' is-invalid' : '')} />
+                                                <ErrorMessage name="firstName" component="div" className="invalid-feedback" />
+                                            </div>
+                                            <div className="form-group col-5">
+                                                <label>Last Name</label>
+                                                <Field name="lastName" type="text" className={'form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
+                                                <ErrorMessage name="lastName" component="div" className="invalid-feedback" />
+                                            </div>
+                                        </div>
+                                        <div className="form-row">
+                                            <div className="form-group col-7">
+                                                <label>Email</label>
+                                                <Field name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
+                                                <ErrorMessage name="email" component="div" className="invalid-feedback" />
+                                            </div>
+                                            <div className="form-group col">
+                                                <label>Role</label>
+                                                <Field name="role" as="select" className={'form-control' + (errors.role && touched.role ? ' is-invalid' : '')}>
+                                                    <option value=""></option>
+                                                    <option value="User">User</option>
+                                                    <option value="Admin">Admin</option>
+                                                </Field>
+                                                <ErrorMessage name="role" component="div" className="invalid-feedback" />
+                                            </div>
+                                        </div>
+                                        {!isAddMode &&
+                                            <div>
+                                                <h3 className="pt-3">Change Password</h3>
+                                                <p>Leave blank to keep the same password</p>
+                                            </div>
+                                        }
+                                        <div className="form-row">
+                                            <div className="form-group col">
+                                                <label>
+                                                    Password
+                                            {!isAddMode &&
+                                                        (!showPassword
+                                                            ? <span> - <a onClick={() => setShowPassword(!showPassword)} className="text-primary">Show</a></span>
+                                                            : <span> - {user.password}</span>
+                                                        )
+                                                    }
+                                                </label>
+                                                <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
+                                                <ErrorMessage name="password" component="div" className="invalid-feedback" />
+                                            </div>
+                                            <div className="form-group col">
+                                                <label>Confirm Password</label>
+                                                <Field name="confirmPassword" type="password" className={'form-control' + (errors.confirmPassword && touched.confirmPassword ? ' is-invalid' : '')} />
+                                                <ErrorMessage name="confirmPassword" component="div" className="invalid-feedback" />
+                                            </div>
+                                        </div>
+                                        <div className="form-group">
+                                            <button type="submit" disabled={isSubmitting} className="btn btn-primary">
+                                                {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                                        Save
+                                    </button>
+                                            <Link to={isAddMode ? '.' : '..'} className="btn btn-link">Cancel</Link>
+                                        </div>
+                                    </Form>
+                                );
+                            }}
+                        </Formik> */}
                 </>
-                {/* {console.log("props: ", this.props.widgets.list)}
-                {/* <Table columns={columns} data = {getUsers.data} /> */}
-                {/* <UsersIndexTable data={this.props.widgets.list}/> */} */}
             </div>
         )
     }

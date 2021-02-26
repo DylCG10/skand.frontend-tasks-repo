@@ -1,4 +1,4 @@
-import { WIDGET_CREATING, WIDGET_CREATE_SUCCESS, WIDGET_CREATE_ERROR, WIDGET_REQUESTING, WIDGET_REQUEST_SUCCESS, WIDGET_REQUEST_ERROR } from './constants';
+import { WIDGET_CREATING, WIDGET_CREATE_SUCCESS, WIDGET_CREATE_ERROR, WIDGET_REQUESTING, WIDGET_REQUEST_SUCCESS, WIDGET_REQUEST_ERROR, WIDGET_UPDATING, WIDGET_UPDATE_SUCCESS, WIDGET_UPDATE_ERROR  } from './constants';
 
 const initialState = {
     list: [],
@@ -16,18 +16,20 @@ const reducer = function widgetReducer(state = initialState, action) {
                 requesting: true,
                 successful: false,
                 messages: [{
-                    body: `Widget: ${action.widget.name} being created...`,
+                    body: `Widget: ${action.widget.id} being created...`,
                     time: new Date(),
                 }],
                 errors: [],
             }
         case WIDGET_CREATE_SUCCESS:
+            console.log("action.widget: ", JSON.parse(action.widget._bodyText).users);
             return {
-                list: state.list.concat([action.widget]),
+                // list: state.list.concat([action.widget]),
+                list: state.list.concat([JSON.parse(action.widget._bodyText).users]),
                 requesting: false,
                 successful: true,
                 messages: [{
-                    body: `Widget: ${action.widget.name} awesomly created!`,
+                    body: `Widget: ${action.widget.id} awesomly created!`,
                     time: new Date(),
                 }],
                 errors: [],
@@ -63,6 +65,38 @@ const reducer = function widgetReducer(state = initialState, action) {
                 errors: [],
             }
         case WIDGET_REQUEST_ERROR:
+            return {
+                requesting: false,
+                successful: false,
+                messages: [],
+                errors: state.errors.concat([{
+                    body: action.error.toString(),
+                    time: new Date(),
+                }]),
+            }
+        case WIDGET_UPDATING:
+            return {
+                ...state,
+                requesting: true,
+                successful: false,
+                messages: [{
+                    body: `Widget: ${action.widget.name} being UPDATED...`,
+                    time: new Date(),
+                }],
+                errors: [],
+            }
+        case WIDGET_UPDATE_SUCCESS:
+            return {
+                list: action.widgets,
+                requesting: false,
+                successful: true,
+                messages: [{
+                    body: `Widget: ${action.widget.name} awesomly UPDATED!`,
+                    time: new Date(),
+                }],
+                errors: [],
+            }
+        case WIDGET_UPDATE_ERROR:
             return {
                 requesting: false,
                 successful: false,

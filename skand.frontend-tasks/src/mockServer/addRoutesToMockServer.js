@@ -33,7 +33,9 @@ const addRoutesToMockServer = (mockServer) => {
     }
 
     const attributes = JSON.parse(request.requestBody);
+    console.log("attributes: ", attributes);
     const idAppendedAttributes = { ...attributes, id: 1000 };
+    
     return schema.users.create(idAppendedAttributes);
   });
   mockServer.patch('/users/:id', (schema, request) => {
@@ -43,11 +45,13 @@ const addRoutesToMockServer = (mockServer) => {
     }
 
     const user = schema.users.find(request.params.id);
+    console.log("USERRR: ", user);
     if (!user) {
       return new Response(500, {}, { message: `No user with id: ${request.params.id} found` });
     }
 
     const attributes = JSON.parse(request.requestBody);
+    console.log("attributes: ", attributes);
     return user.update(attributes);
   });
   mockServer.delete('/users/:id', (schema, request) => {

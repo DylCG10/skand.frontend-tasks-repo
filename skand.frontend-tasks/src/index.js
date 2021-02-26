@@ -73,8 +73,8 @@ ReactDOM.render(
       <PersistGate /*loading={<Widgets />}*/ persistor={persistor} >
         <Route path="/" exact component={App} onEnter = {checkIndexAuthorization(store)} />
         <Route path = "/login" exact component = {Login} />
-        <Route path="/widgets" exact component={Widgets} onEnter={checkWidgetAuthorization(store)} />
-        {/* <Route path="/user:id" exact component={UserDetails} /> add authentication */}
+        <Route path="/users" exact component={Widgets} onEnter={checkWidgetAuthorization(store)} />
+        <Route path="/users/:id" component={UserDetails} /> {/*add authentication */}
       </PersistGate>
       
     </Router>
