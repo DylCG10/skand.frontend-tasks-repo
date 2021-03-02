@@ -1,5 +1,6 @@
 import { Response } from 'miragejs';
 import isEqual from 'lodash/isEqual';
+import userData from './users/userData.json';
 
 const addRoutesToMockServer = (mockServer) => {
   // eslint-disable-next-line no-param-reassign
@@ -11,6 +12,8 @@ const addRoutesToMockServer = (mockServer) => {
     if (jwt === 'null' || !jwt) {
       return new Response(401, {}, { message: 'Please Login' });
     }
+
+    console.log("SCHEMA [GET /users]: ", schema.users.all());
     return schema.users.all();
   });
   mockServer.get('/users/:id', (schema, request) => {
@@ -24,6 +27,8 @@ const addRoutesToMockServer = (mockServer) => {
       return new Response(500, {}, { message: `No user with id: ${request.params.id} found` });
     }
 
+    console.log("SCHEMA [GET /users/:id]: ", user);
+
     return user;
   });
   mockServer.post('/users', (schema, request) => {
@@ -36,6 +41,10 @@ const addRoutesToMockServer = (mockServer) => {
     console.log("attributes: ", attributes);
     const idAppendedAttributes = { ...attributes, id: 1000 };
     
+    // console.log("SCHEMA [POST /users]: ", JSON.parse(JSON.stringify(schema.users.create(idAppendedAttributes).attrs)));
+    // schema._schema.isSaving.find("model:users(1000)") = true;
+
+    // userData = [...userData, JSON.parse(JSON.stringify(schema.users.create(idAppendedAttributes).attrs))];
     return schema.users.create(idAppendedAttributes);
   });
   mockServer.patch('/users/:id', (schema, request) => {

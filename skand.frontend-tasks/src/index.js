@@ -33,6 +33,9 @@ import './index.css';
 import { checkIndexAuthorization, checkWidgetAuthorization } from './lib/check-auth'; //checkWidgetAuthorization: widgets --> users
 
 
+import { loadState, saveState } from './localStorage'; 
+
+
 
 const browserHistory = createBrowserHistory();
 
@@ -57,9 +60,16 @@ const pReducer = persistReducer(persistConfig, IndexReducer);
 //   composeSetup(applyMiddleware(sagaMiddleware)),
 //   );
 
-export const store = createStore(pReducer, composeSetup(applyMiddleware(sagaMiddleware)));
-export const persistor = persistStore(store);
+//--------------ORIGINAL----------------
+// export const store = createStore(pReducer, composeSetup(applyMiddleware(sagaMiddleware)));
+// export const persistor = persistStore(store);
+//--------------------------------------------
+const persistedState = loadState();
+export const store = createStore(IndexReducer, persistedState, composeSetup(applyMiddleware(sagaMiddleware)));
 
+store.subscribe(() => {
+  saveState(store.getState());
+})
 sagaMiddleware.run(IndexSagas);
 
 
@@ -70,12 +80,12 @@ sagaMiddleware.run(IndexSagas);
 ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory} >
-      <PersistGate /*loading={<Widgets />}*/ persistor={persistor} >
+      {/* <PersistGate  persistor={persistor} > */}
         <Route path="/" exact component={App} onEnter = {checkIndexAuthorization(store)} />
         <Route path = "/login" exact component = {Login} />
         <Route path="/users" exact component={Widgets} onEnter={checkWidgetAuthorization(store)} />
         <Route path="/users/:id" component={UserDetails} /> {/*add authentication */}
-      </PersistGate>
+      {/* </PersistGate> */}
       
     </Router>
   </Provider>,

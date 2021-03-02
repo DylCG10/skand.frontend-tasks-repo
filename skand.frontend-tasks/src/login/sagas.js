@@ -1,5 +1,6 @@
 import { take, fork, cancel, cancelled, call, put, takeLatest } from 'redux-saga/effects';
 import { createBrowserHistory } from 'history';
+import { withRouter } from 'react-router-dom';
 
 import { LOGIN_REQUESTING, LOGIN_SUCCESS, LOGIN_ERROR } from './constants';
 import { CLIENT_UNSET } from '../client/constants';
@@ -63,6 +64,7 @@ function* loginFlow(action) {
         localStorage.setItem('token', JSON.stringify(token));
 
         browserHistory.push('/users');
+        // this.props.history.push("/users");
     } catch (error) {
         console.log("error",);
         yield put({ type: LOGIN_ERROR, error });

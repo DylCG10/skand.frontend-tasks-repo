@@ -1,11 +1,22 @@
 import { take, fork, cancel, cancelled, call, put, takeLatest } from 'redux-saga/effects';
 import { handleApiErrors } from '../lib/api-errors';
-import { WIDGET_CREATING, WIDGET_REQUESTING, WIDGET_UPDATING } from './constants';
+import { WIDGET_CREATING, WIDGET_DELETING, WIDGET_REQUESTING, WIDGET_UPDATING } from './constants';
 
-import { widgetCreateSuccess, widgetCreateError, widgetRequestSuccess, widgetRequestError, widgetUpdateSuccess, widgetUpdateError } from './actions';
+import { widgetCreateSuccess, widgetCreateError, widgetRequest, widgetRequestSuccess, widgetRequestError, widgetUpdateSuccess, widgetUpdateError, widgetDeleteSuccess, widgetDeleteError } from './actions';
 import { takeEvery } from 'redux-saga/effects';
 
 const widgetsUrl = `/api/v2/users`;
+
+function widgetDeleteApi(action) {
+
+    return fetch(`/api/v2/users/${action.id}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: action.client.token,
+        }
+    })
+}
+
 
 function widgetCreateApi(client, widget) {
     // return fetch(widgetsUrl, {
@@ -50,8 +61,8 @@ async function widgetRequestApi(action) {
     //         return response.json() //.then(data => data.users);
     //     });
     // return request;
-
-    if (action.singleUser === null) {
+    console.log("widget request [singleuser]: ", action.singleUser);
+    if (action.singleUser === null || action.singleUser === undefined) {
         return fetch(widgetsUrl, {
             method: "GET",
             headers: {
@@ -80,7 +91,9 @@ function* widgetRequestFlow(action) {
         const widgets = yield call(widgetRequestApi, action);
         
         console.log("here: ", widgets.users);
-        yield put(widgetRequestSuccess(widgets.users));
+        console.log(action.singleUser);
+        if (action.singleUser === null || action.singleUser === undefined) 
+            yield put(widgetRequestSuccess(widgets.users));
     } catch (error) {
         console.log("error");
         yield put(widgetRequestError(error));
@@ -106,11 +119,34 @@ function* widgetUpdateFlow(action) {
         console.log("widget: (JSON.parse, JSON.stringify) ", /*JSON.parse(widget)*/ JSON.stringify(widget));
         const updatedWidget = yield call(widgetUpdateApi, client, widget);
 
+        //CHANGE -------------------------------------------
+        // const widgets = yield call(widgetRequestApi, action);
+        // console.log("Updated widget: ", updatedWidget.users.id);
+
         yield put(widgetUpdateSuccess(updatedWidget));
+
+        yield widgetRequestFlow(action);
+        // const widgets = yield call(widgetRequestApi, action);
+        // console.log("updated widget: ", updatedWidget.users.id);
+
+        // yield put(widgetRequestSuccess(widgets));
 
     } catch (error) {
         yield put(widgetUpdateError(error));
         
+    }
+}
+
+function* widgetDeleteFlow(action) {
+    try { 
+        const del = yield call(widgetDeleteApi, action);
+        console.log("DEL: ", del);
+        // widgetRequest(action.client);
+        yield put(widgetDeleteSuccess(del));
+        // yield widgetRequestFlow(action);
+
+    } catch (error) {
+        yield put(widgetDeleteError(error));
     }
 }
 
@@ -144,6 +180,8 @@ function* widgetsWatcher() {
     yield takeEvery(WIDGET_REQUESTING, widgetRequestFlow);
     yield takeEvery(WIDGET_CREATING, widgetCreateFlow);
     yield takeEvery(WIDGET_UPDATING, widgetUpdateFlow);
+    yield takeEvery(WIDGET_DELETING, widgetDeleteFlow);
+
 
     // }
 

@@ -45,7 +45,8 @@ class UserDetails extends Component {
 
         this.state = {
             opened: false,
-            isAddMode: false
+            isAddMode: false,
+            user: {}
         }
 
 
@@ -81,38 +82,44 @@ class UserDetails extends Component {
 
         if (!this.state.isAddMode) {
             this.setState({ opened: false })
-            console.log("addMode: ", this.state.isAddMode);
-            console.log(this.state.opened);
-            console.log("didMount");
-            // if (!this.state.opened)
-            this.props.widgetRequest(this.props.client, (browserHistory.location.pathname).split("/")[2]);
-            // this.setState({ opened: true });
+            // console.log("addMode: ", this.state.isAddMode);
+            // console.log(this.state.opened);
+            // console.log("didMount");
+            console.log((browserHistory.location.pathname).split("/")[2]);
+            console.log(this.props.widgets.list[0].id);
+            const user = await this.props.widgets.list.filter(user => user.id === (browserHistory.location.pathname).split("/")[2]);
+            console.log(user);
+            this.setState({ user: user[0] }); //user.id === (browserHistory.location.pathname).split("/")[2]) })
+            // this.props.widgetRequest(this.props.client, (browserHistory.location.pathname).split("/")[2]);
+            console.log("USER: ", this.state.user);
 
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log("isAddMOde:", this.state.isAddMode);
-        if (!this.state.isAddMode) {
-            const { widgets } = this.props;
-            console.log("addMode: ", this.state.isAddMode);
-            console.log(prevProps.widgets, widgets);
-            if (!this.state.opened) { 
-                this.props.widgetRequest(this.props.client, (browserHistory.location.pathname).split("/")[2]);
-                this.setState({ opened: true });
-            }
+        // console.log("isAddMOde:", this.state.isAddMode);
+        // if (!this.state.isAddMode) {
+        //     const { widgets } = this.props;
+        //     console.log("addMode: ", this.state.isAddMode);
+        //     console.log(prevProps.widgets, widgets);
+        //     if (!this.state.opened) { 
+        //         // this.props.widgetRequest(this.props.client, (browserHistory.location.pathname).split("/")[2]);
+        //         this.setState({ opened: true });
+        //     }
             
-        }
+        // }
 
         // if (this.state.opened)
 
     }
 
     render() {
-        if ((!this.props.widgets.successful || this.props.widgets.list === undefined) && window.location.pathname !== "/users/add") {
-            return <h1>Loading..</h1>
-        }
-
+        // if ((!this.props.widgets.successful || this.props.widgets.list === undefined) && window.location.pathname !== "/users/add") {
+        //     return <h1>Loading..</h1>
+        // }
+        // console.log(this.state.user {})
+        if (this.state.user.id === undefined)
+            return <h1>Loading...</h1>
         // console.log(undefined.id);
         // if (!this.state.isAddMode) {
         //     const initialValues = {
@@ -142,12 +149,11 @@ class UserDetails extends Component {
         //     jobs_count: this.props.widgets.list.jobs_count,
         //     active: this.props.widgets.list.active,
         // }
-        let initialValues = {
-        
-        }
-        console.log("EQUAL? ", this.props.widgets.list.id)
+        console.log("EQUAL? ", this.state.user)
+        let initialValues;
+
         {
-            this.props.widgets.list.id === undefined ? initialValues = {
+            this.state.user === undefined ? initialValues = {
                 id: '',
                 email: '',
                 first_name: '',
@@ -155,20 +161,29 @@ class UserDetails extends Component {
                 jobs_count: '',
                 active: ''
             } : initialValues = {
-                id: this.props.widgets.list.id,
-                email: this.props.widgets.list.email,
-                first_name: this.props.widgets.list.first_name,
-                last_name: this.props.widgets.list.last_name,
-                jobs_count: this.props.widgets.list.jobs_count,
-                active: this.props.widgets.list.active
+                id: this.state.user.id,
+                email: this.state.user.email,
+                first_name: this.state.user.first_name,
+                last_name: this.state.user.last_name,
+                jobs_count: this.state.user.jobs_count,
+                active: this.state.user.active
             }
         }
+
+        initialValues = {
+            id: this.state.user.id,
+            email: this.state.user.email,
+            first_name: this.state.user.first_name,
+            last_name: this.state.user.last_name,
+            jobs_count: this.state.user.jobs_count,
+            active: this.state.user.active,
+        }
             
-        console.log("initial values: ", initialValues);
 
         
         return (
             <>
+                {        console.log("initial values: ", initialValues)}
                 <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={this.onSubmit}>
                     {({ errors, touched, isSubmitting, setFieldValue }) => {
                         return (

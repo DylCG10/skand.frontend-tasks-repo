@@ -1,4 +1,4 @@
-import { WIDGET_CREATING, WIDGET_CREATE_SUCCESS, WIDGET_CREATE_ERROR, WIDGET_REQUESTING, WIDGET_REQUEST_SUCCESS, WIDGET_REQUEST_ERROR, WIDGET_UPDATING, WIDGET_UPDATE_SUCCESS, WIDGET_UPDATE_ERROR  } from './constants';
+import { WIDGET_CREATING, WIDGET_CREATE_SUCCESS, WIDGET_CREATE_ERROR, WIDGET_REQUESTING, WIDGET_REQUEST_SUCCESS, WIDGET_REQUEST_ERROR, WIDGET_UPDATING, WIDGET_UPDATE_SUCCESS, WIDGET_UPDATE_ERROR, WIDGET_DELETING, WIDGET_DELETE_SUCCESS, WIDGET_DELETE_ERROR  } from './constants';
 
 const initialState = {
     list: [],
@@ -56,6 +56,8 @@ const reducer = function widgetReducer(state = initialState, action) {
         case WIDGET_REQUEST_SUCCESS:
             return {
                 list: action.widgets,
+                // ...list,
+                // singleUser: action.widgets,
                 requesting: false,
                 successful: true,
                 messages: [{
@@ -75,12 +77,13 @@ const reducer = function widgetReducer(state = initialState, action) {
                 }]),
             }
         case WIDGET_UPDATING:
+            console.log("updating");
             return {
                 ...state,
                 requesting: true,
                 successful: false,
                 messages: [{
-                    body: `Widget: ${action.widget.name} being UPDATED...`,
+                    body: `Widget: ${action.widget} being UPDATED...`,
                     time: new Date(),
                 }],
                 errors: [],
@@ -106,6 +109,38 @@ const reducer = function widgetReducer(state = initialState, action) {
                     time: new Date(),
                 }]),
             }
+        
+        case WIDGET_DELETING:
+            return {
+                requesting: true,
+                successful: false,
+                messages: [{
+                    body: `Widget: ${action.id} being deleted...`,
+                    time: new Date(),
+                }],
+                errors: [],
+            }
+            case WIDGET_DELETE_SUCCESS:
+                return {
+                    list: action.widgets,
+                    requesting: false,
+                    successful: true,
+                    messages: [{
+                        body: `Widget: ${action.id} deleted`,
+                        time: new Date(),
+                    }],
+                    errors: [],
+                }
+            case WIDGET_DELETE_ERROR:
+                return {
+                    requesting: false,
+                    successful: false,
+                    messages: [],
+                    errors: state.errors.concat([{
+                        body: action.error.toString(),
+                        time: new Date(),
+                    }]),
+                }
         default:
             return state
     }

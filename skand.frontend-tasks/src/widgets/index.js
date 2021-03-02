@@ -12,7 +12,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 import getUsers from '../mockServer/users/index';
-import { widgetRequest, widgetCreate, widgetRequestSuccess } from './actions';
+import { widgetRequest, widgetCreate, widgetRequestSuccess, widgetDelete } from './actions';
 
 import UserDetails from './userDetails';
 
@@ -139,9 +139,10 @@ class Widgets extends Component {
 
     constructor(props) {
         super(props);
-        console.log("WIDGETS");
+        // console.log("WIDGETS: ", this.props.widgets.list);
 
-        this.fetchUsers();
+        if (this.props.widgets.list === undefined || this.props.widgets.list.length === 0)
+            this.fetchUsers();
 
         this.setState = {
             isAddMode: false,
@@ -157,8 +158,9 @@ class Widgets extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log("data: ", this.props.widgets.list);
-
+        console.log(prevProps.widgets.list, this.props.widgets.list);
+        // if (prevProps.widgets.list !== this.props.widgets.list)
+        //     this.fetchUsers();
     }
 
     fetchUsers = () => {
@@ -181,9 +183,9 @@ class Widgets extends Component {
 
     viewData = async (id) => {
 
-        console.log("view user: ", id);
-        await this.props.widgetRequest(this.props.client, id);
-        const user = this.props.widgets.list;
+        console.log("view user: ", this.props.client);
+        // await this.props.widgetRequest(this.props.client, id);
+        // const user = this.props.widgets.list;
 
         browserHistory.push(`/users/${id}`);
         // UserDetails(user);
@@ -213,9 +215,20 @@ class Widgets extends Component {
 
         
     }
-    removeData = (id) => {
+    removeData = async (id) => {
 
         console.log("delete");
+        const prevList = this.props.widgets.list;
+        console.log('prevList: ', prevList);
+        this.props.widgetDelete(this.props.client, id);
+        this.props.widgetRequest(this.props.client);
+
+        this.props.widgets.list.filter(widget => prevList.indexOf(widget) > -1)
+        console.log("COMPARE: ", "props: ", this.props.widgets.list, prevList);
+    }
+
+    setData = async (prevList) => {
+
     }
 
     renderBody = () => {
@@ -233,11 +246,13 @@ class Widgets extends Component {
                         <td>{email}</td>
                         <td>{jobs_count}</td>
                         <td>{active}</td>
-                        <td className='opration'>
+                        <td className='operation'>
                             {/* <button className='button' onClick={() => this.viewData(id)}>View</button>
                             <button className='button' onClick={() => this.editData(id)}>Edit</button>
                             <button className='button' onClick={() => this.removeData(id)}>Delete</button> */}
-                            <Link to = {`/users/${id}`}>View</Link>
+                            <Link to={`/users/${id}`}>View</Link>
+                            <button className='button' onClick={() => this.removeData(id)}>Delete</button>
+
                         </td>
                     </tr>
                         
@@ -245,21 +260,6 @@ class Widgets extends Component {
                 )
             })
         }
-        // else {
-        //     return (
-        //         <tr key={data.id}>
-        //             <td>{data.id}</td>
-        //             <td>{data.email}</td>
-        //             <td>{data.jobs_count}</td>
-        //             <td>{data.active}</td>
-        //             <td className='opration'>
-        //                 {/* <button className='button' onClick={() => this.viewData(data.id)}>View</button> */}
-        //                 <button className='button' onClick={() => this.editData(data.id)}>Edit</button>
-        //                 <button className='button' onClick={() => this.removeData(data.id)}>Delete</button>
-        //             </td>
-        //         </tr>
-        //     )
-        // }
     }
 
     render() {
@@ -274,25 +274,6 @@ class Widgets extends Component {
                 errors,
             },
         } = this.props;
-
-        // renderBody = (data) => {
-        //     console.log("DATA: ", data);
-        //     return data && data.map(({ id, email, jobs_count, active }) => {
-        //         return (
-        //             <tr key={id}>
-        //                 <td>{id}</td>
-        //                 <td>{email}</td>
-        //                 <td>{jobs_count}</td>
-        //                 <td>{active}</td>
-        //                 <td className='opration'>
-        //                     <button className='button' onClick={() => this.viewData(id)}>View</button>
-        //                     <button className='button' onClick={() => this.editData(id)}>Edit</button>
-        //                     <button className='button' onClick={() => this.removeData(id)}>Delete</button>
-        //                 </td>
-        //             </tr>
-        //         )
-        //     }) 
-        // }
 
 
 
@@ -421,7 +402,7 @@ const mapStateToProps = state => ({
     widgets: state.widgets,
 });
     
-const connected = connect(mapStateToProps, { widgetCreate, widgetRequest })(Widgets);
+const connected = connect(mapStateToProps, { widgetCreate, widgetRequest, widgetDelete })(Widgets);
 const formed = reduxForm({
     form: 'widgets'
 })(connected);
