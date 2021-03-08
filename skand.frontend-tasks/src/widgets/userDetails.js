@@ -54,26 +54,7 @@ class UserDetails extends Component {
 
     }
 
-    // console.log("user details")
-    onSubmit = async (values) => {
-        // const { id, email, first_name, last_name, jobs_count, active } = values;
-        console.log(values);
-        console.log('submit');
-        if (!this.state.isAddMode)
-            this.props.widgetUpdate(this.props.client, values);
-        else 
-        {
-            console.log("widgetCreate");
-            await this.props.widgetCreate(this.props.client, values);
-        }
-        this.setState({ opened: false })
-    };
-
-    // useEffect(() => {
-    //     console.log("hello");
-    //     this.props.widgetRequest(this.props.client, (browserHistory.location.pathname).split("/")[2]);
-    // }, []);
-
+    
     async componentDidMount() {
         if (window.location.pathname == "/users/add") {
             console.log(window.location.pathname)
@@ -96,22 +77,30 @@ class UserDetails extends Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        // console.log("isAddMOde:", this.state.isAddMode);
-        // if (!this.state.isAddMode) {
-        //     const { widgets } = this.props;
-        //     console.log("addMode: ", this.state.isAddMode);
-        //     console.log(prevProps.widgets, widgets);
-        //     if (!this.state.opened) { 
-        //         // this.props.widgetRequest(this.props.client, (browserHistory.location.pathname).split("/")[2]);
-        //         this.setState({ opened: true });
-        //     }
+
+    // console.log("user details")
+    onSubmit = async (values) => {
+        // const { id, email, first_name, last_name, jobs_count, active } = values;
+        console.log(values);
+        console.log('submit');
+        if (!this.state.isAddMode) {
+            await this.props.widgetUpdate(this.props.client, values);
             
-        // }
+        }
+        else 
+        {
+            console.log("widgetCreate");
+            await this.props.widgetCreate(this.props.client, values);
+        }
+        this.setState({ opened: false })
+    };
 
-        // if (this.state.opened)
+    // useEffect(() => {
+    //     console.log("hello");
+    //     this.props.widgetRequest(this.props.client, (browserHistory.location.pathname).split("/")[2]);
+    // }, []);
 
-    }
+
 
     render() {
         // if ((!this.props.widgets.successful || this.props.widgets.list === undefined) && window.location.pathname !== "/users/add") {
@@ -149,7 +138,9 @@ class UserDetails extends Component {
         //     jobs_count: this.props.widgets.list.jobs_count,
         //     active: this.props.widgets.list.active,
         // }
-        console.log("EQUAL? ", this.state.user)
+        // console.log("EQUAL? ", this.state.user)
+        console.log("new list: ", this.props.widgets.list);
+
         let initialValues;
 
         {

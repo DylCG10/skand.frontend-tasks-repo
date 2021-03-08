@@ -125,7 +125,7 @@ function* widgetUpdateFlow(action) {
 
         yield put(widgetUpdateSuccess(updatedWidget));
 
-        yield widgetRequestFlow(action);
+        // yield widgetRequestFlow(action);
         // const widgets = yield call(widgetRequestApi, action);
         // console.log("updated widget: ", updatedWidget.users.id);
 
@@ -142,7 +142,7 @@ function* widgetDeleteFlow(action) {
         const del = yield call(widgetDeleteApi, action);
         console.log("DEL: ", del);
         // widgetRequest(action.client);
-        yield put(widgetDeleteSuccess(del));
+        yield put(widgetDeleteSuccess(action.id));
         // yield widgetRequestFlow(action);
 
     } catch (error) {

@@ -117,32 +117,34 @@ const isEditMode = false;
 
 class Widgets extends Component {
 // function Widgets () {
-    static propTypes = {
-        handleSubmit: PropTypes.func.isRequired,
-        invalid: PropTypes.bool.isRequired,
-        client: PropTypes.shape({
-            id: PropTypes.number.isRequired,
-            token: PropTypes.string.isRequired
-        }),
-        widgets: PropTypes.shape({
-            list: PropTypes.array,
-            requesting: PropTypes.bool,
-            successful: PropTypes.bool,
-            messages: PropTypes.array,
-            errors: PropTypes.array,
-        }).isRequired,
-        widgetCreate: PropTypes.func.isRequired,
-        widgetRequest: PropTypes.func.isRequired,
-        reset: PropTypes.func.isRequired,
+    // static propTypes = {
+    //     handleSubmit: PropTypes.func.isRequired,
+    //     invalid: PropTypes.bool.isRequired,
+    //     client: PropTypes.shape({
+    //         id: PropTypes.number.isRequired,
+    //         token: PropTypes.string.isRequired
+    //     }),
+    //     widgets: PropTypes.shape({
+    //         list: PropTypes.array,
+    //         requesting: PropTypes.bool,
+    //         successful: PropTypes.bool,
+    //         messages: PropTypes.array,
+    //         errors: PropTypes.array,
+    //     }).isRequired,
+    //     widgetCreate: PropTypes.func.isRequired,
+    //     widgetRequest: PropTypes.func.isRequired,
+    //     reset: PropTypes.func.isRequired,
 
-    }
+    // }
 
     constructor(props) {
         super(props);
-        // console.log("WIDGETS: ", this.props.widgets.list);
+        console.log("WIDGETS: ", this.props.widgets.list);
 
-        if (this.props.widgets.list === undefined || this.props.widgets.list.length === 0)
+        if (this.props.widgets.list === undefined || this.props.widgets.list.length === 0) {
+            console.log("fetching users");
             this.fetchUsers();
+        }
 
         this.setState = {
             isAddMode: false,
@@ -218,12 +220,13 @@ class Widgets extends Component {
     removeData = async (id) => {
 
         console.log("delete");
+
         const prevList = this.props.widgets.list;
         console.log('prevList: ', prevList);
         this.props.widgetDelete(this.props.client, id);
-        this.props.widgetRequest(this.props.client);
+        // this.props.widgetRequest(this.props.client);
 
-        this.props.widgets.list.filter(widget => prevList.indexOf(widget) > -1)
+        // this.props.widgets.list.filter(widget => prevList.indexOf(widget) > -1)
         console.log("COMPARE: ", "props: ", this.props.widgets.list, prevList);
     }
 

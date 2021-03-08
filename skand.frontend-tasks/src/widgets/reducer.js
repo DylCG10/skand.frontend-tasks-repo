@@ -79,7 +79,7 @@ const reducer = function widgetReducer(state = initialState, action) {
         case WIDGET_UPDATING:
             console.log("updating");
             return {
-                ...state,
+                // ...state,
                 requesting: true,
                 successful: false,
                 messages: [{
@@ -89,8 +89,10 @@ const reducer = function widgetReducer(state = initialState, action) {
                 errors: [],
             }
         case WIDGET_UPDATE_SUCCESS:
+            console.log("ACTION: ", state.list);
             return {
                 list: action.widgets,
+                // ...state,
                 requesting: false,
                 successful: true,
                 messages: [{
@@ -111,7 +113,9 @@ const reducer = function widgetReducer(state = initialState, action) {
             }
         
         case WIDGET_DELETING:
+            console.log("action (deleting): ", state.list)
             return {
+                list: state.list,
                 requesting: true,
                 successful: false,
                 messages: [{
@@ -120,27 +124,29 @@ const reducer = function widgetReducer(state = initialState, action) {
                 }],
                 errors: [],
             }
-            case WIDGET_DELETE_SUCCESS:
-                return {
-                    list: action.widgets,
-                    requesting: false,
-                    successful: true,
-                    messages: [{
-                        body: `Widget: ${action.id} deleted`,
-                        time: new Date(),
-                    }],
-                    errors: [],
-                }
-            case WIDGET_DELETE_ERROR:
-                return {
-                    requesting: false,
-                    successful: false,
-                    messages: [],
-                    errors: state.errors.concat([{
-                        body: action.error.toString(),
-                        time: new Date(),
-                    }]),
-                }
+        case WIDGET_DELETE_SUCCESS:
+            console.log("action (delete): ", state.list)
+            return {
+                // list: action.widgets.filter(widget => widget.id !== action.id),
+                list: [...state.list.filter(widget => widget.id !== action.id)],
+                requesting: false,
+                successful: true,
+                messages: [{
+                    body: `Widget: ${action.id} deleted`,
+                    time: new Date(),
+                }],
+                errors: [],
+            }
+        case WIDGET_DELETE_ERROR:
+            return {
+                requesting: false,
+                successful: false,
+                messages: [],
+                errors: state.errors.concat([{
+                    body: action.error, //.toString(),
+                    time: new Date(),
+                }]),
+            }
         default:
             return state
     }

@@ -54,10 +54,10 @@ export const widgetUpdate = function widgetUpdate(client, widget) {
     }
 }
 
-export const widgetUpdateSuccess = function widgetUpdateSuccess(widget) {
+export const widgetUpdateSuccess = function widgetUpdateSuccess() {
     return {
         type: WIDGET_UPDATE_SUCCESS,
-        widget
+        // widget
     }
 }
 
@@ -76,10 +76,10 @@ export const widgetDelete = function widgetDelete(client, id) {
     }
 }
 
-export const widgetDeleteSuccess = function widgetDeleteSuccess() {
+export const widgetDeleteSuccess = function widgetDeleteSuccess(id) {
     return {
         type: WIDGET_DELETE_SUCCESS,
-        //widgets: 
+        id
 
     }
 }
