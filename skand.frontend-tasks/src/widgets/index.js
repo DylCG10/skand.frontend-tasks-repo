@@ -15,6 +15,7 @@ import getUsers from '../mockServer/users/index';
 import { widgetRequest, widgetCreate, widgetRequestSuccess, widgetDelete } from './actions';
 
 import UserDetails from './userDetails';
+import UserDetails2 from './userDetails2';
 
 import Messages from '../notifications/Messages';
 import Errors from '../notifications/Errors';
@@ -116,7 +117,7 @@ const isAddMode = false;
 const isEditMode = false;
 
 class Widgets extends Component {
-// function Widgets () {
+    // function Widgets () {
     // static propTypes = {
     //     handleSubmit: PropTypes.func.isRequired,
     //     invalid: PropTypes.bool.isRequired,
@@ -146,8 +147,9 @@ class Widgets extends Component {
             this.fetchUsers();
         }
 
-        this.setState = {
+        this.state = {
             isAddMode: false,
+            showingSingleUser: null,
 
         }
         // console.log(getUsers.data);
@@ -244,22 +246,22 @@ class Widgets extends Component {
             return data && data.map(({ id, email, jobs_count, active }) => {
                 return (
                     <>
-                    <tr key={id}>
-                        <td>{id}</td>
-                        <td>{email}</td>
-                        <td>{jobs_count}</td>
-                        <td>{active}</td>
-                        <td className='operation'>
-                            {/* <button className='button' onClick={() => this.viewData(id)}>View</button>
-                            <button className='button' onClick={() => this.editData(id)}>Edit</button>
-                            <button className='button' onClick={() => this.removeData(id)}>Delete</button> */}
-                            <Link to={`/users/${id}`}>View</Link>
-                            <button className='button' onClick={() => this.removeData(id)}>Delete</button>
+                        <tr key={id}>
+                            <td>{id}</td>
+                            <td>{email}</td>
+                            <td>{jobs_count}</td>
+                            <td>{active}</td>
+                            <td className='operation'>
+                                <Link to={`/users/${id}`}>View</Link>
+                                {/* <button className='button' onClick={() => {
+                                    this.setState({ showingSingleUser: this.props.widgets.list.filter(user => user.id === id) });
+                                }}>View</button> */}
+                                <button className='button' onClick={() => this.removeData(id)}>Delete</button>
 
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
                         
-                        </>
+                    </>
                 )
             })
         }
@@ -278,14 +280,15 @@ class Widgets extends Component {
             },
         } = this.props;
 
-
-
-        return (
-            <div>
-                {/* <h1>Widgets</h1> */}
-                <>
-                    <h1 id='title'>Widgets</h1>
-                    {/* {!isEditMode ? */}
+        console.log(this.state.showingSingleUser);
+        // if (this.state.showingSingleUser === null) {
+            return (
+           
+                <div>
+                    {/* <h1>Widgets</h1> */}
+                    <>
+                        <h1 id='title'>Widgets</h1>
+                        {/* {!isEditMode ? */}
                         (<table id='Data'>
                             <thead>
                                 <tr>{renderHeader()}</tr>
@@ -294,9 +297,20 @@ class Widgets extends Component {
                                 {console.log("actual data: ", this.props.widgets.list)}
                                 {this.renderBody(this.props.widgets.lists)}
                             </tbody>
-                        </table>) 
+                        </table>)
                         <Link to={"/users/add"}>Create User</Link>
-                    {/* 
+                    </>
+                </div>
+            )
+        // }
+        
+        // return (
+        //     // console.log("STUFF: ", this.props.widgets.list, this.state.showingSingleUser)
+        //     <UserDetails2 list={this.props.widgets.list} user = {this.state.showingSingleUser[0]} client = {this.props.client} />
+        // )
+    }
+}
+                    /* 
                         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={this.onSubmit}>
                             {({ errors, touched, isSubmitting, setFieldValue }) => {
                                 const [user, setUser] = useState({});
@@ -392,12 +406,10 @@ class Widgets extends Component {
                                     </Form>
                                 );
                             }}
-                        </Formik> */}
-                </>
-            </div>
-        )
-    }
-}
+                        </Formik> */
+              
+     
+
 
 
 const mapStateToProps = state => ({

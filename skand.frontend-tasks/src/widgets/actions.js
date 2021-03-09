@@ -54,16 +54,18 @@ export const widgetUpdate = function widgetUpdate(client, widget) {
     }
 }
 
-export const widgetUpdateSuccess = function widgetUpdateSuccess() {
+export const widgetUpdateSuccess = function widgetUpdateSuccess(widget) {
+    console.log("update success");
     return {
         type: WIDGET_UPDATE_SUCCESS,
-        // widget
+        widget
     }
 }
 
 export const widgetUpdateError = function widgetUpdateError(error) {
+    console.log("update error");
     return {
-        type: WIDGET_UPDATING,
+        type: WIDGET_UPDATE_ERROR,
         error
     }
 }

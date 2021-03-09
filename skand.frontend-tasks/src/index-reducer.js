@@ -9,8 +9,9 @@ import widgets from './widgets/reducer';
 const IndexReducer = combineReducers({
     login,
     client,
+    widgets,
     form,
-    widgets
+
 });
 
 export default IndexReducer;

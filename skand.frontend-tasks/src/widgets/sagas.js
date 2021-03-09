@@ -1,6 +1,6 @@
 import { take, fork, cancel, cancelled, call, put, takeLatest } from 'redux-saga/effects';
 import { handleApiErrors } from '../lib/api-errors';
-import { WIDGET_CREATING, WIDGET_DELETING, WIDGET_REQUESTING, WIDGET_UPDATING } from './constants';
+import { WIDGET_CREATING, WIDGET_DELETING, WIDGET_REQUESTING, WIDGET_UPDATE_SUCCESS, WIDGET_UPDATING } from './constants';
 
 import { widgetCreateSuccess, widgetCreateError, widgetRequest, widgetRequestSuccess, widgetRequestError, widgetUpdateSuccess, widgetUpdateError, widgetDeleteSuccess, widgetDeleteError } from './actions';
 import { takeEvery } from 'redux-saga/effects';
@@ -37,7 +37,7 @@ function widgetCreateApi(client, widget) {
 }
 
 function widgetUpdateApi(client, widget) {
-    console.log("widget updating...");
+    console.log("API: ", client.token, widget);
     return fetch(`/api/v2/users/${widget.id}`, {
         method: "PATCH",
         headers: {
@@ -45,7 +45,7 @@ function widgetUpdateApi(client, widget) {
         },
         body: JSON.stringify(widget)
         
-    }).then(handleApiErrors);
+    })//.then(handleApiErrors)
 }
  
 async function widgetRequestApi(action) {
@@ -116,14 +116,23 @@ function* widgetUpdateFlow(action) {
     try {
         console.log("widgetUpdateFLow")
         const { client, widget } = action;
-        console.log("widget: (JSON.parse, JSON.stringify) ", /*JSON.parse(widget)*/ JSON.stringify(widget));
+        // console.log("widget: (JSON.parse, JSON.stringify) ", /*JSON.parse(widget)*/ JSON.stringify(widget));
         const updatedWidget = yield call(widgetUpdateApi, client, widget);
-
+        // yield put(widgetUpdateError())
+        yield put(widgetUpdateSuccess(widget));
         //CHANGE -------------------------------------------
         // const widgets = yield call(widgetRequestApi, action);
-        // console.log("Updated widget: ", updatedWidget.users.id);
+        console.log("Updated widget: ", updatedWidget);
 
-        yield put(widgetUpdateSuccess(updatedWidget));
+
+        // yield put(widgetUpdateSuccess());
+        // put(WIDGET_UPDATE_SUCCESS)
+
+
+
+        // yield put ({type: "WIDGET_UPDATE_SUCCESS"})
+
+
 
         // yield widgetRequestFlow(action);
         // const widgets = yield call(widgetRequestApi, action);
@@ -142,7 +151,7 @@ function* widgetDeleteFlow(action) {
         const del = yield call(widgetDeleteApi, action);
         console.log("DEL: ", del);
         // widgetRequest(action.client);
-        yield put(widgetDeleteSuccess(action.id));
+        yield put(widgetDeleteSuccess(action.id)); //del
         // yield widgetRequestFlow(action);
 
     } catch (error) {
@@ -181,6 +190,12 @@ function* widgetsWatcher() {
     yield takeEvery(WIDGET_CREATING, widgetCreateFlow);
     yield takeEvery(WIDGET_UPDATING, widgetUpdateFlow);
     yield takeEvery(WIDGET_DELETING, widgetDeleteFlow);
+
+    // while (true) {
+    //     const actionCreate = yield take(WIDGET_UPDATING);
+    //     const task = yield fork(widgetUpdateFlow, actionCreate);
+
+    // }
 
 
     // }

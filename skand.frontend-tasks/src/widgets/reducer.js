@@ -77,9 +77,9 @@ const reducer = function widgetReducer(state = initialState, action) {
                 }]),
             }
         case WIDGET_UPDATING:
-            console.log("updating");
+            console.log("action.widget: ", action.widget);
             return {
-                // ...state,
+                ...state,
                 requesting: true,
                 successful: false,
                 messages: [{
@@ -89,19 +89,36 @@ const reducer = function widgetReducer(state = initialState, action) {
                 errors: [],
             }
         case WIDGET_UPDATE_SUCCESS:
-            console.log("ACTION: ", state.list);
+            // console.log("ACTION: ", state.list);
+            // let updatedWidget = action.widget;
+            // let newList = state.list.map(widget => widget.id === action.id ? { ...widget, updatedWidget } : widget);
+            // console.log("NEW LIST: ", newList);
+
+            let newUsersArray = [...state.list];
+            for (var i in state.list) {
+                console.log("state: ", state.list, action.widget);
+                if (state.list[i].id == action.widget.id) {
+                    console.log("found")
+                    newUsersArray[i] = action.widget
+                //    break; //Stop this loop, we found it!
+                }
+            }
+            
             return {
-                list: action.widgets,
+                //list: [...state.list, ]
                 // ...state,
+                list: newUsersArray,
                 requesting: false,
                 successful: true,
                 messages: [{
-                    body: `Widget: ${action.widget.name} awesomly UPDATED!`,
+                    // body: `Widget: ${action.widget.name} awesomly UPDATED!`,
                     time: new Date(),
                 }],
                 errors: [],
             }
+        
         case WIDGET_UPDATE_ERROR:
+            console.log("error");
             return {
                 requesting: false,
                 successful: false,
