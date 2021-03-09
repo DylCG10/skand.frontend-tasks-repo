@@ -15,12 +15,12 @@ import getUsers from '../mockServer/users/index';
 import { widgetRequest, widgetCreate, widgetRequestSuccess, widgetDelete } from './actions';
 
 import UserDetails from './userDetails';
-import UserDetails2 from './userDetails2';
 
 import Messages from '../notifications/Messages';
 import Errors from '../notifications/Errors';
 
 import '../css/widgets.css';
+import { Pagination }  from "./Pagination";
 
 const browserHistory = createBrowserHistory();
 
@@ -116,6 +116,11 @@ const validationSchema = Yup.object().shape({
 const isAddMode = false;
 const isEditMode = false;
 
+const postsPerPage = 2;
+let currentPage;
+let indexOfLastPost;
+let indexOfFirstPost;
+
 class Widgets extends Component {
     // function Widgets () {
     // static propTypes = {
@@ -150,6 +155,11 @@ class Widgets extends Component {
         this.state = {
             isAddMode: false,
             showingSingleUser: null,
+            currentPage: 1, //start of changes
+            indexOfLastPost: 2, //make dynamic,
+            indexOfFirstPost: 1,
+            currentPosts: this.props.widgets.list.slice(indexOfFirstPost, indexOfLastPost)
+
 
         }
         // console.log(getUsers.data);
@@ -267,6 +277,15 @@ class Widgets extends Component {
         }
     }
 
+    
+
+    paginate = pageNumber => {
+        this.setState({ currentPage: pageNumber });
+        this.setState({ indexOfLastPost: currentPage * postsPerPage });
+        this.setState({ indexOfFirstPost: indexOfLastPost - postsPerPage });
+        this.setState({ currentPosts: this.props.widgets.list.slice(indexOfFirstPost, indexOfLastPost) });
+    }
+
     render() {
         const {
             handleSubmit,
@@ -280,7 +299,7 @@ class Widgets extends Component {
             },
         } = this.props;
 
-        console.log(this.state.showingSingleUser);
+        console.log(this.state.postsPerPage);
         // if (this.state.showingSingleUser === null) {
             return (
            
@@ -300,6 +319,7 @@ class Widgets extends Component {
                         </table>)
                         <Link to={"/users/add"}>Create User</Link>
                     </>
+                    <Pagination postsPerPage={postsPerPage} totalPosts={this.props.widgets.list.length} paginate={this.paginate} />
                 </div>
             )
         // }
