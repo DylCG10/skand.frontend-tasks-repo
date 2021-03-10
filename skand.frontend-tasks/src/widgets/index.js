@@ -25,8 +25,6 @@ import { Pagination }  from "./Pagination";
 const browserHistory = createBrowserHistory();
 
 
-
-
 // function Table({ columns, data }){
     
 //     const viewData = (id) => {
@@ -116,7 +114,7 @@ const validationSchema = Yup.object().shape({
 const isAddMode = false;
 const isEditMode = false;
 
-const postsPerPage = 2;
+const postsPerPage = 3;
 let currentPage;
 let indexOfLastPost;
 let indexOfFirstPost;
@@ -157,8 +155,11 @@ class Widgets extends Component {
             showingSingleUser: null,
             currentPage: 1, //start of changes
             indexOfLastPost: 2, //make dynamic,
-            indexOfFirstPost: 1,
-            currentPosts: this.props.widgets.list.slice(indexOfFirstPost, indexOfLastPost)
+            indexOfFirstPost: 0,
+            currentPosts: this.props.widgets.list.slice(indexOfFirstPost, indexOfLastPost),
+            filterStr: '',
+            filteredPosts: [],
+
 
 
         }
@@ -167,8 +168,14 @@ class Widgets extends Component {
 
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         console.log("hi");
+        await this.setState({ indexOfLastPost: this.state.currentPage * postsPerPage });
+        await this.setState({ indexOfFirstPost: this.state.indexOfLastPost - postsPerPage });
+        await this.setState({ currentPosts: this.props.widgets.list.slice(this.state.indexOfFirstPost, this.state.indexOfLastPost) });
+        // console.log("list: ", this.props.widgets.list.slice(this.state.indexOfFirstPost,this.state.indexOfLastPost));
+        this.setState({filteredPosts: this.state.currentPosts})
+        console.log("state: ", this.state);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -242,14 +249,15 @@ class Widgets extends Component {
         console.log("COMPARE: ", "props: ", this.props.widgets.list, prevList);
     }
 
-    setData = async (prevList) => {
-
+    handleFilterChange = e => {
+        const value = e.target.value || undefined;
+        this.setState({ filterInput: value })
     }
 
-    renderBody = () => {
+    renderBody = (data) => {
         // console.log("DATA: ", this.props.widgets.list);
         // console.log(window.location.pathname);
-        const data = this.props.widgets.list;
+        // const data = this.props.widgets.list;
         console.log("data1: ", data);
         if (window.location.pathname === "/users") {
             
@@ -260,7 +268,7 @@ class Widgets extends Component {
                             <td>{id}</td>
                             <td>{email}</td>
                             <td>{jobs_count}</td>
-                            <td>{active}</td>
+                            <td>{typeof active === "boolean" ? JSON.stringify(active) : active}</td>
                             <td className='operation'>
                                 <Link to={`/users/${id}`}>View</Link>
                                 {/* <button className='button' onClick={() => {
@@ -279,12 +287,30 @@ class Widgets extends Component {
 
     
 
-    paginate = pageNumber => {
-        this.setState({ currentPage: pageNumber });
-        this.setState({ indexOfLastPost: currentPage * postsPerPage });
-        this.setState({ indexOfFirstPost: indexOfLastPost - postsPerPage });
-        this.setState({ currentPosts: this.props.widgets.list.slice(indexOfFirstPost, indexOfLastPost) });
+    paginate = async pageNumber => {
+        console.log("paginate: ", this.state.currentPage, pageNumber);
+        await this.setState({ currentPage: pageNumber });
+        console.log(this.state.currentPage, postsPerPage, this.state.currentPage *postsPerPage);
+        await this.setState({ indexOfLastPost: this.state.currentPage * postsPerPage });
+        await this.setState({ indexOfFirstPost: this.state.indexOfLastPost - postsPerPage });
+        // await this.setState({ currentPosts: this.props.widgets.list.slice(this.state.indexOfFirstPost, this.state.indexOfLastPost) });
+        await this.setState({ currentPosts: this.state.filteredPosts.slice(this.state.indexOfFirstPost, this.state.indexOfLastPost) });
+        console.log("state: ", this.state);
+
     }
+
+    filterState = async e => {
+        await this.setState({filterStr: e.target.value});
+        console.log("current posts1: ", this.state.currentPosts);
+        console.log("input: ", this.state.filterStr)
+        console.log("filtered: ", this.state.currentPosts.filter(element => element.email.includes(this.state.filterStr)));
+        // await this.setState({filteredPosts: this.state.currentPosts.filter(element => element.email.includes(this.state.filterStr))});
+        await this.setState({filteredPosts: this.props.widgets.list.filter(element => element.email.includes(this.state.filterStr))});
+        await this.setState({currentPosts: this.state.filteredPosts.slice(this.state.indexOfFirstPost, this.state.indexOfLastPost)})
+        console.log("filtered / current posts: ", this.state.filteredPosts, this.state.currentPosts);
+    }
+
+    
 
     render() {
         const {
@@ -299,27 +325,36 @@ class Widgets extends Component {
             },
         } = this.props;
 
-        console.log(this.state.postsPerPage);
-        // if (this.state.showingSingleUser === null) {
             return (
            
                 <div>
-                    {/* <h1>Widgets</h1> */}
                     <>
                         <h1 id='title'>Widgets</h1>
-                        {/* {!isEditMode ? */}
-                        (<table id='Data'>
+                        <label>Filter email:</label>
+                        <input type = "text" value = {this.state.filterStr} onChange = {this.filterState} />
+                        <br></br>
+                        <label>Filter active status:</label>
+
+                        {/*Add ACTIVE FILTER */}
+                        {/* <label>Active</label>
+                                    <Field name="active" as="select">
+                                        <option value="True">True</option>
+                                        <option value="False">False</option>
+                                    </Field>
+                                     */}
+                                     
+                        <table id='Data'>
                             <thead>
                                 <tr>{renderHeader()}</tr>
                             </thead>
                             <tbody>
-                                {console.log("actual data: ", this.props.widgets.list)}
-                                {this.renderBody(this.props.widgets.lists)}
+                                {console.log("actual data: ", this.props.currentPosts)}
+                                {this.renderBody(this.state.currentPosts)} {/* changed from this.props.widgets.list -> this.state.currentPosts */}
                             </tbody>
-                        </table>)
+                        </table>
                         <Link to={"/users/add"}>Create User</Link>
                     </>
-                    <Pagination postsPerPage={postsPerPage} totalPosts={this.props.widgets.list.length} paginate={this.paginate} />
+                    <Pagination postsPerPage={postsPerPage} totalPosts={this.state.filteredPosts.length} paginate={this.paginate} />
                 </div>
             )
         // }
