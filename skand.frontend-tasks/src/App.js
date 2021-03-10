@@ -10,7 +10,7 @@ import './App.css';
 const App = props => (
   <div className = "App">
     <div className = "App-header">
-      <h2>Welcome</h2>
+      <h2>Welcome here</h2>
 
     </div>
     <section className="App-body">
