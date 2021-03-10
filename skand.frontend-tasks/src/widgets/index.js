@@ -174,7 +174,7 @@ class Widgets extends Component {
         await this.setState({ indexOfFirstPost: this.state.indexOfLastPost - postsPerPage });
         await this.setState({ currentPosts: this.props.widgets.list.slice(this.state.indexOfFirstPost, this.state.indexOfLastPost) });
         // console.log("list: ", this.props.widgets.list.slice(this.state.indexOfFirstPost,this.state.indexOfLastPost));
-        this.setState({filteredPosts: this.state.currentPosts})
+        this.setState({filteredPosts: this.props.widgets.list})
         console.log("state: ", this.state);
     }
 
