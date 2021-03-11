@@ -30,4 +30,4 @@ jobs:
       - run: npm install -g yarn
       - run: yarn install --frozen-lockfile
       - run: yarn build
-        working-directory: skand.frontend-tasks-repo/skand.frontend-tasks/
+        working-directory: \skand.frontend-tasks-repo\skand.frontend-tasks
