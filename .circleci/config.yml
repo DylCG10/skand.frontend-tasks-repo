@@ -1,0 +1,14 @@
+version: 2.1
+orbs:
+  node: circleci/node@3.0.0
+workflows:
+  node-tests:
+    jobs:
+      - node/test
+
+run: yarn install
+  yarn test
+  aws --version
+  aws s3 ls
+  yarn run deploy
+
