@@ -6,7 +6,7 @@ jobs:
             docker:
                   - image: circleci/node:12.9.1-browsers
 
-            working_directory: ~/skand.frontend-tasks
+            working_directory: ./skand.frontend-tasks
 
             steps:
             - checkout
