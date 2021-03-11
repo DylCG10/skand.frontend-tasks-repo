@@ -32,6 +32,7 @@ jobs:
             #- run: yarn test
 
             - run: yarn build
+                  --working-directory: /skand.frontend-tasks-repo/skand.frontend-tasks
 
             - aws-s3/sync:
                   from: build
