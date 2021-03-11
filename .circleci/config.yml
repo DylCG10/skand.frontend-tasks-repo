@@ -25,7 +25,7 @@ jobs:
                   - ~/.cache
                   key: v1-dependencies-{{ checksum "package.json" }}
 
-            - run: yarn lint
+            #- run: yarn lint
 
             - run: yarn size
 
