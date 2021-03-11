@@ -158,6 +158,7 @@ class Widgets extends Component {
             indexOfFirstPost: 0,
             currentPosts: this.props.widgets.list.slice(indexOfFirstPost, indexOfLastPost),
             filterStr: '',
+            filterActive: false,
             filteredPosts: [],
 
 
@@ -251,7 +252,7 @@ class Widgets extends Component {
 
     handleFilterChange = e => {
         const value = e.target.value || undefined;
-        this.setState({ filterInput: value })
+        this.setState({ filterInput: value });
     }
 
     renderBody = (data) => {
@@ -299,14 +300,47 @@ class Widgets extends Component {
 
     }
 
+    // filterCheckbox = async e => {
+    //     await this.setState({ filterActive: e.target.checked });
+
+    //     await this.setState({filteredPosts: this.state})
+
+    // }
+
     filterState = async e => {
-        await this.setState({filterStr: e.target.value});
+        // console.log(e.target.type);
+        // if (e.target.type == "text") {
+        //     console.log("here");
+        //     await this.setState({ filterStr: e.target.value });
+
+        //     await this.setState({filteredPosts: this.state.currentPosts.filter(element => element.email.includes(this.state.filterStr))});
+
+        // }
+        // else {
+        //     console.log('gday');
+        //     await this.setState({ filterActive: e.target.checked });
+        //     await this.setState({ filteredPosts: this.state.currentPosts.filter(element => console.log(e.target.checked, element.active)) });
+        //     console.log(this.state.filteredPosts);
+        // }
+        
         console.log("current posts1: ", this.state.currentPosts);
         console.log("input: ", this.state.filterStr)
+
         console.log("filtered: ", this.state.currentPosts.filter(element => element.email.includes(this.state.filterStr)));
-        // await this.setState({filteredPosts: this.state.currentPosts.filter(element => element.email.includes(this.state.filterStr))});
+        await this.setState({ filterStr: e.target.value });
+
         await this.setState({filteredPosts: this.props.widgets.list.filter(element => element.email.includes(this.state.filterStr))});
-        await this.setState({currentPosts: this.state.filteredPosts.slice(this.state.indexOfFirstPost, this.state.indexOfLastPost)})
+        
+        // await this.setState({filteredPosts: this.props.widgets.list.filter(element => element.email.includes(this.state.filterStr))});
+        // await this.setState({
+        //     filteredPosts: this.state.currentPosts.filter(element => {
+        //         if (element.active) {
+        //             element.email.includes(this.state.filterStr);
+        //         }
+        //     })
+        // })
+        
+        await this.setState({ currentPosts: this.state.filteredPosts.slice(this.state.indexOfFirstPost, this.state.indexOfLastPost) })
         console.log("filtered / current posts: ", this.state.filteredPosts, this.state.currentPosts);
     }
 
@@ -329,11 +363,19 @@ class Widgets extends Component {
            
                 <div>
                     <>
-                        <h1 id='title'>Widgets</h1>
-                        <label>Filter email:</label>
-                        <input type = "text" value = {this.state.filterStr} onChange = {this.filterState} />
-                        <br></br>
-                        <label>Filter active status:</label>
+                        <h1 id='title'>Users Index</h1>
+                        <div class="filters">
+                            <div class = "filter-group">
+                                <label>Filter email:</label>
+                                <input type = "text" value = {this.state.filterStr} onChange = {this.filterState} />
+                            
+                            </div>
+                            <div class="filter-group">
+                                <label>Filter active status:</label>
+                                <input id = "checkbox" type = "checkbox" value = {this.state.filterActive} onChange = {this.filterState} />
+
+                            </div>
+                        </div>
 
                         {/*Add ACTIVE FILTER */}
                         {/* <label>Active</label>
