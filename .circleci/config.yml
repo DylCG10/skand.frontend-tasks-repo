@@ -31,7 +31,7 @@ jobs:
 
             #- run: yarn test
 
-            - run: cd skand.frontend-tasks && yarn build
+            - run: cd skand.frontend-tasks-repo && yarn build
 
             - aws-s3/sync:
                   from: build
