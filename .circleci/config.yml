@@ -27,7 +27,7 @@ jobs:
 
             #- run: yarn lint
 
-            - run: yarn size
+            #- run: yarn size
 
             - run: yarn test
 
