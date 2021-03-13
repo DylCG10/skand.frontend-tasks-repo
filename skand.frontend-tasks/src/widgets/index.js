@@ -300,12 +300,12 @@ class Widgets extends Component {
 
     }
 
-    // filterCheckbox = async e => {
-    //     await this.setState({ filterActive: e.target.checked });
+    filterCheckbox = async e => {
+        await this.setState({ filterActive: e.target.checked });
 
-    //     await this.setState({filteredPosts: this.state})
+        await this.setState({filteredPosts: this.state})
 
-    // }
+    }
 
     filterState = async e => {
         // console.log(e.target.type);
@@ -322,23 +322,29 @@ class Widgets extends Component {
         //     await this.setState({ filteredPosts: this.state.currentPosts.filter(element => console.log(e.target.checked, element.active)) });
         //     console.log(this.state.filteredPosts);
         // }
+
+        const {value} = e.target;
         
-        console.log("current posts1: ", this.state.currentPosts);
-        console.log("input: ", this.state.filterStr)
+        console.log("E: ", e.target.type, e.target.value, typeof e.target.value)
+
+        
 
         console.log("filtered: ", this.state.currentPosts.filter(element => element.email.includes(this.state.filterStr)));
-        await this.setState({ filterStr: e.target.value });
 
-        await this.setState({filteredPosts: this.props.widgets.list.filter(element => element.email.includes(this.state.filterStr))});
+        if (e.target.type === "text"){
+            await this.setState({ filterStr: e.target.value });
+    
+
+        }
         
-        // await this.setState({filteredPosts: this.props.widgets.list.filter(element => element.email.includes(this.state.filterStr))});
-        // await this.setState({
-        //     filteredPosts: this.state.currentPosts.filter(element => {
-        //         if (element.active) {
-        //             element.email.includes(this.state.filterStr);
-        //         }
-        //     })
-        // })
+        else {
+            console.log(value.toString());
+            await this.setState({ filterActive: e.target.checked})
+            // await this.setState({filteredPosts: this.props.widgets.list.filter(element => element.email.includes(this.state.filterStr) && element.active === this.state.filterActive)})
+        }
+        console.log("testing: ", this.props.widgets.list[0].active)
+        await this.setState({filteredPosts: this.props.widgets.list.filter(element => element.email.includes(this.state.filterStr) && element.active === value.toString())});
+
         
         await this.setState({ currentPosts: this.state.filteredPosts.slice(this.state.indexOfFirstPost, this.state.indexOfLastPost) })
         console.log("filtered / current posts: ", this.state.filteredPosts, this.state.currentPosts);
