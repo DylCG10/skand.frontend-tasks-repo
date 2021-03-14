@@ -13,6 +13,7 @@ import * as Yup from 'yup';
 
 import getUsers from '../mockServer/users/index';
 import { widgetRequest, widgetCreate, widgetRequestSuccess, widgetDelete } from './actions';
+import { logoutRequest } from '../login/actions';
 
 import UserDetails from './userDetails';
 
@@ -138,8 +139,8 @@ class Widgets extends Component {
         console.log("COMPARE: ", "props: ", this.props.widgets.list, prevList);
     }
 
-    logout = () => {
-
+    logout() {
+        this.props.logoutRequest(this.props.client);
     }
 
     handleFilterChange = e => {
@@ -301,7 +302,7 @@ const mapStateToProps = state => ({
     widgets: state.widgets,
 });
     
-const connected = connect(mapStateToProps, { widgetCreate, widgetRequest, widgetDelete })(Widgets);
+const connected = connect(mapStateToProps, { widgetCreate, widgetRequest, widgetDelete,  })(Widgets);
 const formed = reduxForm({
     form: 'widgets'
 })(connected);

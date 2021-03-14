@@ -2,7 +2,7 @@ import { take, fork, cancel, cancelled, call, put, takeLatest } from 'redux-saga
 import { createBrowserHistory } from 'history';
 import { withRouter } from 'react-router-dom';
 
-import { LOGIN_REQUESTING, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT_SUCCESS, LOGOUT_ERROR } from './constants';
+import { LOGIN_REQUESTING, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT_SUCCESS, LOGOUT_ERROR, LOGOUT_REQUESTING } from './constants';
 import { CLIENT_UNSET } from '../client/constants';
 import { setClient, unsetClient } from '../client/actions';
 
@@ -116,6 +116,9 @@ function* loginWatcher() {
         if (action.type === CLIENT_UNSET) yield cancel(task);
 
         yield call(logout);
+
+        
+        yield take(LOGOUT_REQUESTING, logoutFlow);
 
         
     }

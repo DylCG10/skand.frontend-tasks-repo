@@ -153,13 +153,13 @@ class UserDetails extends Component {
                 <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={this.onSubmit}>
                     {({ errors, touched, isSubmitting, setFieldValue }) => {
                         return (
-                            <div class = "user-page">
+                            <div class="d-flex p-2">
 
                             
                             <h1>{this.state.isAddMode ? 'Add User' : 'Edit User'}</h1>
 
                             <Form class = "form">
-                                <div className="form-row">
+                                <div className="d-flex flex-row">
                                     <div className="form-group col-2">
                                         <label>ID</label>
                                         <Field name="id" type="text" className={'form-control' + (errors.id && touched.id ? ' is-invalid' : '')} />
