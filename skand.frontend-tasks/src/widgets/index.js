@@ -1,24 +1,13 @@
 import React, {Component} from "react";
-import { useEffect, useState } from "react";
 //import styled from "styled-components";
-import { useTable } from "react-table";
-import { useParams, Link } from 'react-router-dom';
-import { PropTypes } from 'prop-types';
+import {Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 
 import { createBrowserHistory } from 'history';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-import getUsers from '../mockServer/users/index';
-import { widgetRequest, widgetCreate, widgetRequestSuccess, widgetDelete } from './actions';
-import { logoutRequest } from '../login/actions';
-
-import UserDetails from './userDetails';
-
-import Messages from '../notifications/Messages';
-import Errors from '../notifications/Errors';
+import { widgetRequest, widgetCreate, widgetDelete } from './actions';
 
 import '../css/widgets.css';
 import { Pagination }  from "./Pagination";

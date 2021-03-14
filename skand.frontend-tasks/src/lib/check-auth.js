@@ -1,6 +1,3 @@
-import { replace } from "formik";
-import { truncate } from "lodash";
-
 import { setClient } from '../client/actions';
 function checkAuthorization(dispatch) {
     const storedToken = localStorage.getItem('token');

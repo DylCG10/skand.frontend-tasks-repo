@@ -97,7 +97,7 @@ const reducer = function widgetReducer(state = initialState, action) {
             let newUsersArray = [...state.list];
             for (var i in state.list) {
                 console.log("state: ", state.list, action.widget);
-                if (state.list[i].id == action.widget.id) {
+                if (state.list[i].id === action.widget.id) {
                     console.log("found")
                     newUsersArray[i] = action.widget
                 //    break; //Stop this loop, we found it!
