@@ -31,7 +31,7 @@ jobs:
 
             #- run: yarn test
             - run: pwd
-            - run: yarn test
+            #- run: yarn test
             - run: yarn build
 
             - aws-s3/sync:
