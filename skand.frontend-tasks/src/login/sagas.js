@@ -2,7 +2,7 @@ import { take, fork, cancel, cancelled, call, put, takeLatest } from 'redux-saga
 import { createBrowserHistory } from 'history';
 import { withRouter } from 'react-router-dom';
 
-import { LOGIN_REQUESTING, LOGIN_SUCCESS, LOGIN_ERROR } from './constants';
+import { LOGIN_REQUESTING, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT_SUCCESS, LOGOUT_ERROR } from './constants';
 import { CLIENT_UNSET } from '../client/constants';
 import { setClient, unsetClient } from '../client/actions';
 
@@ -23,6 +23,15 @@ async function loginApi(email, password) {
     }).then(handleApiErrors)
         .then(response => response.headers.map.authorization)
         .catch((error) => { throw error });
+}
+
+function logoutApi() {
+    return fetch("/api/v2/users/tokens", {
+        method: "DELETE",
+        headers: {
+            // Authorization: //token
+        }
+    })
 }
 
 // function* loginFlow(action) {
@@ -77,6 +86,19 @@ function* loginFlow(action) {
     return token;
 }
 
+function* logoutFlow(action) {
+    try {
+        const loggingOut = yield call(logoutApi, action);
+
+        yield put({ type: LOGOUT_SUCCESS })
+        
+        localStorage.removeItem("token");
+        browserHistory.push("");
+    } catch (error) {
+        yield put({type: LOGOUT_ERROR, error})
+    }
+}
+
 // function* loginWatcher() {
 //     console.log('watch');
 //     yield takeLatest(LOGIN_REQUESTING, loginFlow);
@@ -94,6 +116,8 @@ function* loginWatcher() {
         if (action.type === CLIENT_UNSET) yield cancel(task);
 
         yield call(logout);
+
+        
     }
 
 }

@@ -3,13 +3,13 @@ import React from 'react';
 export const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
     const pageNumbers = [];
     
-    console.log("pagination", totalPosts, postsPerPage);
+    // console.log("pagination", totalPosts, postsPerPage);
     
     for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
         pageNumbers.push(i);
     }
 
-    console.log("page numbers: ", pageNumbers);
+    // console.log("page numbers: ", pageNumbers);
 
     return (
         // <nav>

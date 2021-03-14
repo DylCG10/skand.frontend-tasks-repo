@@ -8,6 +8,8 @@ import Messages from '../notifications/Messages';
 import Errors from '../notifications/Errors';
 import loginRequest from './actions';
 
+import '../css/login.css';
+
 class Login extends Component {
 
     static propTypes = {
@@ -38,18 +40,21 @@ class Login extends Component {
         } = this.props;
 
         return (
-            <div className="login">
+            <div className="container">
                 <form onSubmit={handleSubmit(this.submit)}>
                     <h1>Login</h1>
-                    <label htmlFor = "email">Email</label>
-                    <Field
-                        name="email"
-                        type="text"
-                        id="email"
-                        className="email"
-                        label="Email"
-                        component="input"
-                    />
+                    <div class = "input-label">
+                        <label id = "email"/*htmlFor = "email"*/>Email</label>
+                        <Field
+                            name="email"
+                            type="text"
+                            id="email"
+                            className="email"
+                            label="Email"
+                            component="input"
+                        />
+                        
+                    </div>
                     <label htmlFor = "password">Password</label>
                     <Field
                         name="password"

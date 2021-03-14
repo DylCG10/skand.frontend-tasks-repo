@@ -5,8 +5,8 @@
 }
 
 h1 {
-  margin-left: auto;
-  margin-right: auto;
+  /* margin-left: auto;
+  margin-right: auto; */
   margin-top: auto;
   line-height: 3em;
 }
@@ -37,6 +37,8 @@ tr:hover {
 
 .filters {
   /* position: absolute; */
+  margin-top: 200px;
+  background-color: black;
   display: flex;
   flex-direction: row;
   background-color: lightgray;
@@ -100,3 +102,40 @@ input,
 #checkbox {
   margin-left: -180px;
 }
+
+.user-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form {
+  background-color: antiquewhite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  /* justify-content: center; */
+}
+
+.form-group {
+  background-color: red;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 50vw;
+  margin-top: 50px;
+  padding: -50px 0 0 0;
+}
+
+#logout-button {
+  float: right;
+}
+
+/* 
+.form-row {
+  background-color: yellow;
+  display: flex;
+  flex-direction: row;
+} */

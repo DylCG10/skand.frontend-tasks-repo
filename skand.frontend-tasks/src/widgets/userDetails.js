@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import { useParams, Link } from 'react-router-dom';
 
 import { widgetRequest, widgetCreate, widgetUpdate } from './actions';
+import '../css/widgets.css';
 
 const browserHistory = createBrowserHistory();
 
@@ -25,21 +26,6 @@ const validationSchema = Yup.object().shape({
 });
     
 class UserDetails extends Component {
-// function UserDetails () {
-    // constructor(props) {
-    //     super(props);
-    //     console.log(this.props.widgets.list);
-    //     console.log((browserHistory.location.pathname).split("/")[2]);
-    //     // this.fetchUser();
-    // }
-
-    // const fetchUser = async() => {
-    //     const request = await this.props.widgetRequest(this.props.client, (browserHistory.location.pathname).split("/")[2]);
-    // }
-
-    // componentDidMount() {
-    //     const user = this.props.widgets.list;
-    // }
     constructor(props) {
         super(props);
 
@@ -48,10 +34,6 @@ class UserDetails extends Component {
             isAddMode: false,
             user: {}
         }
-
-
-
-
     }
 
     
@@ -64,25 +46,23 @@ class UserDetails extends Component {
         if (!this.state.isAddMode) {
             console.log("ComponentDidMount");
             this.setState({ opened: false })
-            // console.log("addMode: ", this.state.isAddMode);
-            // console.log(this.state.opened);
-            // console.log("didMount");
+
             console.log((browserHistory.location.pathname).split("/")[2]);
             console.log(this.props.widgets.list[0].id);
             const user = await this.props.widgets.list.filter(user => user.id === (browserHistory.location.pathname).split("/")[2]);
             console.log(user);
             this.setState({ user: user[0] }); //user.id === (browserHistory.location.pathname).split("/")[2]) })
-            // this.props.widgetRequest(this.props.client, (browserHistory.location.pathname).split("/")[2]);
             console.log("USER: ", this.state.user);
 
         }
     }
     
-
-    // console.log("user details")
     onSubmit = async (values) => {
-        // const { id, email, first_name, last_name, jobs_count, active } = values;
         console.log(values);
+        if (values.active == "true")
+            values.active = true;
+        else
+            values.active = false;
         console.log('submit');
         if (!this.state.isAddMode) {
             this.props.widgetUpdate(this.props.client, values);
@@ -95,12 +75,6 @@ class UserDetails extends Component {
         }
         this.setState({ opened: false })
     };
-
-    // useEffect(() => {
-    //     console.log("hello");
-    //     this.props.widgetRequest(this.props.client, (browserHistory.location.pathname).split("/")[2]);
-    // }, []);
-
 
 
     render() {
@@ -179,53 +153,70 @@ class UserDetails extends Component {
                 <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={this.onSubmit}>
                     {({ errors, touched, isSubmitting, setFieldValue }) => {
                         return (
-                            <Form>
-                                <h1>{this.state.isAddMode ? 'Add User' : 'Edit User'}</h1>
+                            <div class = "user-page">
+
+                            
+                            <h1>{this.state.isAddMode ? 'Add User' : 'Edit User'}</h1>
+
+                            <Form class = "form">
                                 <div className="form-row">
-                                    <div className="form-group col-5">
+                                    <div className="form-group col-2">
                                         <label>ID</label>
                                         <Field name="id" type="text" className={'form-control' + (errors.id && touched.id ? ' is-invalid' : '')} />
                                         <ErrorMessage name="id" component="div" className="invalid-feedback" />
                                     </div>
-                                    <div className="form-group col-5">
+                                </div>
+                                <div class = "form-row">
+                                    <div className="form-group col-7">
                                         <label>Email</label>
                                         <Field name="email"  type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
                                         <ErrorMessage name="email" component="div" className="invalid-feedback" />
                                     </div>
                                 </div>
                                 <div className="form-row">
-                                    <div className="form-group col-7">
+                                    <div className="form-group col-3">
                                         <label>First Name</label>
                                         <Field name="first_name" type="text" className={'form-control' + (errors.firstName && touched.firstName ? ' is-invalid' : '')} />
                                         <ErrorMessage name="first_name" component="div" className="invalid-feedback" />
                                     </div>
-                                    <div className="form-group col-7">
+                                </div>
+                                <div className="form-row">
+
+                                    <div className="form-group col-3">
                                         <label>Last Name</label>
                                         <Field name="last_name" type="text" className={'form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
                                         <ErrorMessage name="last_name" component="div" className="invalid-feedback" />
                                     </div>
-                                    <div className="form-group col-7">
+                                </div>
+                                <div className="form-row">
+
+                                    <div className="form-group col-1">
                                         <label>Jobs Count</label>
                                         <Field name="jobs_count" type="text" className={'form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
                                         <ErrorMessage name="jobsCount" component="div" className="invalid-feedback" />
                                     </div>
                                 </div>
-                                <div className="form-group col">
-                                    <label>Active</label>
-                                    <Field name="active" as="select" className={'form-control' + (errors.active && touched.active ? ' is-invalid' : '')}>
-                                        <option value="True">True</option>
-                                        <option value="False">False</option>
-                                    </Field>
-                                    <ErrorMessage name="active" component="div" className="invalid-feedback" />
+                                <div className="form-row">
+
+                                    <div className="form-group col-4">
+                                        <label>Active</label>
+                                        <Field name="active" as="select" className={'form-control' + (errors.active && touched.active ? ' is-invalid' : '')}>
+                                            <option value= "true" >True</option>
+                                            <option value="false">False</option>
+                                        </Field>
+                                        <ErrorMessage name="active" component="div" className="invalid-feedback" />
+                                    </div>
                                 </div>
-                                <div className="form-group">
+                                <div className="form-row">
                                     <button type="submit" disabled={isSubmitting} className="btn btn-primary">
                                         {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
                                     Save
                                 </button>
                                     <Link to={"/users"} className="btn btn-link">Cancel</Link>
                                 </div>
-                            </Form>
+                                </Form>
+                            </div>
+                                
                         );
                     }}
                 </Formik>
