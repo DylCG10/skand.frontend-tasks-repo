@@ -82,7 +82,10 @@ ReactDOM.render(
     <Router history={browserHistory} >
       <PersistGate  persistor={persistor} >
         <Route path="/" exact component={App} onEnter = {checkIndexAuthorization(store)} />
-        <Route path = "/login" exact component = {Login} />
+        <Route path="/login" onEnter={!window.location.hash ? () => {
+          window.location = window.location + "#loaded";
+          window.location.reload();
+        } : null} component = {Login} />
         <Route path="/users" exact component={Widgets} onEnter={checkWidgetAuthorization(store)} />
         <Route path="/users/:id" component={UserDetails} /> {/*add authentication */}
       </PersistGate>

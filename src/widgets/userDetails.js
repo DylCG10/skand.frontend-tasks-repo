@@ -18,9 +18,11 @@ const validationSchema = Yup.object().shape({
     email: Yup.string()
         .email('Email is invalid')
         .required('Email is required'),
+    first_name: Yup.string().required("First name is required"),
+    last_name: Yup.string().required("Last name is required"),
     jobs_count: Yup.string()
         .required('Jobs Count is required'),
-        active: Yup.string().required("Active status is required")
+        // active: Yup.string().required("Active status is required")
 });
     
 class UserDetails extends Component {
@@ -74,44 +76,17 @@ class UserDetails extends Component {
         this.setState({ opened: false })
     };
 
+    reload() {
+        browserHistory.push("/users");
+        window.location.reload();
+    }
+
 
     render() {
-        // if ((!this.props.widgets.successful || this.props.widgets.list === undefined) && window.location.pathname !== "/users/add") {
-        //     return <h1>Loading..</h1>
-        // }
-        // console.log(this.state.user {})
+
         if (this.state.user.id === undefined && !this.state.isAddMode)
             return <h1>Loading...</h1>
-        // console.log(undefined.id);
-        // if (!this.state.isAddMode) {
-        //     const initialValues = {
-        //         id: this.props.widgets.list.id,
-        //         email: this.props.widgets.list.email,
-        //         first_name: this.props.widgets.list.first_name,
-        //         last_name: this.props.widgets.list.last_name,
-        //         jobs_count: this.props.widgets.list.jobs_count,
-        //         active: this.props.widgets.list.active,
-        //     }
-        // }
-        // else {
-        //     const initialValues = {
-        //         id: '',
-        //         email: '',
-        //         first_name: '',
-        //         last_name: '',
-        //         jobs_count: '',
-        //         active: ''
-        //     }
-        // }
-        // const initialValues = {
-        //     id: this.props.widgets.list.id,
-        //     email: this.props.widgets.list.email,
-        //     first_name: this.props.widgets.list.first_name,
-        //     last_name: this.props.widgets.list.last_name,
-        //     jobs_count: this.props.widgets.list.jobs_count,
-        //     active: this.props.widgets.list.active,
-        // }
-        // console.log("EQUAL? ", this.state.user)
+        
         console.log("new list: ", this.props.widgets.list);
 
         let initialValues;
@@ -150,68 +125,64 @@ class UserDetails extends Component {
                 <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={this.onSubmit}>
                     {({ errors, touched, isSubmitting, setFieldValue }) => {
                         return (
-                            <div class="d-flex p-2">
+                            <div class="d-flex p-2 mx-auto" style={{width: "400px", marginTop: "100px"}}>
 
-                            
-                            <h1>{this.state.isAddMode ? 'Add User' : 'Edit User'}</h1>
+                                <Form class="d-flex flex-column ">
+                                <h1 className = "d-inline-block">{this.state.isAddMode ? 'Add User' : 'Edit User'}</h1>
 
-                            <Form class = "form">
-                                <div className="d-flex flex-row">
-                                    <div className="form-group col-2">
-                                        <label>ID</label>
-                                        <Field name="id" type="text" className={'form-control' + (errors.id && touched.id ? ' is-invalid' : '')} />
-                                        <ErrorMessage name="id" component="div" className="invalid-feedback" />
+                                    <div className="d-flex flex-row">
+                                            <label className = 'p-2 col-xs-12 col-md-8'>ID</label>
+                                        <Field name="id" type="text" style = {{width: "100%"}} className={'p-2 col-xs-6 col-md-7 form-control' + (errors.id && touched.id ? ' is-invalid' : '')} />
                                     </div>
-                                </div>
-                                <div class = "form-row">
-                                    <div className="form-group col-7">
-                                        <label>Email</label>
-                                        <Field name="email"  type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
-                                        <ErrorMessage name="email" component="div" className="invalid-feedback" />
-                                    </div>
-                                </div>
-                                <div className="form-row">
-                                    <div className="form-group col-3">
-                                        <label>First Name</label>
-                                        <Field name="first_name" type="text" className={'form-control' + (errors.firstName && touched.firstName ? ' is-invalid' : '')} />
-                                        <ErrorMessage name="first_name" component="div" className="invalid-feedback" />
-                                    </div>
-                                </div>
-                                <div className="form-row">
+                                    <ErrorMessage name="id" className="invalid-feedback">{msg => <div style={{ color: 'red' }}>{msg}</div>}</ErrorMessage>
 
-                                    <div className="form-group col-3">
-                                        <label>Last Name</label>
-                                        <Field name="last_name" type="text" className={'form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
-                                        <ErrorMessage name="last_name" component="div" className="invalid-feedback" />
+                                    <div class = "d-flex flex-row row ">
+                                            <label className = 'p-2 col-xs-12 col-md-8'>Email</label>
+                                            <Field name="email"  type="text" className={'p-2 col-xs-6 col-md-7 form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
                                     </div>
-                                </div>
-                                <div className="form-row">
+                                    <ErrorMessage name="email" className="invalid-feedback">{msg => <div style={{ color: 'red' }}>{msg}</div>}</ErrorMessage>
 
-                                    <div className="form-group col-1">
-                                        <label>Jobs Count</label>
-                                        <Field name="jobs_count" type="text" className={'form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
-                                        <ErrorMessage name="jobsCount" component="div" className="invalid-feedback" />
-                                    </div>
-                                </div>
-                                <div className="form-row">
 
-                                    <div className="form-group col-4">
-                                        <label>Active</label>
-                                        <Field name="active" as="select" className={'form-control' + (errors.active && touched.active ? ' is-invalid' : '')}>
-                                            <option value= "true" >True</option>
-                                            <option value="false">False</option>
-                                        </Field>
-                                        <ErrorMessage name="active" component="div" className="invalid-feedback" />
+                                    <div className="d-flex flex-row row">
+                                            <label className = 'p-2 col-xs-12 col-md-8'>First Name</label>
+                                            <Field name="first_name" type="text" className={'p-2 col-xs-6 col-md-7 form-control' + (errors.firstName && touched.firstName ? ' is-invalid' : '')} />
                                     </div>
-                                </div>
-                                <div className="form-row">
-                                    <button type="submit" disabled={isSubmitting} className="btn btn-primary">
-                                        {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                                    Save
-                                </button>
-                                    <Link to={"/users"} className="btn btn-link">Cancel</Link>
-                                </div>
-                                </Form>
+                                    <ErrorMessage name="first_name" className="invalid-feedback">{msg => <div style={{ color: 'red' }}>{msg}</div>}</ErrorMessage>
+
+                                    <div className="d-flex flex-row row">
+                                            <label className = 'p-2 col-xs-12 col-md-8'>Last Name</label>
+                                            <Field name="last_name" type="text" className={'p-2 col-xs-6 col-md-7 form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
+                                            {/* <ErrorMessage name="last_name" component="div" className="invalid-feedback" /> */}
+                                    </div>
+                                    <ErrorMessage name="last_name" className="invalid-feedback">{msg => <div style={{ color: 'red' }}>{msg}</div>}</ErrorMessage>
+
+                                    <div className="d-flex flex-row row">
+                                            <label className = 'p-2 col-xs-12 col-md-8'>Jobs Count</label>
+                                            <Field name="jobs_count" type="text" className={'p-2 col-xs-6 col-md-7 form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
+                                            {/* <ErrorMessage name="jobsCount" component="div" className="invalid-feedback" /> */}
+                                    </div>
+                                    <ErrorMessage name="jobs_count" className="invalid-feedback">{msg => <div style={{ color: 'red' }}>{msg}</div>}</ErrorMessage>
+
+                                    <div className="d-flex flex-row">
+                                            <label className = 'p-2 '>Active</label>
+                                            <Field name="active" as="select" className={'p-2 col-xs-6 col-md-7 align-self-end form-control' /*+(errors.active ? ' is-invalid' : '') */}>
+                                                <option className = 'p-2 col-xs-6 col-md-7' value= "true" >True</option>
+                                                <option className = 'p-2 col-xs-6 col-md-7' value="false">False</option>
+                                            </Field>
+                                            {/* <ErrorMessage name="active" component="div" className="invalid-feedback" /> */}
+                                    </div>
+                                    <ErrorMessage name="active" className="invalid-feedback">{msg => <div style={{ color: 'red' }}>{msg}</div>}</ErrorMessage>
+
+                                    <div className="d-flex flex-row">
+                                        <button type="submit" disabled={isSubmitting} className="p-2 btn btn-primary ">
+                                            {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                                        Save
+                                        </button>
+                                        {/* <Link to={"/users"} style={{ color: "red" }} className="p-2 btn btn-link align-self-end" onClick={() => window.location.reload()}>Cancel/Go Back</Link> */}
+                                        <Link style={{ color: "red" }} className="p-2 btn btn-link align-self-end" onClick={this.reload}>Cancel/Go Back</Link>
+
+                                    </div>
+                                    </Form>
                             </div>
                                 
                         );
@@ -220,175 +191,12 @@ class UserDetails extends Component {
             </>
         )
     }
-    // renderBody = () => {
-
-
-    //     return (
-    //         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={this.onSubmit}>
-    //                 {({ errors, touched, isSubmitting, setFieldValue }) => {
-                
-
-    //                     return (
-    //                         <Form>
-    //                             <h1>{isAddMode ? 'Add User' : 'Edit User'}</h1>
-    //                             <div className="form-row">
-    //                                 <div className="form-group col-5">
-    //                                     <label>ID</label>
-    //                                     <Field name="id" placeholder={this.props.widgets.list.id} type="text" className={'form-control' + (errors.id && touched.id ? ' is-invalid' : '')} />
-    //                                     <ErrorMessage name="id" component="div" className="invalid-feedback" />
-    //                                 </div>
-    //                                 <div className="form-group col-5">
-    //                                     <label>Email</label>
-    //                                     <Field name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
-    //                                     <ErrorMessage name="email" component="div" className="invalid-feedback" />
-    //                                 </div>
-    //                             </div>
-    //                             <div className="form-row">
-    //                                 <div className="form-group col-7">
-    //                                     <label>First Name</label>
-    //                                     <Field name="firstName" type="text" className={'form-control' + (errors.firstName && touched.firstName ? ' is-invalid' : '')} />
-    //                                     <ErrorMessage name="firstName" component="div" className="invalid-feedback" />
-    //                                 </div>
-    //                                 <div className="form-group col-7">
-    //                                     <label>Last Name</label>
-    //                                     <Field name="lastName" type="text" className={'form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
-    //                                     <ErrorMessage name="lastName" component="div" className="invalid-feedback" />
-    //                                 </div>
-    //                             </div>
-    //                             <div className="form-group col">
-    //                                 <label>Active</label>
-    //                                 <Field name="active" as="select" className={'form-control' + (errors.active && touched.active ? ' is-invalid' : '')}>
-    //                                     <option value="True">True</option>
-    //                                     <option value="False">False</option>
-    //                                 </Field>
-    //                                 <ErrorMessage name="active" component="div" className="invalid-feedback" />
-    //                             </div>
-    //                             <div className="form-group">
-    //                                 <button type="submit" disabled={isSubmitting} className="btn btn-primary">
-    //                                     {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-    //                                 Save
-    //                             </button>
-    //                                 <Link to={isAddMode ? '.' : '..'} className="btn btn-link">Cancel</Link>
-    //                             </div>
-    //                         </Form>
-    //                     );
-    //                 }}
-    //             </Formik>
-    //     )
-    // }
-
-    
-
-    // render() {
-    //     if (this.props.widgets.successful) {
-    //         const user = this.props.widgets.list;
-    //         console.log("USER: ", user);
-    //         console.log(this.props.widgets.successful)
-    //         // const initialValues = {
-    //         //     id: user.id,
-    //         //     email: user.email,
-    //         //     jobs_count: user.jobs_count,
-    //         //     active: user.active,
-    //         // }
-    //         const initialValues = {
-    //             id: this.props.widgets.list.id,
-    //             email: this.props.widgets.list.email,
-    //             jobs_count: this.props.widgets.list.jobs_count,
-    //             active: this.props.widgets.list.active,
-    //         }
-    
-            /* <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={this.onSubmit}>
-                {({ errors, touched, isSubmitting, setFieldValue }) => {
-            
-
-                    return (
-                        <Form>
-                            <h1>{isAddMode ? 'Add User' : 'Edit User'}</h1>
-                            <div className="form-row">
-                                <div className="form-group col-5">
-                                    <label>ID</label>
-                                    <Field name="id" placeholder={this.props.widgets.list.id} type="text" className={'form-control' + (errors.id && touched.id ? ' is-invalid' : '')} />
-                                    <ErrorMessage name="id" component="div" className="invalid-feedback" />
-                                </div>
-                                <div className="form-group col-5">
-                                    <label>Email</label>
-                                    <Field name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
-                                    <ErrorMessage name="email" component="div" className="invalid-feedback" />
-                                </div>
-                            </div>
-                            <div className="form-row">
-                                <div className="form-group col-7">
-                                    <label>First Name</label>
-                                    <Field name="firstName" type="text" className={'form-control' + (errors.firstName && touched.firstName ? ' is-invalid' : '')} />
-                                    <ErrorMessage name="firstName" component="div" className="invalid-feedback" />
-                                </div>
-                                <div className="form-group col-7">
-                                    <label>Last Name</label>
-                                    <Field name="lastName" type="text" className={'form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
-                                    <ErrorMessage name="lastName" component="div" className="invalid-feedback" />
-                                </div>
-                            </div>
-                            <div className="form-group col">
-                                <label>Active</label>
-                                <Field name="active" as="select" className={'form-control' + (errors.active && touched.active ? ' is-invalid' : '')}>
-                                    <option value="True">True</option>
-                                    <option value="False">False</option>
-                                </Field>
-                                <ErrorMessage name="active" component="div" className="invalid-feedback" />
-                            </div>
-                            <div className="form-group">
-                                <button type="submit" disabled={isSubmitting} className="btn btn-primary">
-                                    {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                                Save
-                            </button>
-                                <Link to={isAddMode ? '.' : '..'} className="btn btn-link">Cancel</Link>
-                            </div>
-                        </Form>
-                    );
-                }}
-            </Formik> */
-    
 }
-        
-    // const propTypes = {
-    //     handleSubmit: PropTypes.func.isRequired,
-    //     invalid: PropTypes.bool.isRequired,
-    //     client: PropTypes.shape({
-    //         id: PropTypes.number.isRequired,
-    //         token: PropTypes.string.isRequired
-    //     }),
-    //     widgets: PropTypes.shape({
-    //         list: PropTypes.array,
-    //         requesting: PropTypes.bool,
-    //         successful: PropTypes.bool,
-    //         messages: PropTypes.array,
-    //         errors: PropTypes.array,
-    //     }).isRequired,
-    //     widgetCreate: PropTypes.func.isRequired,
-    //     widgetRequest: PropTypes.func.isRequired,
-    //     reset: PropTypes.func.isRequired,
-
-    // }
-
-    // console.log(this.props.client);
-    // useEffect(() => {
-    //     widgetRequest()
-    // })
-
-
-
-
-
 
 const mapStateToProps = state => ({
     client: state.client,
     widgets: state.widgets,
 });
-    
-// const connected = connect(mapStateToProps, { widgetCreate, widgetRequest, widgetUpdate })(UserDetails);
-// const formed = reduxForm({
-//     form: 'widgets'
-// })(connected);
 
 const connected = connect(mapStateToProps, {widgetUpdate, widgetCreate })(UserDetails);
 const formed = reduxForm({

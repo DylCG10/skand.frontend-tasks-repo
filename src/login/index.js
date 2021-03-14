@@ -19,7 +19,9 @@ class Login extends Component {
     //         errors: PropTypes.array,
     //     })
     // }
-
+    // componentDidMount() {
+    //     window.location.reload();
+    // }
     submit = (values) => {
         console.log("values: ", values);
         this.props.loginRequest(values);
