@@ -1,8 +1,8 @@
-import { take, fork, cancel, cancelled, call, put } from 'redux-saga/effects';
+import { cancelled, call, put } from 'redux-saga/effects';
 import { createBrowserHistory } from 'history';
 
 import { LOGIN_REQUESTING, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT_SUCCESS, LOGOUT_ERROR, LOGOUT_REQUESTING } from './constants';
-import { CLIENT_UNSET } from '../client/constants';
+// import { CLIENT_UNSET } from '../client/constants';
 import { setClient, unsetClient } from '../client/actions';
 
 
