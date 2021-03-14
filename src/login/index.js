@@ -9,16 +9,16 @@ import '../css/login.css';
 
 class Login extends Component {
 
-    static propTypes = {
-        handleSubmit: PropTypes.func,
-        loginRequest: PropTypes.func,
-        login: PropTypes.shape({
-            requesting: PropTypes.bool,
-            successful: PropTypes.bool,
-            messages: PropTypes.array,
-            errors: PropTypes.array,
-        })
-    }
+    // static propTypes = {
+    //     handleSubmit: PropTypes.func,
+    //     loginRequest: PropTypes.func,
+    //     login: PropTypes.shape({
+    //         requesting: PropTypes.bool,
+    //         successful: PropTypes.bool,
+    //         messages: PropTypes.array,
+    //         errors: PropTypes.array,
+    //     })
+    // }
 
     submit = (values) => {
         console.log("values: ", values);

@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Switch } from 'react-router';
-import { useHistory, IndexRoute } from 'react-router-dom';
 //import { browserHistory } from 'react-router';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/lib/integration/react';
@@ -17,7 +16,6 @@ import { createBrowserHistory } from 'history';
 
 import './mockServer';
 import App from './App';
-import LoginForm from './login/loginForm.jsx';
 import Login from './login';
 
 import Widgets from './widgets/index';
@@ -33,7 +31,7 @@ import './index.css';
 import { checkIndexAuthorization, checkWidgetAuthorization } from './lib/check-auth'; //checkWidgetAuthorization: widgets --> users
 
 
-import { loadState, saveState } from './localStorage'; 
+import { saveState } from './localStorage'; 
 
 
 

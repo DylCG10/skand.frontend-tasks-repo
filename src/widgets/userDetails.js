@@ -36,7 +36,7 @@ class UserDetails extends Component {
 
     
     async componentDidMount() {
-        if (window.location.pathname == "/users/add") {
+        if (window.location.pathname === "/users/add") {
             console.log(window.location.pathname)
             await this.setState({isAddMode: true})
         }
@@ -57,7 +57,7 @@ class UserDetails extends Component {
     
     onSubmit = async (values) => {
         console.log(values);
-        if (values.active == "true")
+        if (values.active === "true")
             values.active = true;
         else
             values.active = false;
@@ -116,22 +116,21 @@ class UserDetails extends Component {
 
         let initialValues;
 
-        {
-            this.state.user === undefined ? initialValues = {
-                id: '',
-                email: '',
-                first_name: '',
-                last_name: '',
-                jobs_count: '',
-                active: ''
-            } : initialValues = {
-                id: this.state.user.id,
-                email: this.state.user.email,
-                first_name: this.state.user.first_name,
-                last_name: this.state.user.last_name,
-                jobs_count: this.state.user.jobs_count,
-                active: this.state.user.active
-            }
+        
+        this.state.user === undefined ? initialValues = {
+            id: '',
+            email: '',
+            first_name: '',
+            last_name: '',
+            jobs_count: '',
+            active: ''
+        } : initialValues = {
+            id: this.state.user.id,
+            email: this.state.user.email,
+            first_name: this.state.user.first_name,
+            last_name: this.state.user.last_name,
+            jobs_count: this.state.user.jobs_count,
+            active: this.state.user.active
         }
 
         initialValues = {

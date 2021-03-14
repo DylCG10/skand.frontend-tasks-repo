@@ -1,4 +1,4 @@
-import { take, fork, cancel, cancelled, call, put, takeLatest } from 'redux-saga/effects';
+import { take, fork, cancel, cancelled, call, put } from 'redux-saga/effects';
 import { createBrowserHistory } from 'history';
 
 import { LOGIN_REQUESTING, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT_SUCCESS, LOGOUT_ERROR, LOGOUT_REQUESTING } from './constants';
@@ -87,7 +87,7 @@ function* loginFlow(action) {
 
 function* logoutFlow(action) {
     try {
-        const loggingOut = yield call(logoutApi, action);
+        // const loggingOut = yield call(logoutApi, action);
 
         yield put({ type: LOGOUT_SUCCESS })
         

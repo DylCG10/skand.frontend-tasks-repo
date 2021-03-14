@@ -23,22 +23,22 @@ const renderHeader = () => {
     })
 }
 
-const validationSchema = Yup.object().shape({
-    id: Yup.string()
-        .required('ID is required'),
-    email: Yup.string()
-        .email('Email is invalid')
-        .required('Email is required'),
-    jobs_count: Yup.string()
-        .required('Jobs Count is required'),
-    active: Yup.string().required("Active status is required")
-});
+// const validationSchema = Yup.object().shape({
+//     id: Yup.string()
+//         .required('ID is required'),
+//     email: Yup.string()
+//         .email('Email is invalid')
+//         .required('Email is required'),
+//     jobs_count: Yup.string()
+//         .required('Jobs Count is required'),
+//     active: Yup.string().required("Active status is required")
+// });
 
-const isAddMode = false;
-const isEditMode = false;
+// const isAddMode = false;
+// const isEditMode = false;
 
 const postsPerPage = 3;
-let currentPage;
+// let currentPage;
 let indexOfLastPost;
 let indexOfFirstPost;
 
@@ -53,9 +53,9 @@ class Widgets extends Component {
         }
 
         this.state = {
-            isAddMode: false,
+            // isAddMode: false,
             showingSingleUser: null,
-            currentPage: 1, //start of changes
+            // currentPage: 1, //start of changes
             indexOfLastPost: 2, //make dynamic,
             indexOfFirstPost: 0,
             currentPosts: this.props.widgets.list.slice(indexOfFirstPost, indexOfLastPost),
@@ -85,7 +85,7 @@ class Widgets extends Component {
     }
 
     fetchUsers = () => {
-        const { client, widgetRequest } = this.props;
+        const { widgetRequest } = this.props;
         console.log("clientasdf: ", this.props.client);
         if (this.props.client && this.props.client.token) return widgetRequest(this.props.client, null);
         return false;
@@ -109,12 +109,12 @@ class Widgets extends Component {
         const user = this.props.widgets.list;
         console.log(user);
 
-        const initialValues = {
-            id: user.id,
-            email: user.email,
-            jobs_count: user.jobs_count,
-            active: user.active,
-        }  
+        // const initialValues = {
+        //     id: user.id,
+        //     email: user.email,
+        //     jobs_count: user.jobs_count,
+        //     active: user.active,
+        // }  
     }
 
     removeData = async (id) => {
@@ -181,7 +181,7 @@ class Widgets extends Component {
 
     filterState = async e => {
         const event = e;
-        const {value} = e.target;
+        // const {value} = e.target;
 
         if (e.target.type === "text") {
             console.log("text");
@@ -220,17 +220,17 @@ class Widgets extends Component {
     
 
     render() {
-        const {
-            handleSubmit,
-            invalid,
-            widgets: {
-                list,
-                requesting,
-                successful,
-                messages,
-                errors,
-            },
-        } = this.props;
+        // const {
+        //     handleSubmit,
+        //     invalid,
+        //     widgets: {
+        //         list,
+        //         requesting,
+        //         successful,
+        //         messages,
+        //         errors,
+        //     },
+        // } = this.props;
 
             return (
            
