@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import { useEffect, useState } from "react";
-import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { createBrowserHistory } from 'history';
 
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { useParams, Link } from 'react-router-dom';
+import {Link } from 'react-router-dom';
 
-import { widgetRequest, widgetCreate, widgetUpdate } from './actions';
+import {widgetCreate, widgetUpdate } from './actions';
 import '../css/widgets.css';
 
 const browserHistory = createBrowserHistory();

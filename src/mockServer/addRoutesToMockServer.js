@@ -1,6 +1,5 @@
 import { Response } from 'miragejs';
 import isEqual from 'lodash/isEqual';
-import userData from './users/userData.json';
 
 const addRoutesToMockServer = (mockServer) => {
   // eslint-disable-next-line no-param-reassign

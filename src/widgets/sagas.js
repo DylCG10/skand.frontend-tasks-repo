@@ -1,8 +1,8 @@
-import { take, fork, cancel, cancelled, call, put, takeLatest } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { handleApiErrors } from '../lib/api-errors';
-import { WIDGET_CREATING, WIDGET_DELETING, WIDGET_REQUESTING, WIDGET_UPDATE_SUCCESS, WIDGET_UPDATING } from './constants';
+import { WIDGET_CREATING, WIDGET_DELETING, WIDGET_REQUESTING, WIDGET_UPDATING } from './constants';
 
-import { widgetCreateSuccess, widgetCreateError, widgetRequest, widgetRequestSuccess, widgetRequestError, widgetUpdateSuccess, widgetUpdateError, widgetDeleteSuccess, widgetDeleteError } from './actions';
+import { widgetCreateSuccess, widgetCreateError, widgetRequestSuccess, widgetRequestError, widgetUpdateSuccess, widgetUpdateError, widgetDeleteSuccess, widgetDeleteError } from './actions';
 import { takeEvery } from 'redux-saga/effects';
 
 const widgetsUrl = `/api/v2/users`;

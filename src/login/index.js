@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 
-import Messages from '../notifications/Messages';
-import Errors from '../notifications/Errors';
 import loginRequest from './actions';
 
 import '../css/login.css';

@@ -1,6 +1,5 @@
 import { take, fork, cancel, cancelled, call, put, takeLatest } from 'redux-saga/effects';
 import { createBrowserHistory } from 'history';
-import { withRouter } from 'react-router-dom';
 
 import { LOGIN_REQUESTING, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT_SUCCESS, LOGOUT_ERROR, LOGOUT_REQUESTING } from './constants';
 import { CLIENT_UNSET } from '../client/constants';
