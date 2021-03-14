@@ -299,26 +299,26 @@
 // export default formed;
 
 import React, {Component} from "react";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 //import styled from "styled-components";
-import { useTable } from "react-table";
-import { useParams, Link } from 'react-router-dom';
-import { PropTypes } from 'prop-types';
+// import { useTable } from "react-table";
+import { Link } from 'react-router-dom';
+// import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 
 import { createBrowserHistory } from 'history';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+// import { Formik, Field, Form, ErrorMessage } from 'formik';
+// import * as Yup from 'yup';
 
-import getUsers from '../mockServer/users/index';
-import { widgetRequest, widgetCreate, widgetRequestSuccess, widgetDelete } from './actions';
-import { logoutRequest } from '../login/actions';
+// import getUsers from '../mockServer/users/index';
+import { widgetRequest, widgetCreate, widgetDelete } from './actions';
+// import { logoutRequest } from '../login/actions';
 
-import UserDetails from './userDetails';
+// import UserDetails from './userDetails';
 
-import Messages from '../notifications/Messages';
-import Errors from '../notifications/Errors';
+// import Messages from '../notifications/Messages';
+// import Errors from '../notifications/Errors';
 
 import '../css/widgets.css';
 import { Pagination }  from "./Pagination";
@@ -334,22 +334,22 @@ const renderHeader = () => {
     })
 }
 
-const validationSchema = Yup.object().shape({
-    id: Yup.string()
-        .required('ID is required'),
-    email: Yup.string()
-        .email('Email is invalid')
-        .required('Email is required'),
-    jobs_count: Yup.string()
-        .required('Jobs Count is required'),
-    active: Yup.string().required("Active status is required")
-});
+// const validationSchema = Yup.object().shape({
+//     id: Yup.string()
+//         .required('ID is required'),
+//     email: Yup.string()
+//         .email('Email is invalid')
+//         .required('Email is required'),
+//     jobs_count: Yup.string()
+//         .required('Jobs Count is required'),
+//     active: Yup.string().required("Active status is required")
+// });
 
-const isAddMode = false;
-const isEditMode = false;
+// const isAddMode = false;
+// const isEditMode = false;
 
 const postsPerPage = 3;
-let currentPage;
+// let currentPage;
 let indexOfLastPost;
 let indexOfFirstPost;
 
@@ -396,7 +396,7 @@ class Widgets extends Component {
     }
 
     fetchUsers = () => {
-        const { client, widgetRequest } = this.props;
+        const { widgetRequest } = this.props;
         console.log("clientasdf: ", this.props.client);
         if (this.props.client && this.props.client.token) return widgetRequest(this.props.client, null);
         return false;
@@ -420,12 +420,12 @@ class Widgets extends Component {
         const user = this.props.widgets.list;
         console.log(user);
 
-        const initialValues = {
-            id: user.id,
-            email: user.email,
-            jobs_count: user.jobs_count,
-            active: user.active,
-        }  
+        // const initialValues = {
+        //     id: user.id,
+        //     email: user.email,
+        //     jobs_count: user.jobs_count,
+        //     active: user.active,
+        // }  
     }
 
     removeData = async (id) => {
@@ -492,7 +492,7 @@ class Widgets extends Component {
 
     filterState = async e => {
         const event = e;
-        const {value} = e.target;
+        // const {value} = e.target;
 
         if (e.target.type === "text") {
             console.log("text");
@@ -531,17 +531,17 @@ class Widgets extends Component {
     
 
     render() {
-        const {
-            handleSubmit,
-            invalid,
-            widgets: {
-                list,
-                requesting,
-                successful,
-                messages,
-                errors,
-            },
-        } = this.props;
+        // const {
+        //     handleSubmit,
+        //     invalid,
+        //     widgets: {
+        //         list,
+        //         requesting,
+        //         successful,
+        //         messages,
+        //         errors,
+        //     },
+        // } = this.props;
 
             return (
            

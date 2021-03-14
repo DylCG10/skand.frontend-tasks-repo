@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import { PropTypes } from 'prop-types';
+// import { PropTypes } from 'prop-types';
 
 import loginRequest from './actions';
 
@@ -28,12 +28,12 @@ class Login extends Component {
     render() {
         const {
             handleSubmit,
-            login: {
-                requesting,
-                successful,
-                messages,
-                errors,
-            },
+            // login: {
+            //     requesting,
+            //     successful,
+            //     messages,
+            //     errors,
+            // },
         } = this.props;
 
         return (

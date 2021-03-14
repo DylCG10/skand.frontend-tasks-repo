@@ -1,9 +1,9 @@
 import { take, fork, cancel, cancelled, call, put } from 'redux-saga/effects';
 import { createBrowserHistory } from 'history';
 
-import { LOGIN_REQUESTING, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT_SUCCESS, LOGOUT_ERROR, LOGOUT_REQUESTING } from './constants';
+import { LOGIN_REQUESTING, LOGIN_SUCCESS, LOGIN_ERROR, /*LOGOUT_SUCCESS, LOGOUT_ERROR, LOGOUT_REQUESTING */ } from './constants';
 import { CLIENT_UNSET } from '../client/constants';
-import { setClient, unsetClient } from '../client/actions';
+import { setClient } from '../client/actions';
 
 
 import { handleApiErrors } from '../lib/api-errors';
@@ -24,14 +24,14 @@ async function loginApi(email, password) {
         .catch((error) => { throw error });
 }
 
-function logoutApi() {
-    return fetch("/api/v2/users/tokens", {
-        method: "DELETE",
-        headers: {
-            // Authorization: //token
-        }
-    })
-}
+// function logoutApi() {
+//     return fetch("/api/v2/users/tokens", {
+//         method: "DELETE",
+//         headers: {
+//             // Authorization: //token
+//         }
+//     })
+// }
 
 // function* loginFlow(action) {
 //     let token;
@@ -48,13 +48,13 @@ function logoutApi() {
 //     }
 // }
 
-function* logout() {
-    yield put(unsetClient());
+// function* logout() {
+//     yield put(unsetClient());
 
-    localStorage.removeItem('token');
+//     localStorage.removeItem('token');
 
-    browserHistory.push('/login');
-}
+//     browserHistory.push('/login');
+// }
 
 function* loginFlow(action) {
     let token;
@@ -85,18 +85,18 @@ function* loginFlow(action) {
     return token;
 }
 
-function* logoutFlow(action) {
-    try {
-        // const loggingOut = yield call(logoutApi, action);
+// function* logoutFlow(action) {
+//     try {
+//         // const loggingOut = yield call(logoutApi, action);
 
-        yield put({ type: LOGOUT_SUCCESS })
+//         yield put({ type: LOGOUT_SUCCESS })
         
-        localStorage.removeItem("token");
-        browserHistory.push("");
-    } catch (error) {
-        yield put({type: LOGOUT_ERROR, error})
-    }
-}
+//         localStorage.removeItem("token");
+//         browserHistory.push("");
+//     } catch (error) {
+//         yield put({type: LOGOUT_ERROR, error})
+//     }
+// }
 
 // function* loginWatcher() {
 //     console.log('watch');
@@ -114,10 +114,10 @@ function* loginWatcher() {
 
         if (action.type === CLIENT_UNSET) yield cancel(task);
 
-        yield call(logout);
+        // yield call(logout);
 
         
-        yield take(LOGOUT_REQUESTING, logoutFlow);
+        // yield take(LOGOUT_REQUESTING, logoutFlow);
 
         
     }
