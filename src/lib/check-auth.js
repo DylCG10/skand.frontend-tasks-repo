@@ -28,6 +28,7 @@ export function checkIndexAuthorization({ dispatch }) {
 
         }
         replace('login');
+        console.log("here");
         return next();
     }
 

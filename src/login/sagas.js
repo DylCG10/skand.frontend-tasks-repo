@@ -1,12 +1,13 @@
-import { take, fork, cancel, cancelled, call, put } from 'redux-saga/effects';
+import { cancelled, call, put } from 'redux-saga/effects';
 import { createBrowserHistory } from 'history';
 
 import { LOGIN_REQUESTING, LOGIN_SUCCESS, LOGIN_ERROR, LOGOUT_SUCCESS, LOGOUT_ERROR, LOGOUT_REQUESTING } from './constants';
-import { CLIENT_UNSET } from '../client/constants';
+// import { CLIENT_UNSET } from '../client/constants';
 import { setClient, unsetClient } from '../client/actions';
 
 
 import { handleApiErrors } from '../lib/api-errors';
+import { takeEvery } from '@redux-saga/core/effects';
 
 const browserHistory = createBrowserHistory();
 
@@ -24,37 +25,22 @@ async function loginApi(email, password) {
         .catch((error) => { throw error });
 }
 
-function logoutApi() {
+function logoutApi(client) {
     return fetch("/api/v2/users/tokens", {
         method: "DELETE",
         headers: {
-            // Authorization: //token
+            Authorization: client.token
         }
     })
 }
 
-// function* loginFlow(action) {
-//     let token;
-//     try {
-//         const { email, password } = action
-        
-//         const response = yield call(loginApi, email, password)
+// function* logout() {
+//     yield put(unsetClient());
 
-//         yield put({ type: LOGIN_SUCCESS, response })
+//     localStorage.removeItem('token');
 
-//     } catch (error) {
-//         console.log("error");
-//         yield put ({type: LOGIN_ERROR, error})
-//     }
+//     browserHistory.push('/login');
 // }
-
-function* logout() {
-    yield put(unsetClient());
-
-    localStorage.removeItem('token');
-
-    browserHistory.push('/login');
-}
 
 function* loginFlow(action) {
     let token;
@@ -72,6 +58,8 @@ function* loginFlow(action) {
         localStorage.setItem('token', JSON.stringify(token));
 
         browserHistory.push('/users');
+        window.location.reload();
+
         // this.props.history.push("/users");
     } catch (error) {
         console.log("error",);
@@ -79,6 +67,8 @@ function* loginFlow(action) {
     } finally {
         if (yield cancelled()) {
             browserHistory.push('/login');
+            window.location.reload();
+
         }
     }
 
@@ -87,40 +77,48 @@ function* loginFlow(action) {
 
 function* logoutFlow(action) {
     try {
-        // const loggingOut = yield call(logoutApi, action);
+        console.log('logoutFlow');
+        yield call(logoutApi, action);
 
         yield put({ type: LOGOUT_SUCCESS })
         
+        yield put(unsetClient());
+
         localStorage.removeItem("token");
-        browserHistory.push("");
+        browserHistory.push("/login");
+        window.location.reload();
+
+
     } catch (error) {
         yield put({type: LOGOUT_ERROR, error})
     }
 }
 
-// function* loginWatcher() {
-//     console.log('watch');
-//     yield takeLatest(LOGIN_REQUESTING, loginFlow);
-// }
-
 function* loginWatcher() {
     console.log('watching');
-    while (true) {
-        const { email, password } = yield take(LOGIN_REQUESTING);
+    // while (true) {
 
-        const task = yield fork(loginFlow, {email, password});
+    //     const { email, password } = yield take(LOGIN_REQUESTING);
 
-        const action = yield take([CLIENT_UNSET, LOGIN_ERROR]);
 
-        if (action.type === CLIENT_UNSET) yield cancel(task);
+    //     const task = yield fork(loginFlow, {email, password});
 
-        yield call(logout);
+    //     const logoutAction = yield take(LOGOUT_REQUESTING, logoutFlow);
 
+    //     const logoutTask = yield fork(logoutFlow, logoutAction);
+
+    //     const action = yield take([CLIENT_UNSET, LOGIN_ERROR]);
+
+    //     // if (action.type === CLIENT_UNSET) {
+    //     //     yield cancel(task);
+
+    //     //     yield call(logout);
+    //     // }
         
-        yield take(LOGOUT_REQUESTING, logoutFlow);
+    // }
 
-        
-    }
+    yield takeEvery(LOGIN_REQUESTING, loginFlow);
+    yield takeEvery(LOGOUT_REQUESTING, logoutFlow);
 
 }
 

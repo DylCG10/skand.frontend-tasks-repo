@@ -1,16 +1,23 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import { createBrowserHistory } from 'history';
 
 
 import './App.css';
 
+const browserHistory = createBrowserHistory();
 
 // const token = localStorage.getItem("token");
+function reload() {
+  browserHistory.push("/login");
+  window.location.reload();
+}
 
 const App = props => (
   <div className = "App">
     <div className = "App-header">
-      <h2>Welcome here</h2>
+      <h2>Welcome!</h2>
+      <button onClick = {reload}>Click here to login!</button>
 
     </div>
     <section className="App-body">

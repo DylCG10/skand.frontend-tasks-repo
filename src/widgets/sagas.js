@@ -94,6 +94,7 @@ function* widgetRequestFlow(action) {
         console.log(action.singleUser);
         if (action.singleUser === null || action.singleUser === undefined) 
             yield put(widgetRequestSuccess(widgets.users));
+
     } catch (error) {
         console.log("error");
         yield put(widgetRequestError(error));
@@ -153,7 +154,7 @@ function* widgetDeleteFlow(action) {
         // widgetRequest(action.client);
         yield put(widgetDeleteSuccess(action.id)); //del
         // yield widgetRequestFlow(action);
-
+        window.location.reload();
     } catch (error) {
         yield put(widgetDeleteError(error));
     }

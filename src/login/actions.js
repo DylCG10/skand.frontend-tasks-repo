@@ -13,7 +13,7 @@ const loginRequest = function loginRequest({ email, password }) {
     }
 }
 
-export const logoutRequest = function logoutRequest({client}) {
+export const logoutRequest = function logoutRequest(client) {
     return {
         type: LOGOUT_REQUESTING,
         client
