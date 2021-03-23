@@ -13,12 +13,13 @@ import { logoutRequest } from '../login/actions';
 
 import '../css/widgets.css';
 import { Pagination }  from "./Pagination";
+import { Table, Button, Row } from "react-bootstrap";
 
 const browserHistory = createBrowserHistory();
 
 
 const renderHeader = () => {
-    let headerElement = ['id', 'email', 'Jobs Count', 'Active', 'operation']
+    let headerElement = ['id', 'email', 'Jobs Count', 'Active', '']
 
     return headerElement.map((key, index) => {
         return <th key={index}>{key.toUpperCase()}</th>
@@ -127,26 +128,32 @@ class Widgets extends Component {
             console.log(data);
             return data && data.map(({ id, email, jobs_count, active }) => {
                 return (
-                    <>
-                        <tr key={id}>
-                            <td>{id}</td>
-                            <td>{email}</td>
-                            <td>{jobs_count}</td>
-                            <td>{active.toString()} {/*{typeof active === "boolean" ? JSON.stringify(active) : active} */}</td>
-                            <td className='operation'>
-                                {/* <Link to={`/users/${id}`} onClick = {() => window.location.reload()}>View</Link> */}
-                                <Link onClick = {this.reload(id)}>View</Link>
-
-                                <button className='button' onClick={() => {
+                    <tr key={id}>
+                        <td>{id}</td>
+                        <td>{email}</td>
+                        <td>{jobs_count}</td>
+                        <td>{active.toString()} {/*{typeof active === "boolean" ? JSON.stringify(active) : active} */}</td>
+                        <td className='operation'>
+                            {/* <Link to={`/users/${id}`} onClick = {() => window.location.reload()}>View</Link> */}
+                            {/* <Link onClick = {this.reload(id)}>View</Link> */}
+                            
+                            {/* <Row> */}
+                                <Button onClick={() => {
+                                    this.reload(id);
+                                    // window.location.reload()
+                                }
+                                }>
+                                    <img src = "/new_tab.png"></img></Button>
+                                <Button className='btn' size = "sm" onClick={() => {
                                     this.removeData(id);
                                     // window.location.reload()
                                 }
-                                }>Delete</button>
+                                }><img src = "/bin_icon.png"/></Button>
 
-                            </td>
-                        </tr>
-                        
-                    </>
+                            {/* </Row> */}
+
+                        </td>
+                    </tr>
                 )
             })
         }
@@ -190,11 +197,6 @@ class Widgets extends Component {
         }
 
         await this.setState({filteredPosts: this.props.widgets.list.filter(element => element.email.toLowerCase().includes(this.state.filterStr) && element.active === this.state.filterActive)})
-
-        // console.log(this.state.filterActive, !!this.props.widgets.list[5].active);
-        // console.log(this.state.filterActive === this.props.widgets.list[5].active);
-        console.log("Filtering actives: ", this.props.widgets.list.filter(element => element.active === this.state.filterActive))
-        console.log("TESTING: ", this.props.widgets.list.filter(element => element.email.includes(this.state.filterStr) && element.active === this.state.filterActive))
         
         if (this.state.showAll)
             await this.setState({ filteredPosts: this.props.widgets.list })
@@ -214,46 +216,44 @@ class Widgets extends Component {
     
 
     render() {
+        return (
+            <div className="widgets-page">
+                <h1 id='title'>Skand: Employees</h1>
+                {/* <Button className = "btn" variant = "primary" id = "logout-button" onClick={() => this.logout()}>Logout</Button> */}
 
-            return (
-           
-                <div>
-                    <>
-                        <h1 id='title'>Users Index</h1>
-                        <button id = "logout-button" onClick={() => this.logout()}>Logout</button>
+                <div class="filters">
+                    <div className = "filter-group">
+                        <label>Filter email:</label>
+                        <input type = "text" value = {this.state.filterStr} onChange = {this.filterState} />
+                    
+                    </div>
+                    <div className ="filter-group">
+                        <label>Filter active status:</label>
+                        <input id = "active-checkbox" type = "checkbox" value = {this.state.filterActive} onChange = {this.filterState} />
+                    </div>
+                    <div className ="filter-group">
+                        <label>Show all</label>
+                        <input id = "showall-checkbox" type = "checkbox" value = {this.state.showAll} onChange = {this.filterState} />
 
-                        <div class="filters">
-                            <div className = "filter-group">
-                                <label>Filter email:</label>
-                                <input type = "text" value = {this.state.filterStr} onChange = {this.filterState} />
-                            
-                            </div>
-                            <div className ="filter-group">
-                                <label>Filter active status:</label>
-                                <input id = "active-checkbox" type = "checkbox" value = {this.state.filterActive} onChange = {this.filterState} />
-                            </div>
-                            <div className ="filter-group">
-                                <label>Show all</label>
-                                <input id = "showall-checkbox" type = "checkbox" value = {this.state.showAll} onChange = {this.filterState} />
-
-                            </div>
-                        </div>
-                                     
-                        <table id='Data'>
-                            <thead>
-                                <tr>{renderHeader()}</tr>
-                            </thead>
-                            <tbody>
-                                {console.log("actual data: ", this.props.currentPosts)}
-                                {this.renderBody(this.state.currentPosts)} 
-                            </tbody>
-                        </table>
-                    </>
-                    <Pagination postsPerPage={postsPerPage} totalPosts={this.state.filteredPosts.length} paginate={this.paginate} />
-                    {/* <Link to={"/users/add"} onClick = {() => window.location.reload()}>Create User</Link> */}
-                    <Link onClick = {this.reload(false)}>Create User</Link>
-
+                    </div>
                 </div>
+                                     
+                {/* <table id='Data'> */}
+                <Table hover borderless responsive="sm">
+                    <thead>
+                        <tr>{renderHeader()}</tr>
+                    </thead>
+                    <tbody>
+                        {console.log("actual data: ", this.props.currentPosts)}
+                        {this.renderBody(this.state.currentPosts)} 
+                    </tbody>
+                    {/* </table> */}
+                </Table>
+            <Pagination postsPerPage={postsPerPage} totalPosts={this.state.filteredPosts.length} paginate={this.paginate} />
+            {/* <Link to={"/users/add"} onClick = {() => window.location.reload()}>Create User</Link> */}
+            <Link onClick = {this.reload(false)}>Create User</Link>
+
+            </div>
             )
     }
 }
