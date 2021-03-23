@@ -33,6 +33,7 @@ import { checkIndexAuthorization, checkWidgetAuthorization } from './lib/check-a
 
 import { saveState } from './localStorage'; 
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const browserHistory = createBrowserHistory();

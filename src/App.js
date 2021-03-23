@@ -4,6 +4,7 @@ import { createBrowserHistory } from 'history';
 
 
 import './App.css';
+import { Container, Row } from 'react-bootstrap';
 
 const browserHistory = createBrowserHistory();
 
@@ -15,9 +16,18 @@ function reload() {
 
 const App = props => (
   <div className = "App">
-    <div className = "App-header">
-      <h2>Welcome!</h2>
-      <button onClick = {reload}>Click here to login!</button>
+    <div className="App-header">
+      <Container>
+        <Row>
+          <img src = "/skand-logo2.png" alt="test"/>
+        
+        </Row>
+        <Row>
+          <button className = "btn" onClick = {reload}>Click here to login!</button>
+        
+        </Row>
+      </Container>
+      {/* <h2>skand</h2> */}
 
     </div>
     <section className="App-body">
@@ -29,15 +39,5 @@ const App = props => (
 App.propTypes = {
   children: PropTypes.node,
 }
-// function App() {
-//   return (
-//     <Router>
-      
-//       {token === null ? <Route path = "/" exact component = {Login}/> : <Route path = "/users" component = {UsersIndexTable} />}
-//       {/* <Login onSubmit = {(email, password) => { */}
-
-//     </Router>
-//   );
-// }
 
 export default App;

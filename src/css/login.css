@@ -1,13 +1,30 @@
+/* 
 .container {
-  background-color: aliceblue ;
-  width: 100vw;
+  background-color: azure;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  /* padding: 20px; */
   justify-content: center;
   align-items: center;
-  /* margin-top: 150px; */
+} */
+.bg {
+  /* background: linear-gradient(to right, #84ceeb, #5680e9); */
+  /* background: linear-gradient(to right, #84ceeb, #2f2fa2); */
+  /* background: linear-gradient(to right, #003973, #e5e5be); */
+  /* background: linear-gradient(to right, #36d1dc, #5b86e5); */
+  background-color: rgb(122, 175, 219);
+  /* background: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d); */
+  height: 100vh;
+  background-image: url("/city3.jpg");
+  background-repeat: no-repeat;
+  background-size: initial;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 50px !important;
+  justify-content: space-between !important;
 }
 
 h1 {
@@ -16,38 +33,77 @@ h1 {
   text-align: center;
   top: -50px;
   font-size: 60px;
+  font-family: "Krub";
 }
 
-.container label {
-  /* position: absolute; */
-  /* text-align: center; */
-  /* text-align: center; */
-  color:blue;
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  font-size: 30px;
+.jumbotron {
+  /* background-color: #84ceeb !important; */
+  background-color: rgba(157, 169, 179, 0.2) !important;
 }
 
-.container .input-label {
-  color: green;
+.row {
+  display: flex;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 70%;
+  margin: 70px;
 }
-input {
+
+#img-col {
+  display: flex !important;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-label {
+  color: white;
+}
+
+#logo-title {
+  /* width: 100px; */
+  width: 300px;
+  /* margin: auto; */
+}
+
+#icon {
+  width: 150px;
+}
+
+.input-group {
+  width: 80% !important;
+  justify-content: center;
+  font-family: "Krub" !important;
+}
+
+.inputs {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+}
+.input-group-prepend {
+  font-family: "Krub" !important;
+}
+/* input {
   align-items: center;
   display: flex;
-  /* padding: 5px 0 5px 100px; */
-  /* width: 20vw; */
-  /* height: 3vh; */
+
   justify-content: space-between;
   margin-top: 50px;
   font-size: 20px;
-}
-/* 
-text {
-  display: flex;
-  color: red;
 } */
 
-button {
+.btn {
+  font-family: "Krub";
+  /* background-color: blue !important; */
+  display: block !important;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80% !important;
+}
+/* button {
   margin-top: 50px;
   font-size: 30px;
   align-self: center;
-}
+} */
