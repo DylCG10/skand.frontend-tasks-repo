@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { createBrowserHistory } from 'history';
 
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import {Link } from 'react-router-dom';
 
 import {widgetCreate, widgetUpdate } from './actions';
+import { Container, Row, Form, Jumbotron, Col } from 'react-bootstrap';
+
 import '../css/widgets.css';
 
 const browserHistory = createBrowserHistory();
@@ -40,7 +42,7 @@ class UserDetails extends Component {
     async componentDidMount() {
         if (window.location.pathname === "/users/add") {
             console.log(window.location.pathname)
-            await this.setState({isAddMode: true})
+            await this.setState({ isAddMode: true })
         }
 
         if (!this.state.isAddMode) {
@@ -68,8 +70,7 @@ class UserDetails extends Component {
             this.props.widgetUpdate(this.props.client, values);
             
         }
-        else 
-        {
+        else {
             console.log("widgetCreate");
             await this.props.widgetCreate(this.props.client, values);
         }
@@ -120,79 +121,217 @@ class UserDetails extends Component {
 
         
         return (
-            <>
-                {console.log("initial values: ", initialValues)}
-                <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={this.onSubmit}>
-                    {({ errors, touched, isSubmitting, setFieldValue }) => {
-                        return (
-                            <div class="d-flex p-2 mx-auto" style={{width: "400px", marginTop: "100px"}}>
-
-                                <Form class="d-flex flex-column ">
-                                <h1 className = "d-inline-block">{this.state.isAddMode ? 'Add User' : 'Edit User'}</h1>
-
-                                    <div className="d-flex flex-row">
-                                            <label className = 'p-2 col-xs-12 col-md-8'>ID</label>
-                                        <Field name="id" type="text" style = {{width: "100%"}} className={'p-2 col-xs-6 col-md-7 form-control' + (errors.id && touched.id ? ' is-invalid' : '')} />
-                                    </div>
-                                    <ErrorMessage name="id" className="invalid-feedback">{msg => <div style={{ color: 'red' }}>{msg}</div>}</ErrorMessage>
-
-                                    <div class = "d-flex flex-row row ">
-                                            <label className = 'p-2 col-xs-12 col-md-8'>Email</label>
-                                            <Field name="email"  type="text" className={'p-2 col-xs-6 col-md-7 form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
-                                    </div>
-                                    <ErrorMessage name="email" className="invalid-feedback">{msg => <div style={{ color: 'red' }}>{msg}</div>}</ErrorMessage>
-
-
-                                    <div className="d-flex flex-row row">
-                                            <label className = 'p-2 col-xs-12 col-md-8'>First Name</label>
-                                            <Field name="first_name" type="text" className={'p-2 col-xs-6 col-md-7 form-control' + (errors.firstName && touched.firstName ? ' is-invalid' : '')} />
-                                    </div>
-                                    <ErrorMessage name="first_name" className="invalid-feedback">{msg => <div style={{ color: 'red' }}>{msg}</div>}</ErrorMessage>
-
-                                    <div className="d-flex flex-row row">
-                                            <label className = 'p-2 col-xs-12 col-md-8'>Last Name</label>
-                                            <Field name="last_name" type="text" className={'p-2 col-xs-6 col-md-7 form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
-                                            {/* <ErrorMessage name="last_name" component="div" className="invalid-feedback" /> */}
-                                    </div>
-                                    <ErrorMessage name="last_name" className="invalid-feedback">{msg => <div style={{ color: 'red' }}>{msg}</div>}</ErrorMessage>
-
-                                    <div className="d-flex flex-row row">
-                                            <label className = 'p-2 col-xs-12 col-md-8'>Jobs Count</label>
-                                            <Field name="jobs_count" type="text" className={'p-2 col-xs-6 col-md-7 form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
-                                            {/* <ErrorMessage name="jobsCount" component="div" className="invalid-feedback" /> */}
-                                    </div>
-                                    <ErrorMessage name="jobs_count" className="invalid-feedback">{msg => <div style={{ color: 'red' }}>{msg}</div>}</ErrorMessage>
-
-                                    <div className="d-flex flex-row">
-                                            <label className = 'p-2 '>Active</label>
-                                            <Field name="active" as="select" className={'p-2 col-xs-6 col-md-7 align-self-end form-control' /*+(errors.active ? ' is-invalid' : '') */}>
-                                                <option className = 'p-2 col-xs-6 col-md-7' value= "true" >True</option>
-                                                <option className = 'p-2 col-xs-6 col-md-7' value="false">False</option>
-                                            </Field>
-                                            {/* <ErrorMessage name="active" component="div" className="invalid-feedback" /> */}
-                                    </div>
-                                    <ErrorMessage name="active" className="invalid-feedback">{msg => <div style={{ color: 'red' }}>{msg}</div>}</ErrorMessage>
-
-                                    <div className="d-flex flex-row">
-                                        <button type="submit" disabled={isSubmitting} className="p-2 btn btn-primary ">
-                                            {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                                        Save
-                                        </button>
-                                        {/* <Link to={"/users"} style={{ color: "red" }} className="p-2 btn btn-link align-self-end" onClick={() => window.location.reload()}>Cancel/Go Back</Link> */}
-                                        <Link style={{ color: "red" }} className="p-2 btn btn-link align-self-end" onClick={this.reload}>Cancel/Go Back</Link>
-
-                                    </div>
-                                    </Form>
-                            </div>
+            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={this.onSubmit}>
+                {({ errors, touched, isSubmitting, setFieldValue, handleChange, handleBlur, values, handleSubmit }) => {
+                    return (
+                        <Container id = "userDetails-container">
+                            <Row>
+                                <Col>
+                                    <h1>{this.state.isAddMode ? 'Add User' : 'Edit User'}</h1>
                                 
-                        );
-                    }}
-                </Formik>
-            </>
+                                </Col>
+
+                            </Row>
+                            <Row>
+                            <Col>
+                            <Jumbotron>
+                            <Form className="form userDetails" onSubmit={handleSubmit}>
+                                <Row>
+                                    <Form.Group controlId="formBasicId">
+                                        <Form.Label style={{ color: "black" }}>ID</Form.Label>
+                                        <Form.Control
+                                            type="id"
+                                            name="id"
+                                            placeholder="Enter id"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.id}
+                                            className={
+                                                touched.id && errors.id ? "error" : null
+                                            } />
+                                        {touched.id && errors.id ? (
+                                            <div className="error-message" style={{ color: 'red' }}>{errors.id}</div>
+                                        ) : null}
+                                    </Form.Group>
+                                </Row>
+                                <Row>
+                                    <Form.Group controlId="formBasicEmail">
+                                        <Form.Label style={{ color: "black" }}>Email</Form.Label>
+                                        <Form.Control
+                                            type="email"
+                                            name="email"
+                                            placeholder="Enter email"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.email}
+                                            className={
+                                                touched.email && errors.email ? "error" : null
+                                            } />
+                                        {touched.email && errors.email ? (
+                                            <div className="error-message" style={{ color: 'red' }}>{errors.email}</div>
+                                        ) : null}
+                                    </Form.Group>
+                                </Row>
+                                <Row>
+                                    <Form.Group controlId="formBasicFirstName">
+                                        <Form.Label style={{ color: "black" }}>First Name</Form.Label>
+                                        <Form.Control
+                                            type="first_name"
+                                            name="first_name"
+                                            placeholder="Enter first_name"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.first_name}
+                                            className={
+                                                touched.first_name && errors.first_name ? "error" : null
+                                            } />
+                                        {touched.first_name && errors.first_name ? (
+                                            <div className="error-message" style={{ color: 'red' }}>{errors.first_name}</div>
+                                        ) : null}
+                                    </Form.Group>
+                                </Row>
+                                <Row>
+                                    <Form.Group controlId="formBasicLastName">
+                                        <Form.Label style={{ color: "black" }}>Last Name</Form.Label>
+                                        <Form.Control
+                                            type="last_name"
+                                            name="last_name"
+                                            placeholder="Enter last_name"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.last_name}
+                                            className={
+                                                touched.last_name && errors.last_name ? "error" : null
+                                            } />
+                                        {touched.last_name && errors.last_name ? (
+                                            <div className="error-message" style={{ color: 'red' }}>{errors.last_name}</div>
+                                        ) : null}
+                                    </Form.Group>
+                                </Row>
+                                <Row>
+                                    <Form.Group controlId="formBasicJobsCount">
+                                        <Form.Label style={{ color: "black" }}>Jobs Count</Form.Label>
+                                        <Form.Control
+                                            type="jobs_count"
+                                            name="jobs_count"
+                                            placeholder="Enter jobs_count"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.jobs_count}
+                                            className={
+                                                touched.jobs_count && errors.jobs_count ? "error" : null
+                                            } />
+                                        {touched.jobs_count && errors.jobs_count ? (
+                                            <div className="error-message" style={{ color: 'red' }}>{errors.jobs_count}</div>
+                                        ) : null}
+                                    </Form.Group>
+                                </Row>
+                                <Row>
+                                    <Form.Group controlId="formBasicActive">
+                                        <Form.Label style={{ color: "black" }}>Active</Form.Label>
+                                        <Form.Control
+                                            type="active"
+                                            name="active"
+                                            placeholder="Enter active"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.active}
+                                            className={
+                                                touched.active && errors.active ? "error" : null
+                                            } />
+                                        {touched.active && errors.active ? (
+                                            <div className="error-message" style={{ color: 'red' }}>{errors.active}</div>
+                                        ) : null}
+                                    </Form.Group>
+                                </Row>
+                                </Form>
+                                
+                                    </Jumbotron>
+                                    </Col>
+                            </Row>
+                        </Container>
+                    );
+                }}
+            </Formik>
         )
     }
 }
 
+
+
+
+/*
+<Container className="p-3">
+          <Row>
+            <Col id="img-col">
+              <img id="logo-title" src="/skand-white.png" alt="skand" />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Jumbotron>
+                <Formik
+                  initialValues={initialValues}
+                  validationSchema={validationSchema}
+                  onSubmit={this.submit}
+                >
+                  {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                      handleBlur,
+                    handleSubmit
+                                }) => (
+                                    <div classname="inputs">
+                                        <Form onSubmit={handleSubmit}>
+                                        <Form.Group controlId="formBasicEmail">
+                                            <Form.Label>Email address</Form.Label>
+                                            <Form.Control
+                                            type="email"
+                                            name="email"
+                                            placeholder="Enter email"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.email}
+                                            className={
+                                                touched.email && errors.email ? "error" : null
+                                            } />
+                                            {touched.email && errors.email ? (
+                                                <div className="error-message" style={{ color: 'red' }}>{errors.email}</div>
+                                            ) : null}
+                                        </Form.Group>
+
+                                        <Form.Group controlId="formBasicPassword">
+                                            <Form.Label>Password</Form.Label>
+                                            <Form.Control
+                                                type="password"
+                                                name="password"
+                                                placeholder="Password"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.password}
+                                                className={
+                                                    touched.password && errors.password ? "error" : null
+                                                }
+                                            />
+                                            {touched.password && errors.password ? (
+                                                <div className="error-message" style={{ color: 'red' }}>{errors.password}</div>
+                                            ) : null}
+                                        </Form.Group>
+                      <Button type="submit" variant="secondary" size="lg" block>
+                                                Login
+                      </Button>
+                      </Form>
+                    </div>
+                  )}
+                </Formik>
+              </Jumbotron>
+            </Col>
+          </Row>
+        </Container>
+
+        */
 const mapStateToProps = state => ({
     client: state.client,
     widgets: state.widgets,

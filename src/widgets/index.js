@@ -11,9 +11,10 @@ import { logoutRequest } from '../login/actions';
 
 
 
-import '../css/widgets.css';
-import { Pagination }  from "./Pagination";
+import { Pagination } from "./Pagination";
 import { Table, Button, Row } from "react-bootstrap";
+
+import '../css/widgets.css';
 
 const browserHistory = createBrowserHistory();
 
@@ -138,13 +139,13 @@ class Widgets extends Component {
                             {/* <Link onClick = {this.reload(id)}>View</Link> */}
                             
                             <Row>
-                                <Button onClick={() => {
-                                    this.reload(id);
+                                <Button className = "btn btn-logo" onClick={() => {
+                                    this.viewData(id);
                                     // window.location.reload()
                                 }
                                 }>
                                     <img src = "/edit_icon.png"></img></Button>
-                                <Button className='btn' size = "sm" onClick={() => {
+                                <Button className='btn btn-logo' size = "sm" onClick={() => {
                                     this.removeData(id);
                                     // window.location.reload()
                                 }

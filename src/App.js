@@ -3,8 +3,10 @@ import { PropTypes } from 'prop-types';
 import { createBrowserHistory } from 'history';
 
 
+import { Button, Container, Row } from 'react-bootstrap';
+
+// import './css/test.css';
 import './App.css';
-import { Container, Row } from 'react-bootstrap';
 
 const browserHistory = createBrowserHistory();
 
@@ -19,13 +21,14 @@ const App = props => (
     <div className="App-header">
       <Container>
         <Row>
-          <img src = "/skand-logo2.png" alt="test"/>
+          <img id = "skand-main-page" src = "/skand-logo2.png" alt="test"/>
         
         </Row>
         <Row>
-          <button className = "btn" onClick = {reload}>Click here to login!</button>
-        
+          {/* <button className = "btn" onClick = {reload}>Click here to login!</button> */}
+          <Button variant="primary" className="btn-primary" onClick={reload}>--></Button> {/*add small moveable AWSD character to load next page instead of button */}
         </Row>
+        
       </Container>
       {/* <h2>skand</h2> */}
 

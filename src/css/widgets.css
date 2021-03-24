@@ -10,12 +10,26 @@
   padding: 0px 50px 0 50px;
   /* background-color: red; */
 }
+
+#userDetails-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
 h1 {
+  display: block;
+  margin: auto;
   /* margin-left: auto;
   margin-right: auto; */
-  /* margin-top: auto; */
-  /* line-height: 3em; */
-  top: 50px;
+  /* text-align: center; */
+}
+
+.form .userDetails {
+  align-items: center;
+  justify-content: center;
+  background-color: red;
 }
 
 .table {
@@ -41,7 +55,7 @@ tr:hover {
   background-color: #f2f2f2;
 }
 
-.btn {
+.btn-logo {
   width: 30% !important;
   background-color: transparent !important;
   box-shadow: none !important;
@@ -49,11 +63,15 @@ tr:hover {
   border: none !important;
 }
 
-.row {
-  /* display: flex; */
-  height: 30px !important;
-  background-color: red;
+/* .row {
+  margin-bottom: -75px;
+} */
+
+.col {
 }
+/* .row {
+  height: 30px !important;
+} */
 
 img {
   width: 30px;
@@ -139,14 +157,12 @@ input,
   align-items: center;
 }
 
-.form {
+/* .form {
   background-color: antiquewhite;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
-  /* justify-content: center; */
-}
+} */
 
 /* .form-group {
   background-color: red;
