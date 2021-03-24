@@ -137,20 +137,20 @@ class Widgets extends Component {
                             {/* <Link to={`/users/${id}`} onClick = {() => window.location.reload()}>View</Link> */}
                             {/* <Link onClick = {this.reload(id)}>View</Link> */}
                             
-                            {/* <Row> */}
+                            <Row>
                                 <Button onClick={() => {
                                     this.reload(id);
                                     // window.location.reload()
                                 }
                                 }>
-                                    <img src = "/new_tab.png"></img></Button>
+                                    <img src = "/edit_icon.png"></img></Button>
                                 <Button className='btn' size = "sm" onClick={() => {
                                     this.removeData(id);
                                     // window.location.reload()
                                 }
                                 }><img src = "/bin_icon.png"/></Button>
 
-                            {/* </Row> */}
+                            </Row>
 
                         </td>
                     </tr>

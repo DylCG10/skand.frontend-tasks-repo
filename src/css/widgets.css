@@ -50,7 +50,9 @@ tr:hover {
 }
 
 .row {
-  display: flex;
+  /* display: flex; */
+  height: 30px !important;
+  background-color: red;
 }
 
 img {
