@@ -2,15 +2,10 @@
   /* background-color: palegoldenrod; */
   font-family: "Krub";
   text-decoration: none;
+  padding: 0;
 }
 
-.widgets-page {
-  display: flex;
-  flex-direction: column;
-  padding: 0px 50px 0 50px;
-  /* background-color: red; */
-}
-
+/* 
 #userDetails-container {
   display: flex;
   flex-direction: column;
@@ -18,32 +13,60 @@
   text-align: center;
 }
 
+#userDetails-container .row {
+  padding: 0px;
+  width: 300px;
+}
+
 h1 {
   display: block;
   margin: auto;
-  /* margin-left: auto;
-  margin-right: auto; */
-  /* text-align: center; */
 }
+*/
 
-.form .userDetails {
+/* #userDetails-container h1 {
+  display: block;
+  margin: auto;
+  top: 50px;
+} */
+
+
+
+
+
+.form.userDetails {
   align-items: center;
   justify-content: center;
-  background-color: red;
+} */
+
+
+.widgets-page h1{
+  display: block;
+  top: 150px;
+  line-height: 100px;
+  background-color: red !important;
 }
+
+/*-------------------TABLE-----------------------*/
+
+.jumbotron#filter {
+  /* padding-top: -50px;
+  padding-bottom: -50px;  */
+  height:90px;
+  display: flex;
+  align-items: center;
+}
+/* .widgets-page {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 50px 0 50px;
+} */
 
 .table {
   margin-left: auto;
   margin-right: auto;
   border-collapse: collapse;
   width: 100%;
-}
-
-tr,
-td,
-th {
-  /* border: 1px solid black; */
-  /* padding-left: 10px; */
 }
 
 th {
@@ -63,25 +86,17 @@ tr:hover {
   border: none !important;
 }
 
-/* .row {
-  margin-bottom: -75px;
-} */
-
-.col {
-}
-/* .row {
-  height: 30px !important;
-} */
-
-img {
+.btn-logo img {
   width: 30px;
   height: 30px;
+  transition-duration: 0.2s;
 }
 
-img:hover {
-  width: 35px;
+.btn-logo img:hover {
+  /* width: 35px; */
   margin-left: -25px;
   margin-right: -25px;
+  
 }
 
 .filters {
@@ -134,54 +149,11 @@ label {
   margin-left: 50px;
 } */
 
-input,
+/* input,
 #checkbox {
   height: 20px;
   width: 300px;
   border: 1px solid #000;
   margin-left: -100px;
   margin-top: 42px;
-  /* background-color: lightpink; */
-
-  /* margin-top: 0px; */
-  /* justify-content: flex-start; */
-}
-
-#checkbox {
-  margin-left: -180px;
-}
-
-.user-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* .form {
-  background-color: antiquewhite;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-} */
-
-/* .form-group {
-  background-color: red;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-   justify-content: flex-end; 
-  width: 50vw;
-  margin-top: 50px;
-  padding: -50px 0 0 0;
-}
-*/
-/* #logout-button {
-  float: right;
-} */
-
-/* 
-.form-row {
-  background-color: yellow;
-  display: flex;
-  flex-direction: row;
 } */

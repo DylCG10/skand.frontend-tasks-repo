@@ -24,20 +24,65 @@
   font-size: 30px;
   color: gray;
   font-family: "Viga";
+  
 
   /* font-family: "Faustina", serif; */
 }
+
+.App-header .btn {
+  margin-top: 100px;
+}
+
+.drone {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  outline-offset: none;
+  border-color: azure;
+  box-shadow: none;
+}
+
+#drone-img {
+  width: 103px;
+  height: 103px;
+  margin-top: 100px;
+  transition-duration: 0.5s;
+}
+
+#drone-img:hover {
+  transform: rotate(25deg)
+  /* transform:  */
+  /* animation: drone-move 4s; */
+}
+
+#drone-img:focus {
+  transform: translateX(300px)
+}
+
+/* #drone-img:hover::after {
+  transform: translateX(100px);
+} */
+
+/* @keyframes drone-move {
+  from {
+    transform: rotate(20deg) translateX(0px)
+  }
+  to {
+    transform: rotate(20deg) translateX(400px)
+  }
+} */
 
 .App-link {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@keyframes drone-move {
+  0% {
+    transform: rotate(0deg)
   }
-  to {
-    transform: rotate(360deg);
+
+  100%{ 
+    transform: rotate(20deg)
   }
 }
 
@@ -51,5 +96,7 @@
 #skand-main-page {
   width: 1024px;
   height: 220px;
-  margin-top: -100px;
+  /* margin-top: -100px; */
+  margin-left: auto;
+  margin-right: auto;
 }

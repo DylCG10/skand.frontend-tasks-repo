@@ -4,8 +4,10 @@ import { WIDGET_CREATING, WIDGET_DELETING, WIDGET_REQUESTING, WIDGET_UPDATING } 
 
 import { widgetCreateSuccess, widgetCreateError, widgetRequestSuccess, widgetRequestError, widgetUpdateSuccess, widgetUpdateError, widgetDeleteSuccess, widgetDeleteError } from './actions';
 import { takeEvery } from 'redux-saga/effects';
+import { createBrowserHistory } from 'history';
 
 const widgetsUrl = `/api/v2/users`;
+const browserHistory = createBrowserHistory();
 
 function widgetDeleteApi(action) {
 
@@ -108,6 +110,8 @@ function* widgetCreateFlow(action) {
         const createdWidget = yield call(widgetCreateApi, client, widget);
 
         yield put(widgetCreateSuccess(createdWidget))
+        browserHistory.push("/users")
+        window.location.reload();
     } catch (error) {
         yield put (widgetCreateError(error))
     }
@@ -117,14 +121,12 @@ function* widgetUpdateFlow(action) {
     try {
         console.log("widgetUpdateFLow")
         const { client, widget } = action;
-        // console.log("widget: (JSON.parse, JSON.stringify) ", /*JSON.parse(widget)*/ JSON.stringify(widget));
         const updatedWidget = yield call(widgetUpdateApi, client, widget);
-        // yield put(widgetUpdateError())
         yield put(widgetUpdateSuccess(widget));
-        //CHANGE -------------------------------------------
-        // const widgets = yield call(widgetRequestApi, action);
         console.log("Updated widget: ", updatedWidget);
 
+        browserHistory.push("/users")
+        window.location.reload();
 
         // yield put(widgetUpdateSuccess());
         // put(WIDGET_UPDATE_SUCCESS)

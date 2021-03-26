@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import {Link } from 'react-router-dom';
 
 import {widgetCreate, widgetUpdate } from './actions';
-import { Container, Row, Form, Jumbotron, Col } from 'react-bootstrap';
+import { Container, Row, Form, Jumbotron, Col, Button } from 'react-bootstrap';
 
 import '../css/widgets.css';
 
@@ -125,128 +125,141 @@ class UserDetails extends Component {
                 {({ errors, touched, isSubmitting, setFieldValue, handleChange, handleBlur, values, handleSubmit }) => {
                     return (
                         <Container id = "userDetails-container">
-                            <Row>
+                            {/* <Row>
                                 <Col>
                                     <h1>{this.state.isAddMode ? 'Add User' : 'Edit User'}</h1>
                                 
                                 </Col>
 
-                            </Row>
+                            </Row> */}
                             <Row>
-                            <Col>
-                            <Jumbotron>
-                            <Form className="form userDetails" onSubmit={handleSubmit}>
-                                <Row>
-                                    <Form.Group controlId="formBasicId">
-                                        <Form.Label style={{ color: "black" }}>ID</Form.Label>
-                                        <Form.Control
-                                            type="id"
-                                            name="id"
-                                            placeholder="Enter id"
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            value={values.id}
-                                            className={
-                                                touched.id && errors.id ? "error" : null
-                                            } />
-                                        {touched.id && errors.id ? (
-                                            <div className="error-message" style={{ color: 'red' }}>{errors.id}</div>
-                                        ) : null}
-                                    </Form.Group>
-                                </Row>
-                                <Row>
-                                    <Form.Group controlId="formBasicEmail">
-                                        <Form.Label style={{ color: "black" }}>Email</Form.Label>
-                                        <Form.Control
-                                            type="email"
-                                            name="email"
-                                            placeholder="Enter email"
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            value={values.email}
-                                            className={
-                                                touched.email && errors.email ? "error" : null
-                                            } />
-                                        {touched.email && errors.email ? (
-                                            <div className="error-message" style={{ color: 'red' }}>{errors.email}</div>
-                                        ) : null}
-                                    </Form.Group>
-                                </Row>
-                                <Row>
-                                    <Form.Group controlId="formBasicFirstName">
-                                        <Form.Label style={{ color: "black" }}>First Name</Form.Label>
-                                        <Form.Control
-                                            type="first_name"
-                                            name="first_name"
-                                            placeholder="Enter first_name"
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            value={values.first_name}
-                                            className={
-                                                touched.first_name && errors.first_name ? "error" : null
-                                            } />
-                                        {touched.first_name && errors.first_name ? (
-                                            <div className="error-message" style={{ color: 'red' }}>{errors.first_name}</div>
-                                        ) : null}
-                                    </Form.Group>
-                                </Row>
-                                <Row>
-                                    <Form.Group controlId="formBasicLastName">
-                                        <Form.Label style={{ color: "black" }}>Last Name</Form.Label>
-                                        <Form.Control
-                                            type="last_name"
-                                            name="last_name"
-                                            placeholder="Enter last_name"
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            value={values.last_name}
-                                            className={
-                                                touched.last_name && errors.last_name ? "error" : null
-                                            } />
-                                        {touched.last_name && errors.last_name ? (
-                                            <div className="error-message" style={{ color: 'red' }}>{errors.last_name}</div>
-                                        ) : null}
-                                    </Form.Group>
-                                </Row>
-                                <Row>
-                                    <Form.Group controlId="formBasicJobsCount">
-                                        <Form.Label style={{ color: "black" }}>Jobs Count</Form.Label>
-                                        <Form.Control
-                                            type="jobs_count"
-                                            name="jobs_count"
-                                            placeholder="Enter jobs_count"
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            value={values.jobs_count}
-                                            className={
-                                                touched.jobs_count && errors.jobs_count ? "error" : null
-                                            } />
-                                        {touched.jobs_count && errors.jobs_count ? (
-                                            <div className="error-message" style={{ color: 'red' }}>{errors.jobs_count}</div>
-                                        ) : null}
-                                    </Form.Group>
-                                </Row>
-                                <Row>
-                                    <Form.Group controlId="formBasicActive">
-                                        <Form.Label style={{ color: "black" }}>Active</Form.Label>
-                                        <Form.Control
-                                            type="active"
-                                            name="active"
-                                            placeholder="Enter active"
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            value={values.active}
-                                            className={
-                                                touched.active && errors.active ? "error" : null
-                                            } />
-                                        {touched.active && errors.active ? (
-                                            <div className="error-message" style={{ color: 'red' }}>{errors.active}</div>
-                                        ) : null}
-                                    </Form.Group>
-                                </Row>
-                                </Form>
-                                
-                                    </Jumbotron>
+                                <Col>
+                                <Jumbotron>
+                                <h1>{this.state.isAddMode ? 'Add User' : 'Edit User'}</h1>
+
+                                    <Form className="form userDetails" onSubmit={handleSubmit}>
+                                        {/* <Row> */}
+                                            <Form.Group controlId="formBasicId">
+                                                <Form.Label style={{ color: "black" }}>ID</Form.Label>
+                                                <Form.Control
+                                                    type="id"
+                                                    name="id"
+                                                    placeholder="Enter id"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.id}
+                                                    className={
+                                                        touched.id && errors.id ? "error" : null
+                                                    }  
+                                                    />
+                                                {touched.id && errors.id ? (
+                                                    <div className="error-message" style={{ color: 'red' }}>{errors.id}</div>
+                                                ) : null}
+                                            </Form.Group>
+                                        {/* </Row> */}
+                                        {/* <Row> */}
+                                            <Form.Group controlId="formBasicEmail">
+                                                <Form.Label style={{ color: "black" }}>Email</Form.Label>
+                                                <Form.Control
+                                                    type="email"
+                                                    name="email"
+                                                    placeholder="Enter email"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.email}
+                                                    className={
+                                                        touched.email && errors.email ? "error" : null
+                                                    } />
+                                                {touched.email && errors.email ? (
+                                                    <div className="error-message" style={{ color: 'red' }}>{errors.email}</div>
+                                                ) : null}
+                                            </Form.Group>
+                                        {/* </Row> */}
+                                        {/* <Row> */}
+                                            <Form.Group controlId="formBasicFirstName">
+                                                <Form.Label style={{ color: "black" }}>First Name</Form.Label>
+                                                <Form.Control
+                                                    type="first_name"
+                                                    name="first_name"
+                                                    placeholder="Enter first name"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.first_name}
+                                                    className={
+                                                        touched.first_name && errors.first_name ? "error" : null
+                                                    } />
+                                                {touched.first_name && errors.first_name ? (
+                                                    <div className="error-message" style={{ color: 'red' }}>{errors.first_name}</div>
+                                                ) : null}
+                                            </Form.Group>
+                                        {/* </Row> */}
+                                        {/* <Row> */}
+                                            <Form.Group controlId="formBasicLastName">
+                                                <Form.Label style={{ color: "black" }}>Last Name</Form.Label>
+                                                <Form.Control
+                                                    type="last_name"
+                                                    name="last_name"
+                                                    placeholder="Enter last name"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.last_name}
+                                                    className={
+                                                        touched.last_name && errors.last_name ? "error" : null
+                                                    } />
+                                                {touched.last_name && errors.last_name ? (
+                                                    <div className="error-message" style={{ color: 'red' }}>{errors.last_name}</div>
+                                                ) : null}
+                                            </Form.Group>
+                                        {/* </Row> */}
+                                        {/* <Row> */}
+                                            <Form.Group controlId="formBasicJobsCount">
+                                                <Form.Label style={{ color: "black" }}>Jobs Count</Form.Label>
+                                                <Form.Control
+                                                    type="jobs_count"
+                                                    name="jobs_count"
+                                                    placeholder="Enter jobs count"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.jobs_count}
+                                                    className={
+                                                        touched.jobs_count && errors.jobs_count ? "error" : null
+                                                    } />
+                                                {touched.jobs_count && errors.jobs_count ? (
+                                                    <div className="error-message" style={{ color: 'red' }}>{errors.jobs_count}</div>
+                                                ) : null}
+                                            </Form.Group>
+                                        {/* </Row> */}
+                                        {/* <Row> */}
+                                            <Form.Group controlId="formBasicActive">
+                                                <Form.Label style={{ color: "black" }}>Active</Form.Label>
+                                                {/* <div key={`default-checkbox`} className="mb-3"> */}
+                                                    <Form.Check 
+                                                    type={"checkbox"}
+                                                    id={`default-checkbox`}
+                                                    
+                                                    />
+                                                    {/* </div> */}
+                                                {/* <Form.Control
+                                                    type="active"
+                                                    name="active"
+                                                    placeholder="Enter active"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.active}
+                                                    className={
+                                                        touched.active && errors.active ? "error" : null
+                                                    } />
+                                                {touched.active && errors.active ? (
+                                                    <div className="error-message" style={{ color: 'red' }}>{errors.active}</div>
+                                                ) : null} */}
+
+                                            </Form.Group>
+                                        {/* </Row> */}
+                                        <Button type="submit" variant="primary" size="lg" block>
+                                                Submit
+                                        </Button>
+                                        </Form>
+                                        </Jumbotron>
                                     </Col>
                             </Row>
                         </Container>

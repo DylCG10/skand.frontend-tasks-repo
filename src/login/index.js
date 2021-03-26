@@ -98,11 +98,11 @@ class Login extends Component {
                                             {touched.password && errors.password ? (
                                                 <div className="error-message" style={{ color: 'red' }}>{errors.password}</div>
                                             ) : null}
-                                        </Form.Group>
-                      <Button type="submit" variant="secondary" size="lg" block>
-                                                Login
-                      </Button>
-                      </Form>
+                                            </Form.Group>
+                                            <Button type="submit" variant="secondary" size="lg" block>
+                                              Login
+                                            </Button>
+                                          </Form>
                     </div>
                   )}
                 </Formik>
@@ -126,88 +126,3 @@ const formed = reduxForm({
 })(connected);
 
 export default formed;
-
-// import React, { Component } from 'react';
-// import { reduxForm, Field } from 'redux-form';
-// import { connect } from 'react-redux';
-// // import { PropTypes } from 'prop-types';
-
-// import loginRequest from './actions';
-
-// import '../css/login.css';
-
-// class Login extends Component {
-
-//     // static propTypes = {
-//     //     handleSubmit: PropTypes.func,
-//     //     loginRequest: PropTypes.func,
-//     //     login: PropTypes.shape({
-//     //         requesting: PropTypes.bool,
-//     //         successful: PropTypes.bool,
-//     //         messages: PropTypes.array,
-//     //         errors: PropTypes.array,
-//     //     })
-//     // }
-//     // componentDidMount() {
-//     //     window.location.reload();
-//     // }
-//     submit = (values) => {
-//         console.log("values: ", values);
-//         this.props.loginRequest(values);
-//     }
-
-//     render() {
-//         const {
-//             handleSubmit,
-//             // login: {
-//             //     requesting,
-//             //     successful,
-//             //     messages,
-//             //     errors,
-//             // },
-//         } = this.props;
-
-//         return (
-//             <div className="container">
-//                 <form onSubmit={handleSubmit(this.submit)}>
-//                     <h1>Login</h1>
-//                     <div class = "input-label">
-//                         <label id = "email"/*htmlFor = "email"*/>Email</label>
-//                         <Field
-//                             name="email"
-//                             type="text"
-//                             id="email"
-//                             className="email"
-//                             label="Email"
-//                             component="input"
-//                         />
-
-//                     </div>
-//                     <label htmlFor = "password">Password</label>
-//                     <Field
-//                         name="password"
-//                         type="text"
-//                         id="password"
-//                         className="password"
-//                         label="Password"
-//                         component="input"
-//                     />
-//                     <button action = "submit">LOGIN</button>
-
-//                 </form>
-//             </div>
-//         )
-//     }
-// }
-
-// const mapStateToProps = state => ({
-//     login: state.login
-// })
-
-// const connected = connect(mapStateToProps, { loginRequest })(Login);
-
-// const formed = reduxForm({
-//     form: 'login',
-// })(connected)
-
-// export default formed;

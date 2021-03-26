@@ -12,7 +12,7 @@ import { logoutRequest } from '../login/actions';
 
 
 import { Pagination } from "./Pagination";
-import { Table, Button, Row } from "react-bootstrap";
+import { Table, Button, Row, Form, Col, Jumbotron } from "react-bootstrap";
 
 import '../css/widgets.css';
 
@@ -181,28 +181,58 @@ class Widgets extends Component {
     filterState = async e => {
         const event = e;
 
-        if (e.target.type === "text") {
-            console.log("text");
-            await this.setState({ filterStr: e.target.value.toLowerCase() });
+        event.persist();
+        console.log("value: ", event.target.type)
+
+        // if (e.target.type === "text") {
+        //     console.log("text");
+        //     await this.setState({ filterStr: e.target.value.toLowerCase() });
     
 
+        // }
+
+        if (event.target.type === "email"){
+            console.log(event.target.value);
+            await this.setState({filterStr: event.target.value.toLowerCase()})
         }
-        
         else {
-            console.log("value: ", event.target.id);
-
-            if (event.target.id === "active-checkbox")
-                await this.setState({ filterActive: event.target.checked })
+            if (event.target.value === "true")
+                await this.setState({filterActive: true})
+            if (event.target.value === "false")
+                await this.setState({filterActive: false})
             else
-                await this.setState({ showAll: event.target.checked})
+                await this.setState({filterActive: null})
+
+            console.log("FILTER ACTIVE: ", this.state.filterActive)
         }
 
-        await this.setState({filteredPosts: this.props.widgets.list.filter(element => element.email.toLowerCase().includes(this.state.filterStr) && element.active === this.state.filterActive)})
+        console.log("filtered posts: ", this.state.filteredPosts)
+
+        console.log(this.state.filterStr, this.state.filterActive)
+
         
-        if (this.state.showAll)
-            await this.setState({ filteredPosts: this.props.widgets.list })
+        // else {
+        //     console.log("value: ", event.target.id);
+
+        //     if (event.target.id === "active-checkbox")
+        //         await this.setState({ filterActive: event.target.checked })
+        //     else
+        //         await this.setState({ showAll: event.target.checked})
+        // }
+
+        console.log(this.props.widgets.list[0].active, "true");
+        if (this.state.filterActive === null){
+            console.log("yes")
+            await this.setState({filteredPosts: this.props.widgets.list.filter(element => element.email.toLowerCase().includes(this.state.filterStr))})
+
+        } else
+            await this.setState({filteredPosts: this.props.widgets.list.filter(element => element.email.toLowerCase().includes(this.state.filterStr) && element.active === this.state.filterActive)})
+        
+        // if (this.state.showAll)
+        //     await this.setState({ filteredPosts: this.props.widgets.list })
         
         await this.setState({ currentPosts: this.state.filteredPosts.slice(this.state.indexOfFirstPost, this.state.indexOfLastPost) })
+
 
     }
 
@@ -218,11 +248,11 @@ class Widgets extends Component {
 
     render() {
         return (
-            <div className="widgets-page">
+            <div class="widgets-page">
                 <h1 id='title'>Skand: Employees</h1>
                 {/* <Button className = "btn" variant = "primary" id = "logout-button" onClick={() => this.logout()}>Logout</Button> */}
 
-                <div class="filters">
+                {/* <div class="filters">
                     <div className = "filter-group">
                         <label>Filter email:</label>
                         <input type = "text" value = {this.state.filterStr} onChange = {this.filterState} />
@@ -237,7 +267,34 @@ class Widgets extends Component {
                         <input id = "showall-checkbox" type = "checkbox" value = {this.state.showAll} onChange = {this.filterState} />
 
                     </div>
-                </div>
+                </div> */}
+                <Jumbotron id = "filter">
+                    <Row>
+                        <Col>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label style = {{color: "black"}}>Filter email</Form.Label>
+                                <Form.Control type="email" placeholder="" onChange = {this.filterState} value = {this.state.filterStr} />
+                            </Form.Group>
+                        </Col>
+                        <Col>
+                            <Form.Group controlId="formBasicActive">
+                                <Form.Label style = {{color: "black"}}>Filter active status</Form.Label>
+                                <Form.Control as="select" type = "active" onChange = {this.filterState}>
+                                    <option></option>
+                                    <option>true</option>
+                                    <option>false</option>
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                        {/* <Col>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label style = {{color: "black"}}>Filter email</Form.Label>
+                                <Form.Control type="email" placeholder="Enter email" />
+                            </Form.Group>
+                        </Col> */}
+
+                    </Row>
+                </Jumbotron>
                                      
                 {/* <table id='Data'> */}
                 <Table hover borderless responsive="sm">
@@ -245,7 +302,7 @@ class Widgets extends Component {
                         <tr>{renderHeader()}</tr>
                     </thead>
                     <tbody>
-                        {console.log("actual data: ", this.props.currentPosts)}
+                        {/* {console.log("actual data: ", this.props.currentPosts)} */}
                         {this.renderBody(this.state.currentPosts)} 
                     </tbody>
                     {/* </table> */}
