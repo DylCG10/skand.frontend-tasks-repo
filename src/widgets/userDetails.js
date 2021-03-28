@@ -67,16 +67,16 @@ class UserDetails extends Component {
         
         console.log(values.active);
 
-        // console.log('submit');
-        // if (!this.state.isAddMode) {
-        //     this.props.widgetUpdate(this.props.client, values);
+        console.log('submit');
+        if (!this.state.isAddMode) {
+            this.props.widgetUpdate(this.props.client, values);
             
-        // }
-        // else {
-        //     console.log("widgetCreate");
-        //     await this.props.widgetCreate(this.props.client, values);
-        // }
-        // this.setState({ opened: false })
+        }
+        else {
+            console.log("widgetCreate");
+            await this.props.widgetCreate(this.props.client, values);
+        }
+        this.setState({ opened: false })
     };
 
     reload() {
