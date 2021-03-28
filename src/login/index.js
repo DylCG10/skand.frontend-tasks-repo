@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { reduxForm, Field } from "redux-form";
+import { reduxForm } from "redux-form";
 import { connect } from "react-redux";
 // import { PropTypes } from 'prop-types';
 
@@ -10,12 +10,10 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import {
   Button,
-  FormControl,
-  InputGroup,
   Jumbotron,
   Form,
 } from "react-bootstrap";
-import { Formik, ErrorMessage } from "formik";
+import { Formik } from "formik";
 
 import * as Yup from "yup";
 

@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import { createBrowserHistory } from 'history';
 
 
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 
 // import './css/test.css';
 import './App.css';
@@ -26,7 +26,7 @@ const App = props => (
         </Row>
         <Row>
             {/* <Button variant="primary" className="btn-primary" onClick={reload}>--></Button>  */}
-            <button className="drone" onClick={reload}><img src = "/drone.png" id = "drone-img"></img></button> {/*add small moveable AWSD character to load next page instead of button */}
+            <button className="drone" onClick={reload}><img src = "/drone.png" alt = "drone" id = "drone-img"></img></button> {/*add small moveable AWSD character to load next page instead of button */}
         </Row>
         
       </Container>

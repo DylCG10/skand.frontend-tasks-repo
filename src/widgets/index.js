@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 
@@ -144,12 +143,12 @@ class Widgets extends Component {
                                     // window.location.reload()
                                 }
                                 }>
-                                    <img src = "/edit_icon.png"></img></Button>
-                                <Button className='btn btn-logo' size = "sm" onClick={() => {
+                                    <img src = "/edit_icon.png" alt = "edit"></img></Button>
+                                <Button className='btn btn-logo' onClick={() => {
                                     this.removeData(id);
                                     // window.location.reload()
                                 }
-                                }><img src = "/bin_icon.png"/></Button>
+                                }><img src = "/bin_icon.png" alt = "delete"/></Button>
 
                             </Row>
 
@@ -182,8 +181,8 @@ class Widgets extends Component {
         const event = e;
 
         event.persist();
-        console.log("value: ", event.target.type)
-
+        console.log("value: ", event.target.value)
+        console.log(event.target.value === "true")
         // if (e.target.type === "text") {
         //     console.log("text");
         //     await this.setState({ filterStr: e.target.value.toLowerCase() });
@@ -198,7 +197,7 @@ class Widgets extends Component {
         else {
             if (event.target.value === "true")
                 await this.setState({filterActive: true})
-            if (event.target.value === "false")
+            else if (event.target.value === "false")
                 await this.setState({filterActive: false})
             else
                 await this.setState({filterActive: null})
@@ -220,7 +219,7 @@ class Widgets extends Component {
         //         await this.setState({ showAll: event.target.checked})
         // }
 
-        console.log(this.props.widgets.list[0].active, "true");
+        console.log(this.props.widgets.list[2].active === true)
         if (this.state.filterActive === null){
             console.log("yes")
             await this.setState({filteredPosts: this.props.widgets.list.filter(element => element.email.toLowerCase().includes(this.state.filterStr))})
@@ -250,7 +249,7 @@ class Widgets extends Component {
         return (
             <div class="widgets-page">
                 <h1 id='title'>Skand: Employees</h1>
-                {/* <Button className = "btn" variant = "primary" id = "logout-button" onClick={() => this.logout()}>Logout</Button> */}
+                <Button className = "btn" id = "logout-button" onClick={() => this.logout()}>Logout</Button>
 
                 {/* <div class="filters">
                     <div className = "filter-group">
@@ -309,8 +308,8 @@ class Widgets extends Component {
                 </Table>
             <Pagination postsPerPage={postsPerPage} totalPosts={this.state.filteredPosts.length} paginate={this.paginate} />
             {/* <Link to={"/users/add"} onClick = {() => window.location.reload()}>Create User</Link> */}
-            <Link onClick = {this.reload(false)}>Create User</Link>
-
+            {/* <Link onClick = {this.reload(false)}>Create User</Link> */}
+                <Button className = "btn btn-new-user" onClick={this.reload(false)}>Create new user</Button>
             </div>
             )
     }

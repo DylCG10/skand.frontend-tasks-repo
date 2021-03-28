@@ -30,17 +30,11 @@ h1 {
   top: 50px;
 } */
 
-
-
-
-
 .form.userDetails {
   align-items: center;
   justify-content: center;
-} */
-
-
-.widgets-page h1{
+}
+*/ .widgets-page h1 {
   display: block;
   top: 150px;
   line-height: 100px;
@@ -52,9 +46,10 @@ h1 {
 .jumbotron#filter {
   /* padding-top: -50px;
   padding-bottom: -50px;  */
-  height:90px;
+  height: 90px;
   display: flex;
   align-items: center;
+  margin-top: 150px;
 }
 /* .widgets-page {
   display: flex;
@@ -86,17 +81,64 @@ tr:hover {
   border: none !important;
 }
 
+.btn-new-user {
+  margin-top: 150px;
+  width: 30% !important;
+  /* transition-duration: 0.5s;
+  transition-property: width; */
+
+  -webkit-transition: background-color 1s ease-in-out;
+  /* -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  -ms-transition: all 1s ease; */
+  /* transition: width 1s ease; */
+}
+
+.btn-new-user:hover {
+  /* animation-name: create-new-user;
+  animation-duration: 0.5s; */
+  background-color: green !important;
+  /* -webkit-transition: background-color 1s ease-in-out; */
+
+  /* transition-property: width;
+  transition-duration: 0.5s; */
+}
+
 .btn-logo img {
   width: 30px;
   height: 30px;
-  transition-duration: 0.2s;
+  /* transition-duration: 0.2s; */
+  -webkit-transition: 0.2s;
 }
 
 .btn-logo img:hover {
   /* width: 35px; */
-  margin-left: -25px;
-  margin-right: -25px;
-  
+  /* margin-left: -30px;
+  margin-right: -30px; */
+  width: 35px;
+  height: 35px;
+  transform: rotate(20deg);
+}
+
+#logout-button {
+  width: 10% !important;
+  float: right;
+  margin-right: 50px;
+  -webkit-transition: background-color 0.5s;
+}
+
+#logout-button:hover {
+  background-color: #ff0000;
+}
+
+@keyframes create-new-user {
+  from {
+    width: 30% !important;
+  }
+
+  to {
+    width: 70% !important;
+  }
 }
 
 .filters {

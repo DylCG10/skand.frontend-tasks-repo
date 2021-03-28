@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import { createBrowserHistory } from 'history';
 
-import { Formik, Field, ErrorMessage } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
-import {Link } from 'react-router-dom';
 
 import {widgetCreate, widgetUpdate } from './actions';
 import { Container, Row, Form, Jumbotron, Col, Button } from 'react-bootstrap';
@@ -60,21 +59,24 @@ class UserDetails extends Component {
     }
     
     onSubmit = async (values) => {
-        console.log(values);
-        if (values.active === "true")
-            values.active = true;
-        else
-            values.active = false;
-        console.log('submit');
-        if (!this.state.isAddMode) {
-            this.props.widgetUpdate(this.props.client, values);
+        console.log(values.active, values.first_name);
+        // if (values.active === "true")
+        //     values.active = true;
+        // else
+        //     values.active = false;
+        
+        console.log(values.active);
+
+        // console.log('submit');
+        // if (!this.state.isAddMode) {
+        //     this.props.widgetUpdate(this.props.client, values);
             
-        }
-        else {
-            console.log("widgetCreate");
-            await this.props.widgetCreate(this.props.client, values);
-        }
-        this.setState({ opened: false })
+        // }
+        // else {
+        //     console.log("widgetCreate");
+        //     await this.props.widgetCreate(this.props.client, values);
+        // }
+        // this.setState({ opened: false })
     };
 
     reload() {
@@ -92,8 +94,9 @@ class UserDetails extends Component {
 
         let initialValues;
 
-        
-        this.state.user === undefined ? initialValues = {
+        console.log(Object.keys(this.state.user).length);
+
+        Object.keys(this.state.user).length === 0 ? initialValues = {
             id: '',
             email: '',
             first_name: '',
@@ -109,17 +112,18 @@ class UserDetails extends Component {
             active: this.state.user.active
         }
 
-        initialValues = {
-            id: this.state.user.id,
-            email: this.state.user.email,
-            first_name: this.state.user.first_name,
-            last_name: this.state.user.last_name,
-            jobs_count: this.state.user.jobs_count,
-            active: this.state.user.active,
-        }
+        // initialValues = {
+        //     id: this.state.user.id,
+        //     email: this.state.user.email,
+        //     first_name: this.state.user.first_name,
+        //     last_name: this.state.user.last_name,
+        //     jobs_count: this.state.user.jobs_count,
+        //     active: this.state.user.active,
+        // }
             
 
-        
+        console.log(initialValues)
+
         return (
             <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={this.onSubmit}>
                 {({ errors, touched, isSubmitting, setFieldValue, handleChange, handleBlur, values, handleSubmit }) => {
@@ -233,11 +237,22 @@ class UserDetails extends Component {
                                             <Form.Group controlId="formBasicActive">
                                                 <Form.Label style={{ color: "black" }}>Active</Form.Label>
                                                 {/* <div key={`default-checkbox`} className="mb-3"> */}
-                                                    <Form.Check 
+                                                {/* <Form.Group
+                                                    type="active"
+                                                    name="active"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.active}> */}
+                                                    <Form.Check
                                                     type={"checkbox"}
+                                                    name="active"
                                                     id={`default-checkbox`}
-                                                    
-                                                    />
+                                                    checked = {values.active}
+                                                    onChange={handleChange}
+                                                        
+                                                        />
+                                                
+                                                {/* </Form.Group> */}
                                                     {/* </div> */}
                                                 {/* <Form.Control
                                                     type="active"
